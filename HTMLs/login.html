@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="app.js"></script>
+   
     <title>Login</title>
 </head>
 <body>
     <section> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> <span></span> 
-    <div class="loginField">
-        <form>
+    <div class="loginField" action="/auth">
+        <form id="login-form">
             <h2>Realize seu Login</h2>
-            <input type="email" placeholder="E-mail" id="email" required>
-            <input type="password" placeholder="Senha" id="password" required>
-            <button type="button" onclick="login()">Login</button>
+            <input type="email" placeholder="E-mail" id="gmail" name="gmail" required>
+            <input type="password" placeholder="Senha" id="senha" name="senha" required>
+            <button type="submit" >Login</button>
         </form>
         
-        <form action="/registerScreen">
+        <form action="/">
             <p>Não possui uma conta? <button type="submit">Clique Aqui</button></p>
         </form>
     </div>
@@ -84,30 +84,30 @@
 </html>
 
 <script>
-    function login(){
-        const userEmail = document.querySelector("email").value;
-        const userPassword = document.querySelector("password").value;
 
-        if(userEmail === "" || userPassword === ""){
-            alert("Please, insert email and password");
-        }
+    /*document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const gmail = document.getElementById('gmail').value;
+            const senha = document.getElementById('senha').value;
 
-        fetch('/email', {
-            method: 'post',
-            headers: {
-                'Content-type': 'application/JSON'
-            },
-            body: JSON.stringify({user: userEmail, password: userPassword})
-        })
-        .then(response => response.json)
-        .then(data => {
-            if (data.message) {
-                alert(data.message);
-                window.location.href('/');
+            try {
+                const response = await fetch('/auth', {
+                    method: 'POST',
+                    body: JSON.stringify({ gmail: gmail, senha: senha }),
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                if (response.redirected) {
+            
+                    window.location.href = response.url;
+                } else {
+                    const result = await response.text();
+                    alert(result);
+                }
+            } catch (err) {
+                console.error('Erro:', err.message);
+                alert('Erro ao realizar login.');
             }
-        })
-        .catch((error) => {
-            console.error('Erro:', error);
-        });
-    }
-</script>
+        });*/
+    </script>
