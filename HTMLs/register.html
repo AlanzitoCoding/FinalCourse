@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+</head>
+<body>
+    <form class="loginField" action="/registerUser" method="POST">
+        <h2>Realize seu cadastro</h2>
+        <input type="email" placeholder="E-mail" name="email" required>
+        <input type="password" placeholder="Password" name="password" required>
+        <br>
+        <button type="submit">Register</button>
+    </form>
+</body>
+
+<style>
+     body {
+        background-image: linear-gradient(to right, #f0f0f0, #666);
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        align-items: center;
+        display: flex;
+        height: 100vh;  
+        margin: 0;
+    }
+
+    .loginField {
+        background-color: #222;
+        width: 400px;
+        padding: 40px;
+        border-radius: 8px;
+        text-align: center;
+        color: white;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .loginField h2 {
+        margin-bottom: 20px;
+    }
+
+    .loginField input {
+        width: 90%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        transition: background 0.3s;
+    }
+
+    .loginField input:focus {
+        background-color: #444;
+        color: white;
+    }
+
+    .loginField button {
+        background-color: #FFF;
+        color: black;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+        margin-top: 10px;
+    }
+
+    .loginField button:hover {
+        background-color: #aaa;
+    }
+</style>
+</html>
