@@ -1,0 +1,9 @@
+.card-img-top.img-responsive{
+    height: 6rem;
+    max-height: 6rem;
+    text-align: center;
+  }
+  body{
+    background-image: linear-gradient(to right, #f0f0f0, #666);
+    height: 100vh;
+}
