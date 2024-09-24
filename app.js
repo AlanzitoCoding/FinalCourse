@@ -41,6 +41,14 @@ app.get('/modulesScreen', function(req, res){
     res.sendFile(__dirname + '/HTMLs/modules.html');
 });
 
+app.get('/Cursos', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Cursos');
+});
+
+app.get('/CursosGithub', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/CursosGithub');
+});
+
 app.post('/submit', (req, res) => {
     const { gmail, senha } = req.body;
     const query = 'INSERT INTO usuario (gmail, senha) VALUES (?, ?)';
