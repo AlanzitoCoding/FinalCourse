@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'cimatec',
-    database: 'xNodeDB'
+    database: 'curso_online'
 });
 
 db.connect((err) => {
