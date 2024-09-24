@@ -48,7 +48,7 @@ app.post('/submit', (req, res) => {
         if (err) {
             return res.status(500).json({ message: 'Erro ao realizar cadastro!' });
         }
-        res.json({ message: 'Cadastro realizado!' });
+        res.redirect('/loginScreen');
     });
 });
 
@@ -73,7 +73,7 @@ app.post('/auth', (req, res) => {
 
             if (results.length > 0) {
                 
-                res.redirect('/home');
+                res.redirect('/');
             } else {
                 res.status(401).send('Gmail ou senha incorretos!');
             }
