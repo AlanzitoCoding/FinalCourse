@@ -13,7 +13,7 @@ const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'cimatec',
-    database: 'curso_online'
+    database: 'xNodeDB'
 });
 
 db.connect((err) => {
@@ -26,15 +26,19 @@ db.connect((err) => {
 app.use(express.static(path.join(__dirname, 'HTMLs')));
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTMLs', 'register.html'));
+    res.sendFile(path.join(__dirname, 'HTMLs', 'home.html'));
 });
 
-app.get('/login', (req, res) => {
+app.get('/loginScreen', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTMLs', 'login.html'));
 });
 
-app.get('/home', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTMLs', 'home.html'));
+app.get('/registerScreen', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HTMLs', 'register.html'));
+});
+
+app.get('/modulesScreen', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/modules.html');
 });
 
 app.post('/submit', (req, res) => {
