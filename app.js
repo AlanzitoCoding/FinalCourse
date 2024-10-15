@@ -2,6 +2,24 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const path = require('path');
+/*import  {initializeApp} from 'firebase/app'
+
+
+const firebaseConfig = {
+    apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
+    authDomain: "coursesportal-7e59f.firebaseapp.com",
+    projectId: "coursesportal-7e59f",
+    storageBucket: "coursesportal-7e59f.appspot.com",
+    messagingSenderId: "1089442985258",
+    appId: "1:1089442985258:web:658bb10d567f5ffdb0da53"
+
+}
+
+const fire = initializeApp(firebaseConfig)
+
+*/
+
+
 
 const app = express();
 const port = 8081;
@@ -42,11 +60,11 @@ app.get('/modulesScreen', function(req, res){
 });
 
 app.get('/Cursos', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Cursos');
+    res.sendFile(__dirname + '/HTMLs/Cursos.html');
 });
 
-app.get('/CursosGithub', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/CursosGithub');
+app.get('/CursoGithub', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/CursoGithub.html');
 });
 
 app.post('/submit', (req, res) => {
@@ -81,7 +99,7 @@ app.post('/auth', (req, res) => {
 
             if (results.length > 0) {
                 
-                res.redirect('/');
+                res.redirect('/Cursos');
             } else {
                 res.status(401).send('Gmail ou senha incorretos!');
             }
