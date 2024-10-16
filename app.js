@@ -12,8 +12,8 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'cimatec',
-    database: 'curso_online'
+    password: '2006Pa#*#',
+    database: 'xNodeDB'
 });
 
 db.connect((err) => {
