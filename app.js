@@ -2,7 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const path = require('path');
-/*import  {initializeApp} from 'firebase/app'
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
 
 
 const firebaseConfig = {
@@ -15,14 +16,12 @@ const firebaseConfig = {
 
 }
 
-const fire = initializeApp(firebaseConfig)
-
-*/
-
-
 
 const app = express();
 const port = 8081;
+
+firebase.initializeApp(firebaseConfig)
+
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -30,7 +29,7 @@ app.use(bodyParser.json());
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
-    password: 'cimatec',
+    password: 'Gab123',
     database: 'curso_online'
 });
 
@@ -67,7 +66,7 @@ app.get('/CursoGithub', function(req, res){
     res.sendFile(__dirname + '/HTMLs/CursoGithub.html');
 });
 
-app.post('/submit', (req, res) => {
+/*app.post('/submit', (req, res) => {
     const { gmail, senha } = req.body;
     const query = 'INSERT INTO usuario (gmail, senha) VALUES (?, ?)';
     db.query(query, [gmail, senha], (err, result) => {
@@ -76,6 +75,21 @@ app.post('/submit', (req, res) => {
         }
         res.redirect('/loginScreen');
     });
+});*/
+
+app.post('/submit', (req, res) => {
+    const { gmail, senha } = req.body;
+   
+    firebase.auth().createUserWithEmailAndPassword(gmail, senha).then((userCredential) => {
+
+        var user = userCredential.user
+        res.redirect('/loginScreen');
+    })
+    .catch((error) => {
+        return res.status(500).json({ message: 'Erro ao realizar cadastro!' });
+    })
+   
+       
 });
 
 app.get('/getData', (req, res) => {
