@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const firebase = require('firebase/app')
 const auth = require('firebase/auth')
-
+const db = require('firebase/database')
 
 const firebaseConfig = {
     apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
@@ -58,6 +58,10 @@ then((userCredential) => {
 
 const user = userCredential.user
 
+var user_data = {
+    email: gmail
+}
+
  res.json({message: 'Conta cadastrada com sucesso!'})
 
 }).catch((error) => {
@@ -85,9 +89,9 @@ app.post('/auth', (req, res) => {
 });
 
 
-app.delete('/deleteAcc/:email', (req,res) => {
+app.delete('/deleteAcc', (req,res) => {
 
-
+   auth.on
 })
 
 
