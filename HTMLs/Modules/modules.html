@@ -1,39 +1,58 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" ng-app="myApp">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
+
+    <script>
+        var app = angular.module('myApp', ['ngRoute', 'ngSanitize']);
+
+        app.controller('ModuleController', function($scope, $routeParams, $sce){
+            console.log("Controller initialized with moduleId:", $routeParams.id);
+            $scope.moduleId = $routeParams.id;
+
+            const videos = {
+                '1': "https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP",
+                '2': "https://www.youtube.com/embed/jgQjeqGRdgA?si=sfnimhBQ-xBHvDNI"
+            };
+
+            $scope.videoUrl = $sce.trustAsResourceUrl(videos[$scope.moduleId] || videos['1']);
+            console.log("Video URL set to:", $scope.videoUrl);
+        });
+    </script>
 </head>
-<body ng-app="myApp">
+
+<body>
     <div class="header">
         <p>Course Name</p>
         <a href="/loginScreen"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRasszRuMREHez7PfNblF6gn8gugt4N7cmoxQ&s" alt=""></a>
     </div>
     <br>
     <div class="modulesDiv">
-        <a href="#" class="active">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
-        <a href="#">a</a>
+        <a href="#!/modules/1" class="active">a</a>
+        <a href="#!/modules/2">a</a>
+        <a href="#!/modules/3">a</a>
+        <a href="#!/modules/4">a</a>
+        <a href="#!/modules/5">a</a>
+        <a href="#!/modules/6">a</a>
+        <a href="#!/modules/7">a</a>
+        <a href="#!/modules/8">a</a>
+        <a href="#!/modules/9">a</a>
+        <a href="#!/modules/10">a</a>
+        <a href="#!/modules/11">a</a>
+        <a href="#!/modules/12">a</a>
     </div>
     
     <div class="titleAndSubtitle">
         <p class="title">Title</p>
     </div>
 
-    <div class="content">
+    <div class="content" ng-controller="ModuleController">
         <div class="videoDiv">
-            <iframe width="750" height="505" src="https://www.youtube.com/embed/6qjFxJqpRe8?si=lcFLj6LQ9itJkn1I" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe width="750" height="505" ng-src="{{videoUrl}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
         </div>
 
         <div class="functionsDiv">
@@ -48,6 +67,7 @@
         </div>
     </div>
 </body>
+</html>
 
 <style>
     *{

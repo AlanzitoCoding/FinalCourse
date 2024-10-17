@@ -37,7 +37,7 @@ app.get('/registerScreen', (req, res) => {
 });
 
 app.get('/modulesScreen', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/modules.html');
+    res.sendFile(__dirname + '/HTMLs/Modules/modules.html');
 });
 
 app.get('/Cursos', function(req, res){
