@@ -1,28 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR" ng-app="myApp">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-sanitize.js"></script>
-
-    <script>
-        var app = angular.module('myApp', ['ngRoute', 'ngSanitize']);
-
-        app.controller('ModuleController', function($scope, $routeParams, $sce){
-            console.log("Controller initialized with moduleId:", $routeParams.id);
-            $scope.moduleId = $routeParams.id;
-
-            const videos = {
-                '1': "https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP",
-                '2': "https://www.youtube.com/embed/jgQjeqGRdgA?si=sfnimhBQ-xBHvDNI"
-            };
-
-            $scope.videoUrl = $sce.trustAsResourceUrl(videos[$scope.moduleId] || videos['1']);
-            console.log("Video URL set to:", $scope.videoUrl);
-        });
-    </script>
 </head>
 
 <body>
@@ -32,27 +13,27 @@
     </div>
     <br>
     <div class="modulesDiv">
-        <a href="#!/modules/1" class="active">a</a>
-        <a href="#!/modules/2">a</a>
-        <a href="#!/modules/3">a</a>
-        <a href="#!/modules/4">a</a>
-        <a href="#!/modules/5">a</a>
-        <a href="#!/modules/6">a</a>
-        <a href="#!/modules/7">a</a>
-        <a href="#!/modules/8">a</a>
-        <a href="#!/modules/9">a</a>
-        <a href="#!/modules/10">a</a>
-        <a href="#!/modules/11">a</a>
-        <a href="#!/modules/12">a</a>
+        <a href="#" onclick="loadVideo(0)" class="active">Módulo 1</a>
+        <a href="#" onclick="loadVideo(1)">Módulo 2</a>
+        <a href="#" onclick="loadVideo(2)">Módulo 3</a>
+        <a href="#" onclick="loadVideo(3)">Módulo 4</a>
+        <a href="#" onclick="loadVideo(4)">Módulo 5</a>
+        <a href="#" onclick="loadVideo(5)">Módulo 6</a>
+        <a href="#" onclick="loadVideo(6)">Módulo 7</a>
+        <a href="#" onclick="loadVideo(7)">Módulo 8</a>
+        <a href="#" onclick="loadVideo(8)">Módulo 9</a>
+        <a href="#" onclick="loadVideo(9)">Módulo 10</a>
+        <a href="#" onclick="loadVideo(10)">Módulo 11</a>
+        <a href="#" onclick="loadVideo(11)">Módulo 12</a>
     </div>
     
     <div class="titleAndSubtitle">
-        <p class="title">Title</p>
+        <p class="title">Título do Módulo</p>
     </div>
 
-    <div class="content" ng-controller="ModuleController">
+    <div class="content">
         <div class="videoDiv">
-            <iframe width="750" height="505" ng-src="{{videoUrl}}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            <iframe id="videoFrame" width="750" height="505" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP" frameborder="0" allowfullscreen></iframe>
         </div>
 
         <div class="functionsDiv">
@@ -61,144 +42,194 @@
             </div>
 
             <div class="previousAndNext">
-                <button> ◀️ Anterior</button>
-                <button>Próximo ▶️</button>
+                <button onclick="previousModule()"> ◀️ Anterior</button>
+                <button onclick="nextModule()">Próximo ▶️</button>
             </div>
         </div>
     </div>
+
+    <script>
+        const videos = [
+            "https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP", 
+            "https://www.youtube.com/embed/VIDEO_ID_2", 
+            "https://www.youtube.com/embed/VIDEO_ID_3", 
+            "https://www.youtube.com/embed/VIDEO_ID_4", 
+            "https://www.youtube.com/embed/VIDEO_ID_5", 
+            "https://www.youtube.com/embed/VIDEO_ID_6",
+            "https://www.youtube.com/embed/VIDEO_ID_7",
+            "https://www.youtube.com/embed/VIDEO_ID_8",
+            "https://www.youtube.com/embed/VIDEO_ID_9",
+            "https://www.youtube.com/embed/VIDEO_ID_10",
+            "https://www.youtube.com/embed/VIDEO_ID_11",
+            "https://www.youtube.com/embed/VIDEO_ID_12", 
+        ];
+
+        let currentModule = 0;
+
+        function loadVideo(moduleIndex) {
+            currentModule = moduleIndex;
+            document.getElementById('videoFrame').src = videos[moduleIndex];
+            updateModuleTitle();
+            updateActiveLink();
+        }
+
+        function previousModule() {
+            if (currentModule > 0) {
+                loadVideo(currentModule - 1);
+            }
+        }
+
+        function nextModule() {
+            if (currentModule < videos.length - 1) {
+                loadVideo(currentModule + 1);
+            }
+        }
+
+        function updateModuleTitle() {
+            document.querySelector('.titleAndSubtitle .title').textContent = `Título do Módulo ${currentModule + 1}`;
+        }
+        
+        function updateActiveLink() {
+            const links = document.querySelectorAll('.modulesDiv a');
+            links.forEach((link, index) => {
+                link.classList.toggle('active', index === currentModule);
+            });
+        }
+
+        // Carregar o vídeo do primeiro módulo ao iniciar
+        loadVideo(0);
+    </script>
 </body>
-</html>
-
-<style>
-    *{
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    body{
-        background-color: aliceblue;
-    }
-
-    .modulesDiv{
-        background-color: black;
-        height: 90%;
-        width: 10%;
-        margin-top: 3.25%;
-        position: fixed;
-        list-style-type: none;
-        overflow: scroll;
-        border-right: 1px solid white;
-    }
-
-    .modulesDiv::-webkit-scrollbar{
-        display: none;
-    }
-
-    .modulesDiv a{
-        display: block;
-        text-align: center;
-        font-size: 16px;
-        color: white;
-        text-decoration: none;
-        font-weight: 350;
-        border-bottom: 1px solid white;
-        padding: 25px;
-    }
-
-    .modulesDiv a:hover:not(.active){
-        background-color: rgb(160, 160, 160);
-        color: rgb(36, 36, 36);
-    }
-
-    .modulesDiv a.active{
-        background-color: white;
-        color: black;
-    }
-
-    .header{
-        background-color: #444;
-        width: 100%;
-        height: 10%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: fixed;
-        box-shadow: 0px 40px 20px rgba(0, 0, 0, 0.5);
-    }
-
-    .header p{
-        color: white;
-        font-size: 20px;
-        margin-left: 20px;
-    }
-
-    .header img{
-        border: 3px solid white;
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        margin-right: 20px;
-    }
-
-    .titleAndSubtitle{
-        width: 50%;
-        height: 10.3%;
-        margin-left: 10%;
-        margin-top: 3.2%;
-        display: block;
-    }
-
-    .titleAndSubtitle .title{
-        padding-left: 25px;
-        padding-top: 20px;
-        font-size: 24px;
-        font-weight: 500;
-    }
-
-    .content{
-        display: flex;
-    }
-
-    .videoDiv{
-        margin-left: 11.5%;
-        margin-top: 2%;
-    }
-
-    .functionsDiv{
-        width: 35%;
-        margin-left: 20px;
-        display: block;
-    }
-
-    .checkAsDone{
-        width: 100%;
-        height: 50%;
-        align-items: center;
-    }
-
-    .checkAsDone button{
-        width: 80%;
-        height: 20%;
-        border-radius: 1rem;
-    }
-
-    .checkAsDone button:hover{
-        background-color: aqua;
-    }
-
-    .previousAndNext{
-        width: 100%;
-        height: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-
-    .previousAndNext button{
-        width: 45%;
-        height: 20%;
-        border-radius: 1rem;
-    }
-</style>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+    
+            body {
+                background-color: aliceblue;
+            }
+    
+            .modulesDiv {
+                background-color: black;
+                height: 90%;
+                width: 10%;
+                margin-top: 3.25%;
+                position: fixed;
+                list-style-type: none;
+                overflow: scroll;
+                border-right: 1px solid white;
+            }
+    
+            .modulesDiv::-webkit-scrollbar {
+                display: none;
+            }
+    
+            .modulesDiv a {
+                display: block;
+                text-align: center;
+                font-size: 16px;
+                color: white;
+                text-decoration: none;
+                font-weight: 350;
+                border-bottom: 1px solid white;
+                padding: 25px;
+            }
+    
+            .modulesDiv a:hover:not(.active) {
+                background-color: rgb(160, 160, 160);
+                color: rgb(36, 36, 36);
+            }
+    
+            .modulesDiv a.active {
+                background-color: white;
+                color: black;
+            }
+    
+            .header {
+                background-color: #444;
+                width: 100%;
+                height: 10%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: fixed;
+                box-shadow: 0px 40px 20px rgba(0, 0, 0, 0.5);
+            }
+    
+            .header p {
+                color: white;
+                font-size: 20px;
+                margin-left: 20px;
+            }
+    
+            .header img {
+                border: 3px solid white;
+                border-radius: 50%;
+                width: 45px;
+                height: 45px;
+                margin-right: 20px;
+            }
+    
+            .titleAndSubtitle {
+                width: 50%;
+                height: 10.3%;
+                margin-left: 10%;
+                margin-top: 3.2%;
+                display: block;
+            }
+    
+            .titleAndSubtitle .title {
+                padding-left: 25px;
+                padding-top: 20px;
+                font-size: 24px;
+                font-weight: 500;
+            }
+    
+            .content {
+                display: flex;
+            }
+    
+            .videoDiv {
+                margin-left: 11.5%;
+                margin-top: 2%;
+            }
+    
+            .functionsDiv {
+                width: 35%;
+                margin-left: 20px;
+                display: block;
+            }
+    
+            .checkAsDone {
+                width: 100%;
+                height: 50%;
+                align-items: center;
+            }
+    
+            .checkAsDone button {
+                width: 80%;
+                height: 20%;
+                border-radius: 1rem;
+            }
+    
+            .checkAsDone button:hover {
+                background-color: aqua;
+            }
+    
+            .previousAndNext {
+                width: 100%;
+                height: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+    
+            .previousAndNext button {
+                width: 45%;
+                height: 20%;
+                border-radius: 1rem;
+            }
+        </style>
 </html>
