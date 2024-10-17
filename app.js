@@ -57,10 +57,13 @@ auth.createUserWithEmailAndPassword(auth.getAuth(), gmail, senha).
 then((userCredential) => {
 
 const user = userCredential.user
+/*var dbRef = db.ref()
 
 var user_data = {
     email: gmail
 }
+
+dbRef.child('users/' + user.uid).set(user_data)*/
 
  res.json({message: 'Conta cadastrada com sucesso!'})
 
