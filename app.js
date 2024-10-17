@@ -2,8 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
 const path = require('path');
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
+const firebase = require('firebase/app')
+const auth = require('firebase/auth')
 
 
 const firebaseConfig = {
@@ -80,15 +80,15 @@ app.get('/CursoGithub', function(req, res){
 app.post('/submit', (req, res) => {
     const { gmail, senha } = req.body;
    
-    firebase.auth().createUserWithEmailAndPassword(gmail, senha).then((userCredential) => {
+auth.createUserWithEmailAndPassword(auth.getAuth(), gmail, senha).
+then((userCredential) => {
 
-        var user = userCredential.user
-        res.redirect('/loginScreen');
-    })
-    .catch((error) => {
-        return res.status(500).json({ message: 'Erro ao realizar cadastro!' });
-    })
-   
+const user = userCredential.user
+res.send('Conta cadastrada com sucesso!')
+
+}).catch((error) => {
+    return res.status(500).json({ message: 'Erro ao realizar cadastro!' });
+})
        
 });
 
