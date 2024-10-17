@@ -57,16 +57,14 @@ auth.createUserWithEmailAndPassword(auth.getAuth(), gmail, senha).
 then((userCredential) => {
 
 const user = userCredential.user
-res.send('Conta cadastrada com sucesso!')
+
+ res.json({message: 'Conta cadastrada com sucesso!'})
 
 }).catch((error) => {
-    return res.status(500).json({ message: 'Erro ao realizar cadastro!' });
+   res.status(500).json({ message: 'Erro ao realizar cadastro!' });
 })
        
 });
-
-
-
 
 
 app.post('/auth', (req, res) => {
@@ -85,6 +83,18 @@ app.post('/auth', (req, res) => {
         })       
     
 });
+
+
+app.delete('/deleteAcc/:email', (req,res) => {
+
+
+})
+
+
+app.put('/updateAcc', (req,res) => {
+
+
+})
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
