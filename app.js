@@ -84,6 +84,18 @@ app.post('/auth', (req, res) => {
     
 });
 
+
+app.delete('/deleteAcc/:email', (req,res) => {
+
+
+})
+
+
+app.put('/updateAcc', (req,res) => {
+
+
+})
+
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
