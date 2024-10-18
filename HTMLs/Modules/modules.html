@@ -8,7 +8,7 @@
 
 <body>
     <div class="header">
-        <p>Course Name</p>
+        <p>HTML & CSS</p>
         <a href="/loginScreen"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRasszRuMREHez7PfNblF6gn8gugt4N7cmoxQ&s" alt=""></a>
     </div>
     <br>
@@ -33,7 +33,19 @@
 
     <div class="content">
         <div class="videoDiv">
-            <iframe id="videoFrame" width="750" height="505" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP" frameborder="0" allowfullscreen></iframe>
+            <iframe id="videoFrame" width="690" height="445" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=kxHcSaw7uUfY9o1t" frameborder="0" allowfullscreen></iframe>
+            
+            <div class="ratingNprv_nxt">
+                <div class="rating">
+                    <button>⬆️</button>
+                    <button>⬇️</button>
+                </div>
+
+                <div class="prv_nxt">
+                    <button onclick="previousModule()"> ◀️ Anterior</button>
+                    <button onclick="nextModule()">Próximo ▶️</button>
+                </div>
+            </div>
         </div>
 
         <div class="functionsDiv">
@@ -41,9 +53,9 @@
                 <button>Marcar como Concluído</button>
             </div>
 
-            <div class="previousAndNext">
-                <button onclick="previousModule()"> ◀️ Anterior</button>
-                <button onclick="nextModule()">Próximo ▶️</button>
+            <div>
+                <h3>Envie seu feedback sobre a aula:</h3>
+                <input type="text" name="feedback" id="feedback">
             </div>
         </div>
     </div>
@@ -96,10 +108,10 @@
             });
         }
 
-        // Carregar o vídeo do primeiro módulo ao iniciar
         loadVideo(0);
     </script>
 </body>
+
 <style>
     * {
         margin: 0;
@@ -112,7 +124,7 @@
     }
     
     .modulesDiv {
-        background-color: black;
+        background-color: #222;
         height: 90%;
         width: 10%;
         margin-top: 3.25%;
@@ -148,14 +160,14 @@
     }
     
     .header {
-        background-color: #444;
+        background-color: #222;
         width: 100%;
         height: 10%;
         display: flex;
         align-items: center;
         justify-content: space-between;
         position: fixed;
-        box-shadow: 0px 40px 20px rgba(0, 0, 0, 0.5);
+        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
     }
     
     .header p {
@@ -197,7 +209,6 @@
     }
     
     .functionsDiv {
-        width: 35%;
         margin-left: 20px;
         display: block;
     }
@@ -218,18 +229,9 @@
         background-color: aqua;
     }
     
-    .previousAndNext {
-        width: 100%;
-        height: 50%;
+    .ratingNprv_nxt{
         display: flex;
-        align-items: center;
         justify-content: space-between;
-    }
-    
-    .previousAndNext button {
-        width: 45%;
-        height: 20%;
-        border-radius: 1rem;
     }
 </style>
 </html>
