@@ -36,6 +36,10 @@ app.get('/registerScreen', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTMLs', 'register.html'));
 });
 
+app.get('/perfil', (req, res) => {
+    res.sendFile(__dirname + 'perfil.html')
+})
+
 app.get('/modulesScreen', function(req, res){
     res.sendFile(__dirname + '/HTMLs/Modules/modules.html');
 });
@@ -46,6 +50,10 @@ app.get('/Cursos', function(req, res){
 
 app.get('/CursoGithub', function(req, res){
     res.sendFile(__dirname + '/HTMLs/CursoGithub.html');
+});
+
+app.get('/Cursohtml', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/CursoHTML.html');
 });
 
 
