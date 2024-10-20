@@ -57,19 +57,19 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <p class="font-bold">Nome:</p>
-                    <p id="userName">João da Silva</p>
+                    <p id="userName"></p>
                 </div>
                 <div>
                     <p class="font-bold">CPF:</p>
-                    <p id="userCPF">123.456.789-00</p>
+                    <p id="userCPF"></p>
                 </div>
                 <div>
                     <p class="font-bold">E-mail:</p>
-                    <p id="userEmail">joao.silva@email.com</p>
+                    <p id="userEmail"></p>
                 </div>
                 <div>
-                    <p class="font-bold">Número:</p>
-                    <p id="userPhone">(11) 98765-4321</p>
+                    <p class="font-bold">Telefone:</p>
+                    <p id="userPhone"></p>
                 </div>
             </div>
         </div>
@@ -89,7 +89,7 @@
 
     <footer class="neumorphic p-4 mt-12">
         <div class="container mx-auto text-center">
-            <p>&copy; 2023 Plataforma de Cursos. Todos os direitos reservados.</p>
+            <p>&copy; 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
         </div>
     </footer>
 
@@ -106,7 +106,7 @@
         });
 
        
-        const userData = {
+       /* const userData = {
             name: "João da Silva",
             cpf: "123.456.789-00",
             email: "joao.silva@email.com",
@@ -122,6 +122,26 @@
 
         const enrolledCoursesElement = document.getElementById('enrolledCourses');
         enrolledCoursesElement.innerHTML = userData.enrolledCourses.map(course => `<li>${course}</li>`).join('');
+        */
+        function fetchData() {
+            fetch('/getAcc').then(response => response.json())
+            .then(userData => {
+                const userCPF = document.getElementById('userCPF')
+                const userEmail = document.getElementById('userEmail')
+                const userName = document.getElementById('userName')
+                const userPhone = document.getElementById('userPhone')
+
+                userCPF.innerHTML = userData.cpf
+                userName.innerHTML = userData.nome
+                userEmail.innerHTML = userData.email
+                userPhone.innerHTML = userData.telefone
+
+                
+            })
+
+        }
+
+        window.onload = fetchData();
     </script>
 </body>
 </html>
