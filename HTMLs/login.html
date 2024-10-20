@@ -153,7 +153,7 @@
     
         <form id="login-form">
             <h2>Bem-vindo de volta!</h2>
-            <input type="email" placeholder="E-mail" id="gmail" name="gmail" required>
+            <input type="email" placeholder="E-mail" id="email" name="email" required>
             <input type="password" placeholder="Senha" id="senha" name="senha" required>
             <button type="submit">Entrar</button>
         </form>
@@ -164,13 +164,13 @@
         document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const gmail = document.getElementById('gmail').value;
+            const email = document.getElementById('email').value;
             const senha = document.getElementById('senha').value;
 
             try {
                 const response = await fetch('/auth', {
                     method: 'POST',
-                    body: JSON.stringify({ gmail: gmail, senha: senha }),
+                    body: JSON.stringify({ email: email, senha: senha }),
                     headers: { 'Content-Type': 'application/json' }
                 });
 
