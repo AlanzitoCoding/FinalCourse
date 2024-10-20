@@ -74,7 +74,6 @@ app.get('/Cursohtml', function(req, res){
 });
 
 
-
 app.post('/submit', (req, res) => {
     const { email, senha, nome, cpf, telefone } = req.body;
     
