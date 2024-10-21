@@ -143,6 +143,31 @@
         }
 
     </style>
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+    <script>
+      function handleCredentialResponse(response) {}
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: "1089442985258-l60e90ipc4t9ql8iamdd4p4pn5nnk0ov.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"),
+          { theme: "outline",
+           
+           type: "standard",
+           shape:"pill",
+           theme: "filled_black",
+           text: "signin_with",
+           size: "medium",
+           logo_alignment: "left" 
+        }  // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
+      }
+    </script>
+
 </head>
 <body>
     <div class="overlay"></div>
@@ -156,9 +181,16 @@
             <input type="email" placeholder="E-mail" id="email" name="email" required>
             <input type="password" placeholder="Senha" id="senha" name="senha" required>
             <button type="submit">Entrar</button>
+             
+          
+             <div id="buttonDiv"></div>
+            
+
         </form>
         <p>Não possui uma conta? <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button></p>
     </div>
+
+    
 
     <script>
         document.getElementById('login-form').addEventListener('submit', async (e) => {
