@@ -254,6 +254,15 @@
     .btn-enviar:active {
       transform: scale(0.95);
     }
+    .comments-list {
+            padding: 2rem;
+        }
+        .neumorphic {
+            background: var(--bg-color);
+            border-radius: 20px;
+            box-shadow: 8px 8px 16px var(--shadow-color),
+                        -8px -8px 16px var(--highlight-color);
+        }
   </style>
 </head>
 <body>
@@ -270,21 +279,29 @@
   <main>
     <aside class="navbar">
       <ul>
-        <li><a href="#" onclick="loadVideo(0)" class="active">Módulo 1</a></li>
-        <li><a href="#" onclick="loadVideo(1)">Módulo 2</a></li>
-        <li><a href="#" onclick="loadVideo(2)">Módulo 3</a></li>
-        <li><a href="#" onclick="loadVideo(3)">Módulo 4</a></li>
-        <li><a href="#" onclick="loadVideo(4)">Módulo 5</a></li>
-        <li><a href="#" onclick="loadVideo(5)">Módulo 6</a></li>
-        <li><a href="#" onclick="loadVideo(6)">Módulo 7</a></li>
-        <li><a href="#" onclick="loadVideo(7)">Módulo 8</a></li>
-        <li><a href="#" onclick="loadVideo(8)">Módulo 9</a></li>
-        <li><a href="#" onclick="loadVideo(9)">Módulo 10</a></li>
-        <li><a href="#" onclick="loadVideo(10)">Módulo 11</a></li>
-        <li><a href="#" onclick="loadVideo(11)">Módulo 12</a></li>
+        <li><a href="#" onclick="loadVideo(0)" class="active">Aula 1</a></li>
+        <li><a href="#" onclick="loadVideo(1)">Aula 2</a></li>
+        <li><a href="#" onclick="loadVideo(2)">Aula 3</a></li>
+        <li><a href="#" onclick="loadVideo(3)">Aula 4</a></li>
+        <li><a href="#" onclick="loadVideo(4)">Aula 5</a></li>
+        <li><a href="#" onclick="loadVideo(5)">Aula 6</a></li>
+        <li><a href="#" onclick="loadVideo(6)">Aula 7</a></li>
+        <li><a href="#" onclick="loadVideo(7)">Aula 8</a></li>
+        <li><a href="#" onclick="loadVideo(8)">Aula 9</a></li>
+        <li><a href="#" onclick="loadVideo(9)">Aula 10</a></li>
+        <li><a href="#" onclick="loadVideo(10)">Aula 11</a></li>
+        <li><a href="#" onclick="loadVideo(11)">Aula 12</a></li>
+        <li><a href="#" onclick="loadVideo(12)">Aula 13</a></li>
+        <li><a href="#" onclick="loadVideo(13)">Aula 14</a></li>
+        <li><a href="#" onclick="loadVideo(14)">Aula 15</a></li>
+        <li><a href="#" onclick="loadVideo(15)">Aula 16</a></li>
+        <li><a href="#" onclick="loadVideo(16)">Aula 17</a></li>
+        <li><a href="#" onclick="loadVideo(17)">Aula 18</a></li>
+        <li><a href="#" onclick="loadVideo(18)">Aula 19</a></li>
+        <li><a href="#" onclick="loadVideo(19)">Aula 20</a></li>
       </ul>
     </aside>
-
+    
     <section class="video-section">
       <div class="video-container">
         <iframe id="videoFrame" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=kxHcSaw7uUfY9o1t" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -309,23 +326,36 @@
         <textarea id="comentario" rows="4" placeholder="Escreva aqui seu comentário..."></textarea>
         <button class="btn-enviar">Enviar Comentário<i class="ph ph-chat-text"></i></button>
       </div>
+      <div class="comments-list neumorphic" id="commentsList">
+        <h2>Comentários</h2>
+    </div>
+</div>
+
     </aside>
   </main>
 
   <script>
     const videos = [
-        "https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP", 
-        "https://www.youtube.com/embed/WAGK7v5q5ns?si=dDR8GcU7u-JR2y98", 
-        "https://www.youtube.com/embed/VIDEO_ID_3", 
-        "https://www.youtube.com/embed/VIDEO_ID_4", 
-        "https://www.youtube.com/embed/VIDEO_ID_5", 
-        "https://www.youtube.com/embed/VIDEO_ID_6",
-        "https://www.youtube.com/embed/VIDEO_ID_7",
-        "https://www.youtube.com/embed/VIDEO_ID_8",
-        "https://www.youtube.com/embed/VIDEO_ID_9",
-        "https://www.youtube.com/embed/VIDEO_ID_10",
-        "https://www.youtube.com/embed/VIDEO_ID_11",
-        "https://www.youtube.com/embed/VIDEO_ID_12", 
+        "https://www.youtube.com/embed/VfIXgGJWLvA?si=hUYv8s2VavoyRYRK", 
+        "https://www.youtube.com/embed/57wyfS560Uk?si=M88fKAt4xJ8-Tkpu", 
+        "https://www.youtube.com/embed/0zLjVhHdOm8?si=c461BHUpfK6cnzGW", 
+        "https://www.youtube.com/embed/F74GKCLXUWM?si=dVC-jeRxCadbnmgc", 
+        "https://www.youtube.com/embed/nlO5hySqJFA?si=EEtt9r7YnjqO0fVt", 
+        "https://www.youtube.com/embed/RFHSt1PCy0k?si=dd41VEOtdwlblhR6",
+        "https://www.youtube.com/embed/B4FU3NFRTDw?si=qC_hX7YRPYZTFjN0",
+        "https://www.youtube.com/embed/iSqf2iPqJNM?si=XWOIbZ5xPhxH9BoN",
+        "https://www.youtube.com/embed/UForX7ehChM?si=DO9h_ebo3kMacYhv",
+        "https://www.youtube.com/embed/E6CdIawPTh0?si=hEtca15ieZYDsFvI",
+        "https://www.youtube.com/embed/f6NTJdtEFOc?si=f5eikLHoQMbLaJmB",
+        "https://www.youtube.com/embed/nhMdFe3WwYc?si=cBwJZXPRFI1UZp0C", 
+        "https://www.youtube.com/embed/bDULqeGEvAw?si=nn_B6_1h5ymp_tQ3", 
+        "https://www.youtube.com/embed/xg-vHgLF0mI?si=YP12Sv2MQxjmW6LA", 
+        "https://www.youtube.com/embed/8rkuukKA8a4?si=DjLTDmtwtG5Mo7eE", 
+        "https://www.youtube.com/embed/CwOmEetWMnU?si=xsaZFuHbIwk8gfSg", 
+        "https://www.youtube.com/embed/1ZeettFfxys?si=AkY2NmiQ3zOj8bkW", 
+        "https://www.youtube.com/embed/aiOEBhozEOg?si=kl_Bt9oPSXf0_GnH", 
+        "https://www.youtube.com/embed/HaSgt1hK2Fs?si=ldsZ_4Z1Pg1jUY0O", 
+        "https://www.youtube.com/embed/T-d_hsO3hUI?si=c-t430k6HfpsM_8X", 
     ];
 
     let currentModule = 0;
@@ -377,6 +407,49 @@
 
     loadVideo(0);
     updateProgress();
+    
+    const firebaseConfig = {
+    apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
+    authDomain: "coursesportal-7e59f.firebaseapp.com",
+    projectId: "coursesportal-7e59f",
+    storageBucket: "coursesportal-7e59f.appspot.com",
+    messagingSenderId: "1089442985258",
+    appId: "1:1089442985258:web:658bb10d567f5ffdb0da53"
+
+}
+
+firebase.initializeApp(firebaseConfig)
+    const database = firebase.database();
+        const commentsRef = database.ref('comments');
+
+        const commentForm = document.getElementById('commentForm');
+        const commentsList = document.getElementById('commentsList');
+
+        commentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const comment = document.getElementById('comentario').value;
+            
+            commentsRef.push({
+                name: name,
+                comment: comment,
+                timestamp: firebase.database.ServerValue.TIMESTAMP
+            });
+
+            commentForm.reset();
+        });
+
+        commentsRef.on('child_added', (snapshot) => {
+            const comment = snapshot.val();
+            const commentElement = document.createElement('div');
+            commentElement.className = 'comment neumorphic';
+            commentElement.innerHTML = `
+                <h3>${comment.name}</h3>
+                <p>${comment.comment}</p>
+            `;
+            commentsList.appendChild(commentElement);
+
+        });
   </script>
 </body>
 </html>
