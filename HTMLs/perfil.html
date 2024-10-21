@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Perfil - Plataforma de Cursos</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            background-color: #e0e5ec;
+            transition: background-color 0.3s ease;
+        }
+        .dark-mode {
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .neumorphic {
+            background: #e0e5ec;
+            box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px  rgba(255,255,255, 0.5);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        .dark-mode .neumorphic {
+            background: #2d3748;
+            box-shadow: 9px 9px 16px rgba(0,0,0,0.4), -9px -9px 16px rgba(255,255,255,0.1);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+    </style>
+</head>
+<body class="font-sans">
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">Plataforma de Cursos</a>
+            <div>
+                <a href="home.html" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
+                <a href="cursos.html" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
+                <a href="perfil.html" class="mx-2 hover:text-blue-500 transition duration-300">Meu Perfil</a>
+                <button id="darkModeToggle" class="ml-4 focus:outline-none">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold mb-8 text-center fade-in">Meu Perfil</h1>
+
+        <div class="neumorphic p-8 mb-8 fade-in">
+            <h2 class="text-2xl font-bold mb-4">Informações Pessoais</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <p class="font-bold">Nome:</p>
+                    <p id="userName"></p>
+                </div>
+                <div>
+                    <p class="font-bold">CPF:</p>
+                    <p id="userCPF"></p>
+                </div>
+                <div>
+                    <p class="font-bold">E-mail:</p>
+                    <p id="userEmail"></p>
+                </div>
+                <div>
+                    <p class="font-bold">Telefone:</p>
+                    <p id="userPhone"></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="neumorphic p-8 mb-8 fade-in">
+            <h2 class="text-2xl font-bold mb-4">Cursos Inscritos</h2>
+            <ul id="enrolledCourses" class="list-disc list-inside">
+                <li>Curso de GitHub</li>
+                <li>Curso de HTML/CSS</li>
+                <li>Curso de JavaScript</li>
+            </ul>
+        </div>
+        <form action="login.html">
+            <p><button type="submit">Sair</button></p>
+        </form>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            const icon = darkModeToggle.querySelector('i');
+            icon.classList.toggle('fa-moon');
+            icon.classList.toggle('fa-sun');
+        });
+
+       
+       /* const userData = {
+            name: "João da Silva",
+            cpf: "123.456.789-00",
+            email: "joao.silva@email.com",
+            phone: "(11) 98765-4321",
+            enrolledCourses: ["Curso de GitHub", "Curso de HTML/CSS", "Curso de JavaScript"]
+        };
+
+    
+        document.getElementById('userName').textContent = userData.name;
+        document.getElementById('userCPF').textContent = userData.cpf;
+        document.getElementById('userEmail').textContent = userData.email;
+        document.getElementById('userPhone').textContent = userData.phone;
+
+        const enrolledCoursesElement = document.getElementById('enrolledCourses');
+        enrolledCoursesElement.innerHTML = userData.enrolledCourses.map(course => `<li>${course}</li>`).join('');
+        */
+        function fetchData() {
+            fetch('/getAcc').then(response => response.json())
+            .then(userData => {
+                const userCPF = document.getElementById('userCPF')
+                const userEmail = document.getElementById('userEmail')
+                const userName = document.getElementById('userName')
+                const userPhone = document.getElementById('userPhone')
+
+                userCPF.innerHTML = userData.cpf
+                userName.innerHTML = userData.nome
+                userEmail.innerHTML = userData.email
+                userPhone.innerHTML = userData.telefone
+
+                
+            })
+
+        }
+
+        window.onload = fetchData();
+    </script>
+</body>
+</html>

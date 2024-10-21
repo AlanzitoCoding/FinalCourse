@@ -3,43 +3,178 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   
-    <title>Login</title>
-    <link rel="stylesheet" href="CSS/login.Css">
+    <title>Login - Plataforma de Cursos</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3a7bd5;
+            --secondary-color: #00d2ff;
+            --background-color: #f0f2f5;
+            --text-color: #333;
+            --shadow-color: #d1d9e6;
+            --highlight-color: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            background-image: url('https://picsum.photos/id/20/3000/2000');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            z-index: -1;
+        }
+
+        .loginField {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        h2 {
+            color: var(--text-color);
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary-color);
+            color: white;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: var(--secondary-color);
+        }
+
+        p {
+            margin-top: 20px;
+            color: var(--text-color);
+        }
+
+        .register-btn {
+            background: none;
+            color: var(--primary-color);
+            padding: 0;
+            font-size: 16px;
+        }
+
+        .register-btn:hover {
+            text-decoration: underline;
+        }
+
+        .study-element {
+            position: absolute;
+            font-size: 48px;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .book { top: -60px; left: -80px; }
+        .pencil { top: 50%; right: -80px; transform: translateY(-50%); }
+        .graduation-cap { bottom: -60px; left: -80px; }
+        .laptop { top: -60px; right: -80px; }
+
+        .flying-paper {
+            position: absolute;
+            width: 50px;
+            height: 60px;
+            background-color: white;
+            opacity: 0.7;
+            animation: fly 15s linear infinite;
+        }
+
+        @keyframes fly {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(1000px, -1000px) rotate(360deg); }
+        }
+
+    </style>
 </head>
 <body>
-    <div class="loginField" action="/auth">
+    <div class="overlay"></div>
+    <div class="flying-paper paper1"></div>
+    <div class="flying-paper paper2"></div>
+    <div class="flying-paper paper3"></div>
+    <div class="loginField">
+    
         <form id="login-form">
-            <h2>Realize seu Login</h2>
-            <input type="email" placeholder="E-mail" id="gmail" name="gmail" required>
+            <h2>Bem-vindo de volta!</h2>
+            <input type="email" placeholder="E-mail" id="email" name="email" required>
             <input type="password" placeholder="Senha" id="senha" name="senha" required>
-            <button type="submit" >Login</button>
+            <button type="submit">Entrar</button>
         </form>
-        
-        <form action="/registerScreen">
-            <p>Não possui uma conta? <button type="submit">Clique Aqui</button></p>
-        </form>
+        <p>Não possui uma conta? <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button></p>
     </div>
-</body>
-</html>
 
-<script>
-
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            const gmail = document.getElementById('gmail').value;
+            const email = document.getElementById('email').value;
             const senha = document.getElementById('senha').value;
 
             try {
                 const response = await fetch('/auth', {
                     method: 'POST',
-                    body: JSON.stringify({ gmail: gmail, senha: senha }),
+                    body: JSON.stringify({ email: email, senha: senha }),
                     headers: { 'Content-Type': 'application/json' }
                 });
 
                 if (response.redirected) {
-            
                     window.location.href = response.url;
                 } else {
                     const result = await response.text();
@@ -51,3 +186,5 @@
             }
         });
     </script>
+</body>
+</html>

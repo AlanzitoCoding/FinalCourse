@@ -3,7 +3,12 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const firebase = require('firebase/app')
 const auth = require('firebase/auth')
-const db = require('firebase/database')
+const db = require('firebase/firestore')
+const session = require('express-session')
+const uuid = require('uuid').v4
+const FileStore = require('session-file-store')(session);
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const firebaseConfig = {
     apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
@@ -23,6 +28,18 @@ const port = 8081;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'HTMLs')));
+app.use(session({
+    genid: (req) => {
+        console.log(req.sessionID)
+        return uuid()
+    },
+    store: new FileStore(),
+    secret: 'testing',
+    resave: false,
+    saveUninitialized: true
+}))
+
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTMLs', 'home.html'));
@@ -36,6 +53,10 @@ app.get('/registerScreen', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTMLs', 'register.html'));
 });
 
+app.get('/perfil', (req, res) => {
+    res.sendFile(__dirname + 'perfil.html')
+})
+
 app.get('/modulesScreen', function(req, res){
     res.sendFile(__dirname + '/HTMLs/Modules/modules.html');
 });
@@ -48,38 +69,53 @@ app.get('/CursoGithub', function(req, res){
     res.sendFile(__dirname + '/HTMLs/CursoGithub.html');
 });
 
+app.get('/Cursohtml', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/CursoHTML.html');
+});
 
 
 app.post('/submit', (req, res) => {
-    const { gmail, senha } = req.body;
+    const { email, senha, nome, cpf, telefone } = req.body;
+    
    
-auth.createUserWithEmailAndPassword(auth.getAuth(), gmail, senha).
+auth.createUserWithEmailAndPassword(auth.getAuth(), email, senha).
 then((userCredential) => {
 
-const user = userCredential.user
-/*var dbRef = db.ref()
+    const database = db.getFirestore()
+    const user = userCredential.user
+    const userData = {
+        email: email, 
+        nome: nome, 
+        cpf: cpf,
+        telefone: telefone,
+        last_signIn: Date.now()
+    }
+    const docRef = db.doc(database, 'users', user.uid)
+    db.setDoc(docRef, userData).then(() => {
+        console.log('Sucesso ao cadastrar na firestore!')
+    }).catch((error) => {
+        console.log('Erro ao registrar na firestore!')
 
-var user_data = {
-    email: gmail
-}
+    })
 
-dbRef.child('users/' + user.uid).set(user_data)*/
 
- res.json({message: 'Conta cadastrada com sucesso!'})
+    res.json({message: 'Conta cadastrada com sucesso!'})
 
 }).catch((error) => {
    res.status(500).json({ message: 'Erro ao realizar cadastro!' });
 })
+
+
        
 });
 
 
 app.post('/auth', (req, res) => {
-    const { gmail, senha } = req.body;
+    const { email, senha } = req.body;
 
     
        
-        auth.signInWithEmailAndPassword(auth.getAuth(), gmail, senha)
+        auth.signInWithEmailAndPassword(auth.getAuth(), email, senha)
         .then((userCredential) => {
 
             res.redirect('/Cursos');
@@ -92,9 +128,30 @@ app.post('/auth', (req, res) => {
 });
 
 
+app.get('/getAcc', (req,res) => {
+    const database = db.getFirestore()
+    auth.onAuthStateChanged(auth.getAuth(), (user) => {
+       const loggedInUserId = localStorage.getItem('loggedInUserId')
+       if(loggedInUserId){
+            const docRef = db.doc(db, 'users', loggedInUserId)
+            db.getDoc(docRef).then((docSnap) => {
+                if(docSnap.exists()){
+                    const userData = docSnap.data()
+                    res.json(userData)
+                }else{
+                    console.log('Nenhum documento encontrado com esse id!')
+                }
+            }).catch((error) => {
+                console.log('Erro ao encontrar o documento!')
+            })
+       } 
+    })
+
+})
+
 app.delete('/deleteAcc', (req,res) => {
 
-   auth.on
+   
 })
 
 

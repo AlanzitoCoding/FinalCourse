@@ -1,237 +1,382 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-
-<body>
-    <div class="header">
-        <p>HTML & CSS</p>
-        <a href="/loginScreen"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRasszRuMREHez7PfNblF6gn8gugt4N7cmoxQ&s" alt=""></a>
-    </div>
-    <br>
-    <div class="modulesDiv">
-        <a href="#" onclick="loadVideo(0)" class="active">Módulo 1</a>
-        <a href="#" onclick="loadVideo(1)">Módulo 2</a>
-        <a href="#" onclick="loadVideo(2)">Módulo 3</a>
-        <a href="#" onclick="loadVideo(3)">Módulo 4</a>
-        <a href="#" onclick="loadVideo(4)">Módulo 5</a>
-        <a href="#" onclick="loadVideo(5)">Módulo 6</a>
-        <a href="#" onclick="loadVideo(6)">Módulo 7</a>
-        <a href="#" onclick="loadVideo(7)">Módulo 8</a>
-        <a href="#" onclick="loadVideo(8)">Módulo 9</a>
-        <a href="#" onclick="loadVideo(9)">Módulo 10</a>
-        <a href="#" onclick="loadVideo(10)">Módulo 11</a>
-        <a href="#" onclick="loadVideo(11)">Módulo 12</a>
-    </div>
-    
-    <div class="titleAndSubtitle">
-        <p class="title">Título do Módulo</p>
-    </div>
-
-    <div class="content">
-        <div class="videoDiv">
-            <iframe id="videoFrame" width="690" height="445" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=kxHcSaw7uUfY9o1t" frameborder="0" allowfullscreen></iframe>
-            
-            <div class="ratingNprv_nxt">
-                <div class="rating">
-                    <button>⬆️</button>
-                    <button>⬇️</button>
-                </div>
-
-                <div class="prv_nxt">
-                    <button onclick="previousModule()"> ◀️ Anterior</button>
-                    <button onclick="nextModule()">Próximo ▶️</button>
-                </div>
-            </div>
-        </div>
-
-        <div class="functionsDiv">
-            <div class="checkAsDone">
-                <button>Marcar como Concluído</button>
-            </div>
-
-            <div>
-                <h3>Envie seu feedback sobre a aula:</h3>
-                <input type="text" name="feedback" id="feedback">
-            </div>
-        </div>
-    </div>
-
-    <script>
-        const videos = [
-            "https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP", 
-            "https://www.youtube.com/embed/VIDEO_ID_2", 
-            "https://www.youtube.com/embed/VIDEO_ID_3", 
-            "https://www.youtube.com/embed/VIDEO_ID_4", 
-            "https://www.youtube.com/embed/VIDEO_ID_5", 
-            "https://www.youtube.com/embed/VIDEO_ID_6",
-            "https://www.youtube.com/embed/VIDEO_ID_7",
-            "https://www.youtube.com/embed/VIDEO_ID_8",
-            "https://www.youtube.com/embed/VIDEO_ID_9",
-            "https://www.youtube.com/embed/VIDEO_ID_10",
-            "https://www.youtube.com/embed/VIDEO_ID_11",
-            "https://www.youtube.com/embed/VIDEO_ID_12", 
-        ];
-
-        let currentModule = 0;
-
-        function loadVideo(moduleIndex) {
-            currentModule = moduleIndex;
-            document.getElementById('videoFrame').src = videos[moduleIndex];
-            updateModuleTitle();
-            updateActiveLink();
-        }
-
-        function previousModule() {
-            if (currentModule > 0) {
-                loadVideo(currentModule - 1);
-            }
-        }
-
-        function nextModule() {
-            if (currentModule < videos.length - 1) {
-                loadVideo(currentModule + 1);
-            }
-        }
-
-        function updateModuleTitle() {
-            document.querySelector('.titleAndSubtitle .title').textContent = `Título do Módulo ${currentModule + 1}`;
-        }
-        
-        function updateActiveLink() {
-            const links = document.querySelectorAll('.modulesDiv a');
-            links.forEach((link, index) => {
-                link.classList.toggle('active', index === currentModule);
-            });
-        }
-
-        loadVideo(0);
-    </script>
-</body>
-
-<style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso - Módulos de Vídeo</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
     * {
-        margin: 0;
-        padding: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    
+
     body {
-        background-color: aliceblue;
+      font-family: 'Roboto', sans-serif;
+      background-color: #181818;
+      color: #FFF;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: #202020;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    header .btn-voltar {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      color: #FFF;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+
+    header .btn-voltar:hover {
+      color: #aaa;
+    }
+
+    header .btn-voltar::before {
+      content: "←";
+      margin-right: 8px;
+    }
+
+    header .curso-info {
+      text-align: right;
+    }
+
+    header .progress-bar {
+      flex-grow: 1;
+      margin: 0 20px;
+      background-color: #404040;
+      height: 10px;
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header .progress {
+      height: 100%;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 200px auto 300px;
+      gap: 20px;
+      padding: 20px;
+      height: calc(100vh - 80px);
+      overflow: hidden;
+    }
+
+    .navbar {
+      background-color: #202020;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 100%;
+      scrollbar-width: thin;
+      scrollbar-color: #555 #202020;
+    }
+
+    .navbar ul {
+      list-style: none;
+    }
+
+    .navbar ul li {
+      margin-bottom: 15px;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: #AAA;
+      padding: 10px;
+      display: block;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+
+    .navbar ul li a:hover:not(.active) {
+      background-color: #333;
+    }
+
+    .navbar ul li a.active {
+        border: 1px solid #bebebe;
+    }
+
+    .video-section {
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      max-height: 100%;
+    }
+
+    .video-container {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 450px;
+      border-radius: 10px;
+    }
+
+    .video-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    /* Botões */
+    .btn-like, .btn-dislike {
+      background-color: #303030;
+      color: white;
+      border: 1px solid #555;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-left: 5px;
+      transition: background-color 0.3s ease;
+      align-items: center;
+    }
+
+    .btn-like:hover, .btn-dislike:hover {
+      background-color: #888;
+    }
+
+    .btn-anterior, .btn-proxima {
+      background-color: #303030;
+      color: white;
+      border: 1px solid #555;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      align-items: center;
+    }
+
+    .btn-anterior:hover, .btn-proxima:hover {
+      background-color: #888;
+    }
+
+    .extra-section {
+      background-color: #202020;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 100%;
+    }
+
+    .btn-concluir {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn-concluir:hover {
+      background-color: #2ecc71;
+    }
+
+    .btn-concluir:active {
+      transform: scale(0.95);
+    }
+
+    .btn-concluir i {
+      margin-left: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 400px;
+      padding: 10px;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #333;
+      resize: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 7px;
+    }
+
+    textarea:focus {
+      background-color: #bbb;
+      color: #000;
+      outline: none;
+    }
+
+    .btn-enviar {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #303030;
+      color: white;
+      border: 1px solid #555;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    .btn-enviar:hover {
+      background-color: #888;
+    }
+
+    .btn-enviar:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="btn-voltar" href="/Cursos">Cursos</a>
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+    <div class="curso-info">
+      <h1>HTML & CSS</h1>
+    </div>
+  </header>
+
+  <main>
+    <aside class="navbar">
+      <ul>
+        <li><a href="#" onclick="loadVideo(0)" class="active">Módulo 1</a></li>
+        <li><a href="#" onclick="loadVideo(1)">Módulo 2</a></li>
+        <li><a href="#" onclick="loadVideo(2)">Módulo 3</a></li>
+        <li><a href="#" onclick="loadVideo(3)">Módulo 4</a></li>
+        <li><a href="#" onclick="loadVideo(4)">Módulo 5</a></li>
+        <li><a href="#" onclick="loadVideo(5)">Módulo 6</a></li>
+        <li><a href="#" onclick="loadVideo(6)">Módulo 7</a></li>
+        <li><a href="#" onclick="loadVideo(7)">Módulo 8</a></li>
+        <li><a href="#" onclick="loadVideo(8)">Módulo 9</a></li>
+        <li><a href="#" onclick="loadVideo(9)">Módulo 10</a></li>
+        <li><a href="#" onclick="loadVideo(10)">Módulo 11</a></li>
+        <li><a href="#" onclick="loadVideo(11)">Módulo 12</a></li>
+      </ul>
+    </aside>
+
+    <section class="video-section">
+      <div class="video-container">
+        <iframe id="videoFrame" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=kxHcSaw7uUfY9o1t" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <div class="video-controls">
+          <div>
+            <button class="btn-like"><i class="ph ph-thumbs-up"></i></button>
+            <button class="btn-dislike"><i class="ph ph-thumbs-down"></i></button>
+          </div>
+          <div>
+            <button class="btn-anterior" onclick="previousModule()"><i class="ph ph-arrow-left"></i> Anterior</button>
+            <button class="btn-proxima" onclick="nextModule()">Próxima <i class="ph ph-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="extra-section">
+      <button class="btn-concluir" onclick="completeModule()">Marcar como Concluída</button>
+      <div class="comentario-section">
+        <label for="comentario">Deixe um comentário:</label>
+        <textarea id="comentario" rows="4" placeholder="Escreva aqui seu comentário..."></textarea>
+        <button class="btn-enviar">Enviar Comentário<i class="ph ph-chat-text"></i></button>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const videos = [
+        "https://www.youtube.com/embed/Ejkb_YpuHWs?si=WqHtGZf44hEOJNVP", 
+        "https://www.youtube.com/embed/WAGK7v5q5ns?si=dDR8GcU7u-JR2y98", 
+        "https://www.youtube.com/embed/VIDEO_ID_3", 
+        "https://www.youtube.com/embed/VIDEO_ID_4", 
+        "https://www.youtube.com/embed/VIDEO_ID_5", 
+        "https://www.youtube.com/embed/VIDEO_ID_6",
+        "https://www.youtube.com/embed/VIDEO_ID_7",
+        "https://www.youtube.com/embed/VIDEO_ID_8",
+        "https://www.youtube.com/embed/VIDEO_ID_9",
+        "https://www.youtube.com/embed/VIDEO_ID_10",
+        "https://www.youtube.com/embed/VIDEO_ID_11",
+        "https://www.youtube.com/embed/VIDEO_ID_12", 
+    ];
+
+    let currentModule = 0;
+    const totalModules = videos.length;
+
+    function loadVideo(moduleIndex) {
+        currentModule = moduleIndex;
+        document.getElementById('videoFrame').src = videos[moduleIndex];
+        updateActiveLink();
+        updateProgress();
+    }
+
+    function previousModule() {
+        if (currentModule > 0) {
+            loadVideo(currentModule - 1);
+        }
+    }
+
+    function nextModule() {
+        if (currentModule < videos.length - 1) {
+            loadVideo(currentModule + 1);
+        }
     }
     
-    .modulesDiv {
-        background-color: #222;
-        height: 90%;
-        width: 10%;
-        margin-top: 3.25%;
-        position: fixed;
-        list-style-type: none;
-        overflow: scroll;
-        border-right: 1px solid white;
+    function updateActiveLink() {
+        const links = document.querySelectorAll('.navbar ul li a');
+        links.forEach((link, index) => {
+            link.classList.toggle('active', index === currentModule);
+        });
     }
-    
-    .modulesDiv::-webkit-scrollbar {
-        display: none;
+
+    function updateProgress() {
+        const completedModules = parseInt(localStorage.getItem('completedModules') || '0');
+        const progress = (completedModules / totalModules) * 100;
+        document.querySelector('.progress').style.width = `${progress}%`;
     }
-    
-    .modulesDiv a {
-        display: block;
-        text-align: center;
-        font-size: 16px;
-        color: white;
-        text-decoration: none;
-        font-weight: 350;
-        border-bottom: 1px solid white;
-        padding: 25px;
+
+    function completeModule() {
+        let completedModules = parseInt(localStorage.getItem('completedModules') || '0');
+        if (currentModule + 1 > completedModules) {
+            completedModules = currentModule + 1;
+            localStorage.setItem('completedModules', completedModules);
+            updateProgress();
+            alert(`Módulo ${currentModule + 1} concluído!`);
+        } else {
+            alert('Este módulo já foi concluído anteriormente.');
+        }
     }
-    
-    .modulesDiv a:hover:not(.active) {
-        background-color: rgb(160, 160, 160);
-        color: rgb(36, 36, 36);
-    }
-    
-    .modulesDiv a.active {
-        background-color: white;
-        color: black;
-    }
-    
-    .header {
-        background-color: #222;
-        width: 100%;
-        height: calc(100vh - 50);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        position: fixed;
-        box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-    }
-    
-    .header p {
-        color: white;
-        font-size: 20px;
-        margin-left: 20px;
-    }
-    
-    .header img {
-        border: 3px solid white;
-        border-radius: 50%;
-        width: 45px;
-        height: 45px;
-        margin-right: 20px;
-    }
-    
-    .titleAndSubtitle {
-        width: 50%;
-        height: 10.3%;
-        margin-left: 10%;
-        margin-top: 3.2%;
-        display: block;
-    }
-    
-    .titleAndSubtitle .title {
-        padding-left: 25px;
-        padding-top: 20px;
-        font-size: 24px;
-        font-weight: 500;
-    }
-    
-    .content {
-        display: flex;
-    }
-    
-    .videoDiv {
-        margin-left: 11.5%;
-        margin-top: 2%;
-    }
-    
-    .functionsDiv {
-        margin-left: 20px;
-        display: block;
-    }
-    
-    .checkAsDone {
-        width: 100%;
-        height: 50%;
-        align-items: center;
-    }
-    
-    .checkAsDone button {
-        width: 80%;
-        height: 20%;
-        border-radius: 1rem;
-    }
-    
-    .checkAsDone button:hover {
-        background-color: aqua;
-    }
-    
-    .ratingNprv_nxt{
-        display: flex;
-        justify-content: space-between;
-    }
-</style>
+
+    loadVideo(0);
+    updateProgress();
+  </script>
+</body>
 </html>
