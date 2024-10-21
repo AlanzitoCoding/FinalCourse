@@ -145,17 +145,20 @@
     </style>
 
 <script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
     <script>
-      function handleCredentialResponse(response) {}
+      function handleCredentialResponse(response) {
+        const data = jwt_decode(response.credential)
+        console.log(data)
+      }
       window.onload = function () {
         google.accounts.id.initialize({
           client_id: "1089442985258-l60e90ipc4t9ql8iamdd4p4pn5nnk0ov.apps.googleusercontent.com",
           callback: handleCredentialResponse
         });
         google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),
-          { theme: "outline",
-           
+          document.getElementById("buttonDiv"),{          
+           theme: "outline",
            type: "standard",
            shape:"pill",
            theme: "filled_black",
