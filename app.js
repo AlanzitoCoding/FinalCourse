@@ -10,9 +10,7 @@ const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
-/*
-1089442985258-l60e90ipc4t9ql8iamdd4p4pn5nnk0ov.apps.googleusercontent.com
-*/
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
