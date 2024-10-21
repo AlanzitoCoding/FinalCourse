@@ -54,7 +54,7 @@ app.get('/registerScreen', (req, res) => {
 });
 
 app.get('/perfil', (req, res) => {
-    res.sendFile(__dirname + 'perfil.html')
+    res.sendFile(__dirname + '/HTMLs/perfil.html')
 })
 
 app.get('/modulesScreen', function(req, res){
