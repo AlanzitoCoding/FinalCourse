@@ -174,6 +174,11 @@ app.put('/updateAcc', (req,res) => {
 
 })
 
+app.put('/redefinePassword', (req,res) => {
+
+    
+})
+
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
