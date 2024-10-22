@@ -22,28 +22,27 @@
             align-items: center;
             min-height: 100vh;
             overflow: hidden;
-            background-image: url('https://picsum.photos/id/20/3000/2000');
-            background-size: cover;
-            background-position: center;
+            background: rgb(108,108,108);
+            background: radial-gradient(circle, rgba(108,108,108,1) 00%, rgba(0,0,0,1) 100%);
         }
 
         .loginField {
             background-color: var(--highlight-color);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 10px 10px 20px var(--shadow-color),
-                        -10px -10px 20px var(--highlight-color);
+            box-shadow: 0px 0px 10px 10px rgb(0, 0, 0, 0.3);
             width: 300px;
             text-align: center;
+            align-items: center;
         }
 
         h2 {
-            color: var(--primary-color);
+            color: #333;
             margin-bottom: 20px;
         }
 
         input {
-            width: 100%;
+            width: 95%;
             padding: 10px;
             margin-bottom: 15px;
             border: none;
@@ -55,8 +54,10 @@
 
         input:focus {
             outline: none;
-            box-shadow: inset 3px 3px 5px var(--shadow-color),
-                        inset -3px -3px 5px var(--highlight-color);
+            box-shadow: inset 5px 5px 10px #444,
+                        inset -5px -5px 10px #777;
+            background-color: #999;
+            color: white;
         }
 
         button {
@@ -64,7 +65,7 @@
             padding: 10px;
             border: none;
             border-radius: 5px;
-            background: linear-gradient(145deg, var(--secondary-color), var(--primary-color));
+            background: linear-gradient(145deg, #888, #555);
             color: white;
             font-size: 16px;
             cursor: pointer;
@@ -78,7 +79,7 @@
 
         .back-button {
             background: var(--background-color);
-            color: var(--primary-color);
+            color: #333;
             box-shadow: 5px 5px 10px var(--shadow-color),
                         -5px -5px 10px var(--highlight-color);
         }
