@@ -377,6 +377,96 @@
 
     loadVideo(0);
     updateProgress();
+
+    // Configuração do Firebase
+    const firebaseConfig = {
+            // Substitua com suas próprias configurações do Firebase
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            databaseURL: "YOUR_DATABASE_URL",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        let player;
+        let currentTime = 0;
+
+        // Criar o player do YouTube
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+                height: '360',
+                width: '640',
+                videoId: 'dQw4w9WgXcQ', // Substitua pelo ID do vídeo desejado
+                events: {
+                    'onReady': onPlayerReady,
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            updateProgressBar();
+            setInterval(updateProgressBar, 1000);
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PAUSED) {
+                saveCurrentTime();
+            }
+        }
+
+        function updateProgressBar() {
+            if (player && player.getCurrentTime) {
+                currentTime = player.getCurrentTime();
+                const duration = player.getDuration();
+                const progress = (currentTime / duration) * 100;
+                document.getElementById('progress').style.width = `${progress}%`;
+            }
+        }
+
+        function saveCurrentTime() {
+            database.ref('lastWatchedTime').set({
+                time: currentTime
+            });
+        }
+
+        function resumeVideo() {
+            database.ref('lastWatchedTime').once('value').then((snapshot) => {
+                const savedTime = snapshot.val().time;
+                if (savedTime) {
+                    player.seekTo(savedTime, true);
+                    player.playVideo();
+                }
+            });
+        }
+
+        document.getElementById('playPauseBtn').addEventListener('click', () => {
+            if (player.getPlayerState() == YT.PlayerState.PLAYING) {
+                player.pauseVideo();
+            } else {
+                player.playVideo();
+            }
+        });
+
+        document.getElementById('resumeBtn').addEventListener('click', resumeVideo);
+
+        // Alternância do modo escuro
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        darkModeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+        });
+
+        // Animação de flutuação
+        const container = document.querySelector('.container');
+        container.classList.add('floating');
   </script>
 </body>
 </html>

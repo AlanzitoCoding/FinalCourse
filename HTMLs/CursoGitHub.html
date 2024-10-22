@@ -6,48 +6,219 @@
     <title>Curso de GitHub</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="CSS/Cursos2.css"> 
+    <script src="https://unpkg.com/phosphor-icons"></script>
+    <link rel="stylesheet" href="CSS/Cursos2.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #1C1C1C;
+            color: #FFF;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 15px; /* Header mais compacto */
+            background-color: #242424;
+            color: #FFF;
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        header .btn-voltar {
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            color: #FFF;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        header .btn-voltar:hover {
+            color: #aaa;
+            transform: scale(1.1);
+        }
+
+        header .btn-voltar::before {
+            content: "←";
+            margin-right: 8px;
+        }
+
+        header .user-icon {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        
+        header .user-icon i {
+            font-size: 28px;
+            color: #FFF;
+            transition: transform 0.3s ease;
+        }
+
+        header .user-icon:hover i {
+            color: #aaa;
+            transform: scale(1.3);
+        }
+
+        /* Paleta de cores mais rica */
+        h1, h3, h4 {
+            color: #E6E6E6;
+        }
+
+        a {
+            color: #848484;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #fafafa;
+        }
+
+        .container-fluid {
+            padding: 20px;
+        }
+
+        /* Destaque para a imagem do curso */
+        .thumbnail img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+        }
+
+        .thumbnail img:hover {
+            transform: scale(1.02);
+        }
+
+        /* Fundo claro para destacar a imagem */
+        .thumbnail {
+            background-color: #323232;
+            border: none;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .thumbImg{
+            background-color: #E6E6E6;
+        }
+
+        .btn-primary {
+            background-color: #3A3A3A;
+            border-color: #3A3A3A;
+            color: #FFF;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #aaa;
+        }
+
+        /* Reduzindo o tamanho das divs para evitar scroll */
+        .row, .thumbnails {
+            margin-bottom: 10px;
+        }
+
+        /* Modal de usuário */
+        #userModal {
+            display: none;
+            position: fixed;
+            z-index: 200;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            width: 300px;
+            color: #FFF;
+        }
+
+        #userModal.show {
+            display: block;
+        }
+
+        #userModal h4 {
+            margin-bottom: 15px;
+        }
+
+        #userModal button {
+            background-color: #FF4500;
+            border: none;
+            padding: 10px 20px;
+            color: #FFF;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #userModal button:hover {
+            background-color: #FFD700;
+        }
+    </style>
+</head>
 <body>
-    <div class="page-header">
-        <h1>Curso de GitHub <span style="float: right;">?</span></h1>
+    <header>
+        <a class="btn-voltar" href="/Cursos">Cursos</a>
+        <div class="user-icon" onclick="toggleModal()">
+            <i class="ph-user-circle"></i>
+        </div>
+    </header>
+
+    <div id="userModal">
+        <h4>Perfil do Usuário</h4>
+        <p>Nome: João Silva</p>
+        <p>Email: joao.silva@example.com</p>
+        <button onclick="toggleModal()">Fechar</button>
     </div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-6">
                 <ul class="thumbnails">
                     <li class="col-md-12">
                         <div class="thumbnail">
-                            <img width="600" height="375" alt="Imagem do Curso" src="https://miro.medium.com/v2/resize:fit:1125/1*biIy42Cn4Bnu0IkpUW1Zew.png" />
+                            <img class="thumbImg" alt="Imagem do Curso" src="https://miro.medium.com/v2/resize:fit:1125/1*biIy42Cn4Bnu0IkpUW1Zew.png" />
                             <div class="caption">
                                 <h3>Overview</h3>
-                                <p>O GitHub é uma plataforma importante para o desenvolvimento de codigos</p>
-                                <div class="mini-layout fluid">
-                                    <div class="mini-layout-sidebar">
-                                        <p><a class="btn btn-primary btn-sm btn-block" href="#">Inscreva-Se</a></p>
-                                    </div>
-                                    <div class="mini-layout-body">
-                                        <p>?</p>
-                                    </div>
+                                <p>O GitHub é uma das plataformas mais importantes para o desenvolvimento colaborativo de código, permitindo versionamento, colaboração e armazenamento de projetos. Ele é amplamente utilizado por desenvolvedores para contribuir com projetos open-source, compartilhar códigos e trabalhar em equipe. Neste curso, você aprenderá desde o básico até funcionalidades mais avançadas, como o uso de branches, pull requests e GitHub Actions.</p>
+                                <div class="mini-layout">
+                                    <a class="btn btn-primary btn-sm btn-block" href="#">Inscreva-se</a>
                                 </div>
-                                <div class="mini-layout fluid">
-                                    <div class="mini-layout-sidebar">
-                                        <p><a class="btn btn-primary btn-sm btn-block" href="/modulesGit">Continuar meu Aprendizado</a></p>
-                                    </div>
-                                    <div class="mini-layout-body">
-                                        <p>?</p>
-                                    </div>
+                                <div class="mini-layout">
+                                    <a class="btn btn-primary btn-sm btn-block" href="/gitModules">Continuar meu Aprendizado</a>
                                 </div>
                             </div>
                         </div>
                     </li>
                 </ul>
             </div>
+
             <div class="col-md-6">
                 <ul class="thumbnails">
                     <li class="col-md-12">
                         <div class="thumbnail">
                             <div class="caption">
-                                <h3><i class="fa fa-info-circle fa-2x"></i> Detalhes</h3>
+                                <h3><i class="ph-info"></i> Detalhes</h3>
                                 <h4><strong>Audiência</strong></h4>
                                 <p>☑ Todas as Audiências</p>
                                 <h4><strong>Criterio de Conclusão</strong></h4>
@@ -58,13 +229,14 @@
                         </div>
                     </li>
                 </ul>
+
                 <ul class="thumbnails">
                     <li class="col-md-12">
                         <div class="thumbnail">
                             <div class="caption">
-                                <h3><i class="fa fa-link fa-2x"></i> Links Para Reforço</h3>
-                                <p><i class="fa fa-globe fa-2x"></i><a href="https://www.youtube.com/playlist?list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA" style="padding-left: 25px;">Link 1</a></p>
-                                <p><i class="fa fa-globe fa-2x"></i><a href="https://www.youtube.com/playlist?list=PLcoYAcR89n-qbO7YAVj5S0alABLis_QVU" style="padding-left: 25px;">Link 2</a></p>
+                                <h3><i class="ph ph-link"></i> Links Para Reforço</h3>
+                                <p><i class="ph ph-globe"></i><a href="https://www.youtube.com/playlist?list=PLHz_AreHm4dm7ZULPAmadvNhH6vk9oNZA" style="padding-left: 25px;">Link 1</a></p>
+                                <p><i class="ph-globe"></i><a href="https://www.youtube.com/playlist?list=PLcoYAcR89n-qbO7YAVj5S0alABLis_QVU" style="padding-left: 25px;">Link 2</a></p>
                             </div>
                         </div>
                     </li>
@@ -72,5 +244,12 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleModal() {
+            var modal = document.getElementById('userModal');
+            modal.classList.toggle('show');
+        }
+    </script>
 </body>
 </html>
