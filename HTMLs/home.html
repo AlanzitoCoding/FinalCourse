@@ -19,6 +19,62 @@
             box-shadow: 10px 10px 30px #1a1a1a, -10px -10px 30px #464646;
             transition: all 0.3s ease;
         }
+        
+        .refs{
+            display: flex;
+            align-items: center;
+        }
+
+        .refs img{
+            width: 40px;
+            height: 40px;
+            background-color: white;
+            border-radius: 50px;
+            border: 1px solid black;
+            margin-left: 50px;
+            transition: transform 0.3s ease;
+        }
+
+        .refs img:hover{
+            background-color: #aaa;
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #303030;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            display: block;
+        }
+
+        .modal-content button {
+            background-color: #4A90E2;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .modal-content button:hover {
+            background-color: #357ABD;
+        }
 
         .carousel {
             overflow: hidden;
@@ -70,19 +126,28 @@
         .fade-in {
             animation: fadeIn 1s ease-in;
         }
+
     </style>
 </head>
 <body class="font-sans">
     <nav class="neumorphic p-4 mb-8">
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-2xl font-bold">SMGFA Courses</a>
-            <div>
+            <div class="refs">
                 <a href="/" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
                 <a href="/Cursos" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
-                <a href="/perfil" class="mx-2 hover:text-blue-500 transition duration-300">Meu Perfil</a>
+                <a><img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="" id="profile-icon"></a>
             </div>
         </div>
     </nav>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 class="text-xl mb-4">Acesso Rápido</h2>
+            <button onclick="window.location.href='/login'">Login</button>
+            <button onclick="window.location.href='/perfil'">Perfil</button>
+        </div>
+    </div>
 
     <div class="container mx-auto px-4">
         <h1 class="text-4xl font-bold mb-8 text-center fade-in">Bem-vindo à SMGFA Courses</h1>
@@ -168,6 +233,19 @@
             currentIndex = (currentIndex + 1) % items.length;
             showSlide(currentIndex);
         }, 5000);
+
+        const modal = document.getElementById("modal");
+        const profileIcon = document.getElementById("profile-icon");
+
+        profileIcon.onclick = () => {
+            modal.style.display = "flex";
+        };
+
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
     </script>
 </body>
 </html>

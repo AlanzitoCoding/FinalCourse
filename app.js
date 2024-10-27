@@ -117,10 +117,7 @@ then((userCredential) => {
 
 }).catch((error) => {
    res.status(500).json({ message: 'Erro ao realizar cadastro!' });
-})
-
-
-       
+})    
 });
 
 
