@@ -191,6 +191,40 @@
             }
         }
 
+        function loadFromLocalStorage() {
+            const savedName = localStorage.getItem('userName') || "João da Silva";
+            const savedCPF = localStorage.getItem('userCPF') || "123.456.789-00";
+            const savedEmail = localStorage.getItem('userEmail') || "joao.silva@email.com";
+            const savedPhone = localStorage.getItem('userPhone') || "(11) 98765-4321";
+            const savedImage = localStorage.getItem('profileImage');
+
+            document.getElementById('userName').textContent = savedName;
+            document.getElementById('userCPF').textContent = savedCPF;
+            document.getElementById('userEmail').textContent = savedEmail;
+            document.getElementById('userPhone').textContent = savedPhone;
+
+            if (savedImage) {
+                document.getElementById('profileImage').src = savedImage;
+            }
+        }
+
+        // Carregar dados ao iniciar a página
+        window.addEventListener('load', loadFromLocalStorage);
+
+        // Modificar a função updateProfileImage para salvar no localStorage
+        function updateProfileImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = e.target.result;
+                    document.getElementById('profileImage').src = imageData;
+                    saveToLocalStorage('profileImage', imageData);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Modificar a função saveEdit para salvar no localStorage
         function saveEdit(elementId, newValue) {
             const element = document.createElement('p');
             element.id = elementId;
@@ -199,10 +233,13 @@
             const input = document.querySelector(`input.edit-input`);
             input.parentNode.replaceChild(element, input);
 
+            saveToLocalStorage(elementId, newValue);
+        }
+
             // Update userData object
             const key = elementId.replace('user', '').toLowerCase();
             userData[key] = newValue;
-        }
+        
     </script>
 </body>
 </html>
