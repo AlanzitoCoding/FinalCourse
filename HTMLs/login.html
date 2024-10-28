@@ -144,82 +144,50 @@
 
     </style>
 
-<script src="https://accounts.google.com/gsi/client" async></script>
-<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
-    <script>
-      function handleCredentialResponse(response) {
-        const data = jwt_decode(response.credential)
-        console.log(data)
-      }
-      window.onload = function () {
-        google.accounts.id.initialize({
-          client_id: "1089442985258-l60e90ipc4t9ql8iamdd4p4pn5nnk0ov.apps.googleusercontent.com",
-          callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-          document.getElementById("buttonDiv"),{          
-           theme: "outline",
-           type: "standard",
-           shape:"pill",
-           theme: "filled_black",
-           text: "signin_with",
-           size: "medium",
-           logo_alignment: "left" 
-        }  // customization attributes
-        );
-        google.accounts.id.prompt(); // also display the One Tap dialog
-      }
-    </script>
-
 </head>
 <body>
     <div class="overlay"></div>
     <div class="flying-paper paper1"></div>
     <div class="flying-paper paper2"></div>
     <div class="flying-paper paper3"></div>
+
     <div class="loginField">
-    
-        <form id="login-form">
+        <form method="post" action="/auth">
             <h2>Bem-vindo de volta!</h2>
             <input type="email" placeholder="E-mail" id="email" name="email" required>
             <input type="password" placeholder="Senha" id="senha" name="senha" required>
-            <button type="submit" onclick="window.location.href='/Cursos.html'">Entrar</button>
-             
-          
-             <div id="buttonDiv"></div>
-            
-
+            <button type="submit">Entrar</button>          
         </form>
+
         <p>Não possui uma conta? <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button></p>
+        
+        <div id="messageBox"></div>
     </div>
-
-    
-
-    <script>
-        document.getElementById('login-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            
-            const email = document.getElementById('email').value;
-            const senha = document.getElementById('senha').value;
-
-            try {
-                const response = await fetch('/auth', {
-                    method: 'POST',
-                    body: JSON.stringify({ email: email, senha: senha }),
-                    headers: { 'Content-Type': 'application/json' }
-                });
-
-                if (response.redirected) {
-                    window.location.href = response.url;
-                } else {
-                    const result = await response.text();
-                    alert(result);
-                }
-            } catch (err) {
-                console.error('Erro:', err.message);
-                alert('Erro ao realizar login.');
-            }
-        });
-    </script>
 </body>
 </html>
+
+<script>
+    async function login(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const senha = document.getElementById('senha').value;
+
+        const response = await fetch('/auth', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, senha })
+        });
+
+        const result = await response.json();
+
+        const messageBox = document.getElementById('messageBox');
+        if (result.success) {
+            window.location.href = '/';
+        } else {
+            messageBox.innerHTML = result.message;
+        }
+    }
+</script>

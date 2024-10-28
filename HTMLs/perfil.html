@@ -58,7 +58,7 @@
         }
     </style>
 </head>
-<body class="font-sans">
+<body class="font-sans" onload="fetchData()">
     <nav class="neumorphic p-4 mb-8">
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-2xl font-bold">Plataforma de Cursos</a>
@@ -87,25 +87,25 @@
                 </div>
                 <div class="md:w-2/3 md:pl-8">
                     <h2 class="text-2xl font-bold mb-4">Informações Pessoais</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="userInfo">
                         <div class="flex items-center">
                             <p class="font-bold mr-2">Nome:</p>
-                            <p id="userName" class="mr-2">João da Silva</p>
+                            <p id="uName" name="userName" class="mr-2"></p>
                             <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userName')"></i>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">CPF:</p>
-                            <p id="userCPF" class="mr-2">123.456.789-00</p>
+                            <p id="uCPF" name="userCPF" class="mr-2"></p>
                             <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userCPF')"></i>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">E-mail:</p>
-                            <p id="userEmail" class="mr-2">joao.silva@email.com</p>
+                            <p id="uEmail" name="userEmail" class="mr-2"></p>
                             <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userEmail')"></i>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">Número:</p>
-                            <p id="userPhone" class="mr-2">(11) 98765-4321</p>
+                            <p id="uPhone" name="userPhone" class="mr-2"></p>
                             <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userPhone')"></i>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                 <li>Curso de JavaScript</li>
             </ul>
         </div>
-        <form action="login.html">
+        <form action="/loginScreen">
             <p><button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Sair</button></p>
         </form>
     </div>
@@ -133,31 +133,41 @@
     </footer>
 
     <script>
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
+        function fetchData() {
+        fetch('/userInfo')
+            .then(response => response.json())
+            .then(data => {
+                const uName = document.getElementById('uName');
+                const uCPF = document.getElementById('uCPF');
+                const uEmail = document.getElementById('uEmail');
+                const uPhone = document.getElementById('uPhone');
 
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            const icon = darkModeToggle.querySelector('i');
-            icon.classList.toggle('fa-moon');
-            icon.classList.toggle('fa-sun');
-        });
+                uName.innerHTML = '';
+                uCPF.innerHTML = '';
+                uEmail.innerHTML = '';
+                uPhone.innerHTML = '';
+                
+                data.forEach(row => {
 
-        const userData = {
-            name: "João da Silva",
-            cpf: "123.456.789-00",
-            email: "joao.silva@email.com",
-            phone: "(11) 98765-4321",
-            enrolledCourses: ["Curso de GitHub", "Curso de HTML/CSS", "Curso de JavaScript"]
-        };
+                    uName.innerHTML += `${row.userName}`
+                    uCPF.innerHTML += `${row.userCPF}`
+                    uEmail.innerHTML += `${row.userEmail}`
+                    uPhone.innerHTML += `${row.userPhone}`
+                    
 
-        document.getElementById('userName').textContent = userData.name;
-        document.getElementById('userCPF').textContent = userData.cpf;
-        document.getElementById('userEmail').textContent = userData.email;
-        document.getElementById('userPhone').textContent = userData.phone;
+                })
 
-        const enrolledCoursesElement = document.getElementById('enrolledCourses');
-        enrolledCoursesElement.innerHTML = userData.enrolledCourses.map(course => `<li>${course}</li>`).join('');
+                /*document.getElementById('uName').textContent = data.userName;
+                document.getElementById('uCPF').textContent = data.userCPF;
+                document.getElementById('uEmail').textContent = data.userEmail;
+                document.getElementById('uPhone').textContent = data.userPhone;*/
+            })
+            .catch(error => {
+                console.error("Erro ao buscar dados do usuário: " + error);
+            });
+        }
+
+        document.addEventListener("DOMContentLoaded", fetchData());
 
         function updateProfileImage(input) {
             if (input.files && input.files[0]) {
@@ -190,56 +200,6 @@
                 input.focus();
             }
         }
-
-        function loadFromLocalStorage() {
-            const savedName = localStorage.getItem('userName') || "João da Silva";
-            const savedCPF = localStorage.getItem('userCPF') || "123.456.789-00";
-            const savedEmail = localStorage.getItem('userEmail') || "joao.silva@email.com";
-            const savedPhone = localStorage.getItem('userPhone') || "(11) 98765-4321";
-            const savedImage = localStorage.getItem('profileImage');
-
-            document.getElementById('userName').textContent = savedName;
-            document.getElementById('userCPF').textContent = savedCPF;
-            document.getElementById('userEmail').textContent = savedEmail;
-            document.getElementById('userPhone').textContent = savedPhone;
-
-            if (savedImage) {
-                document.getElementById('profileImage').src = savedImage;
-            }
-        }
-
-        // Carregar dados ao iniciar a página
-        window.addEventListener('load', loadFromLocalStorage);
-
-        // Modificar a função updateProfileImage para salvar no localStorage
-        function updateProfileImage(input) {
-            if (input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const imageData = e.target.result;
-                    document.getElementById('profileImage').src = imageData;
-                    saveToLocalStorage('profileImage', imageData);
-                };
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
-
-        // Modificar a função saveEdit para salvar no localStorage
-        function saveEdit(elementId, newValue) {
-            const element = document.createElement('p');
-            element.id = elementId;
-            element.textContent = newValue;
-            element.className = 'mr-2';
-            const input = document.querySelector(`input.edit-input`);
-            input.parentNode.replaceChild(element, input);
-
-            saveToLocalStorage(elementId, newValue);
-        }
-
-            // Update userData object
-            const key = elementId.replace('user', '').toLowerCase();
-            userData[key] = newValue;
-        
     </script>
 </body>
 </html>

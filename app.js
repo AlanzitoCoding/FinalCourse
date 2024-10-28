@@ -1,46 +1,168 @@
 const express = require('express');
+const session = require('express-session');
 const bodyParser = require('body-parser');
 const path = require('path');
-const firebase = require('firebase/app')
-const auth = require('firebase/auth')
-const db = require('firebase/firestore')
-const session = require('express-session')
-const uuid = require('uuid').v4
-const FileStore = require('session-file-store')(session);
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-
-
-
-const firebaseConfig = {
-    apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
-    authDomain: "coursesportal-7e59f.firebaseapp.com",
-    projectId: "coursesportal-7e59f",
-    storageBucket: "coursesportal-7e59f.appspot.com",
-    messagingSenderId: "1089442985258",
-    appId: "1:1089442985258:web:658bb10d567f5ffdb0da53"
-
-}
-
-firebase.initializeApp(firebaseConfig)
-
-
 const app = express();
+const mysql = require('mysql2');
 const port = 8081;
-app.use(bodyParser.urlencoded({ extended: false }));
+
+const db = mysql.createConnection({
+    host: "localhost",
+    user: "root",
+    password: "cimatec",
+    database: "FinalCourse"
+});
+
+
+
+app.use(session({
+    secret: 'secret',
+    resave: true,
+    saveUninitialized: true
+}));
+
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'HTMLs')));
-app.use(session({
-    genid: (req) => {
-        console.log(req.sessionID)
-        return uuid()
-    },
-    store: new FileStore(),
-    secret: 'testing',
-    resave: false,
-    saveUninitialized: true
-}))
 
+app.post('/submit', (req, res) => {
+    const {email, senha, nome, cpf, telefone} = req.body;
+
+    const query = "insert into users values (?, ?, ?, ?, ?);"
+
+    db.query(query, [cpf, nome, email, senha, telefone], function(err, result){
+        if(err) throw err;
+
+        console.log("1 record inserted");
+        res.redirect("/");
+    });
+});
+
+
+app.post("/auth", (req, res) => {
+    let email = req.body.email;
+    let senha = req.body.senha;
+    
+    db.query("select * from users where userEmail = ? and userPassword = ?;", [email, senha], function(err, results, fields){
+        if(err) throw err;
+        
+        if(email && senha){
+            if(results.length > 0){
+                req.session.loggedin = true;
+                req.session.email = email;
+                
+                console.log(req.session.email);
+                
+                res.redirect('/');
+            }
+            else{
+                res.json({ success: false, message: "Incorrect email and/or password." });
+            }
+        }
+        else{
+            res.json({ success: false, message: 'Please, insert your email and password!' });
+        }
+    })
+});
+
+app.post("/gitReg", (req, res) => {
+    db.query("insert into courseUsers (userEmail_FK, courseID_FK) values (?, 1);", [req.session.email], function(err, results, fields){
+        if(err) throw err;
+        
+        console.log("1 record inserted");
+        res.redirect('/CursoGithub');
+    })
+});
+
+app.post('/gitAuth', (req, res) => {
+    if (req.session.loggedin) {
+        db.query("select * from courseUsers where userEmail_FK = ? and courseID_FK = 1;", [req.session.email], function(err, results, fields){
+            if(err) throw err;
+            
+            if(results.length > 0){
+                res.redirect('/gitModules');
+            }
+            else{
+                res.redirect('/QGitHub');
+            } 
+        })
+    } 
+    else {
+        res.redirect('/loginScreen');
+    }
+})
+
+app.post("/htmlcssReg", (req, res) => {
+    db.query("insert into courseUsers (userEmail_FK, courseID_FK) values (?, 2);", [req.session.email], function(err, results, fields){
+        if(err) throw err;
+        
+        console.log("1 record inserted");
+        res.redirect('/Cursohtml');
+    })
+});
+
+app.post('/htmlcssAuth', (req, res) => {
+    if (req.session.loggedin) {
+        db.query("select * from courseUsers where userEmail_FK = ? and courseID_FK = 2;", [req.session.email], function(err, results, fields){
+            if(err) throw err;
+            
+            if(results.length > 0){
+                res.redirect('/htmlModules');
+            }
+            else{
+                res.redirect('/QHTML');
+            } 
+        })
+    } 
+    else {
+        res.redirect('/loginScreen');
+    }
+})
+app.post("/jsReg", (req, res) => {
+    db.query("insert into courseUsers (userEmail_FK, courseID_FK) values (?, 3);", [req.session.email], function(err, results, fields){
+        if(err) throw err;
+
+        console.log("1 record inserted");
+        res.redirect('/CursoJS');
+    })
+});
+
+app.post('/jsAuth', (req, res) => {
+    if (req.session.loggedin) {
+        db.query("select * from courseUsers where userEmail_FK = ? and courseID_FK = 3;", [req.session.email], function(err, results, fields){
+            if(err) throw err;
+            
+            if(results.length > 0){
+                res.redirect('/javaModules');
+            }
+            else{
+                res.redirect('/QJS');
+            } 
+        })
+    } 
+    else {
+        res.redirect('/loginScreen');
+    }
+})
+
+app.get('/userInfo', (req, res) => {
+    if (req.session.loggedin) {
+        db.query("select * from users where userEmail = ?", [req.session.email], function(err, results, fields){
+            if(err) throw err;
+            
+            if(results.length > 0){
+                res.json(results);
+                console.log(results);
+            }
+            else{
+                console.log("Couldn't find user.")
+            }
+        })
+    } 
+    else {
+        res.redirect('/loginScreen');
+    }
+})
 
 
 app.get('/', (req, res) => {
@@ -87,94 +209,18 @@ app.get('/CursoJS', function(req, res){
     res.sendFile(__dirname + '/HTMLs/CursoJavaScript.html');
 });
 
-
-app.post('/submit', (req, res) => {
-    const { email, senha, nome, cpf, telefone } = req.body;
-    
-   
-auth.createUserWithEmailAndPassword(auth.getAuth(), email, senha).
-then((userCredential) => {
-
-    const database = db.getFirestore()
-    const user = userCredential.user
-    const userData = {
-        email: email, 
-        nome: nome, 
-        cpf: cpf,
-        telefone: telefone,
-        last_signIn: Date.now()
-    }
-    const docRef = db.doc(database, 'users', user.uid)
-    db.setDoc(docRef, userData).then(() => {
-        console.log('Sucesso ao cadastrar na firestore!')
-    }).catch((error) => {
-        console.log('Erro ao registrar na firestore!')
-
-    })
-
-
-    res.json({message: 'Conta cadastrada com sucesso!'})
-
-}).catch((error) => {
-   res.status(500).json({ message: 'Erro ao realizar cadastro!' });
-})    
+app.get('/QGitHub', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Question/CourseGit.html');
 });
 
-
-app.post('/auth', (req, res) => {
-    const { email, senha } = req.body;
-
-    
-       
-        auth.signInWithEmailAndPassword(auth.getAuth(), email, senha)
-        .then((userCredential) => {
-
-            res.redirect('/Cursos');
-
-        })
-        .catch((error) => {
-            res.status(500).json({ message: 'Erro na autenticação!' });
-        })       
-    
+app.get('/QHTML', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Question/CourseHtmlCss.html');
 });
 
+app.get('/QJS', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Question/Coursejs.html');
+});
 
-app.get('/getAcc', (req,res) => {
-    const database = db.getFirestore()
-    auth.onAuthStateChanged(auth.getAuth(), (user) => {
-       const loggedInUserId = localStorage.getItem('loggedInUserId')
-       if(loggedInUserId){
-            const docRef = db.doc(db, 'users', loggedInUserId)
-            db.getDoc(docRef).then((docSnap) => {
-                if(docSnap.exists()){
-                    const userData = docSnap.data()
-                    res.json(userData)
-                }else{
-                    console.log('Nenhum documento encontrado com esse id!')
-                }
-            }).catch((error) => {
-                console.log('Erro ao encontrar o documento!')
-            })
-       } 
-    })
-
-})
-
-app.delete('/deleteAcc', (req,res) => {
-
-   
-})
-
-
-app.put('/updateAcc', (req,res) => {
-
-
-})
-
-app.put('/redefinePassword', (req,res) => {
-
-    
-})
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);

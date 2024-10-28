@@ -12,20 +12,12 @@
             transition: background-color 0.3s ease;
             color: #ccc;
         }
-        .perfil{
-            color:#818589;
-        }
-        .sair{
-            color:#6082B6;
-        }
-       .text{
-           font-size: 15px;
-           color:grey;
-       }
+
         .neumorphic {
             background: #303030;
             color: #ccc;
             box-shadow: 10px 10px 30px #1a1a1a, -10px -10px 30px #464646;
+            transition: all 0.3s ease;
         }
         
         .refs{
@@ -67,13 +59,11 @@
             border-radius: 10px;
             text-align: center;
             display: block;
-            margin-left: auto;
-            margin-right: 0;
         }
 
         .modal-content button {
-            background-color: grey;
-            color: 	#C0C0C0;
+            background-color: #4A90E2;
+            color: white;
             padding: 10px 20px;
             border: none;
             border-radius: 5px;
@@ -83,7 +73,7 @@
         }
 
         .modal-content button:hover {
-            background-color: white;
+            background-color: #357ABD;
         }
 
         .carousel {
@@ -154,9 +144,8 @@
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 class="text-xl mb-4">Acesso Rápido</h2>
-            <button onclick="window.location.href='/perfil'">Perfil<br><p class="text"> Gerencie seus dados</p></button>
-            <br>
-            <button onclick="window.location.href='/home'">Sair<br><p class="text"> Encerre sua Sessão</p></button>
+            <button onclick="window.location.href='/login'">Login</button>
+            <button onclick="window.location.href='/perfil'">Perfil</button>
         </div>
     </div>
 

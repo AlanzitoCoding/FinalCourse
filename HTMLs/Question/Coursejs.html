@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscrição - JavaScript Course</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .background-animation {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 15% 50%, rgba(255, 215, 0, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(88, 166, 255, 0.08) 0%, transparent 50%);
+            animation: bgPulse 8s ease infinite alternate;
+        }
+
+        @keyframes bgPulse {
+            0% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .subscription-container {
+            background: rgba(22, 27, 34, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
+            box-shadow:
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        }
+
+        .js-icon {
+            font-size: 3rem;
+            color: #f7df1e;
+            margin-bottom: 1.5rem;
+            animation: iconPulse 2s ease infinite alternate;
+        }
+
+        @keyframes iconPulse {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        .checkbox-group {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-group:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #f7df1e 0%, #e6d000 100%);
+            border: none;
+            border-radius: 10px;
+            color: #000;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(247, 223, 30, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(247, 223, 30, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .checkbox-input {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation"></div>
+
+    <div class="subscription-container">
+        <div class="text-center mb-8">
+            <i class="fab fa-js js-icon"></i>
+            <h1 class="text-2xl font-bold text-white mb-2">Curso de JavaScript</h1>
+            <p class="text-gray-400">Você quer se inscrever neste curso de JavaScript?</p>
+        </div>
+
+        <form id="subscriptionForm">
+            <label class="checkbox-group flex items-center">
+                <input type="radio" name="subscription" value="yes" class="checkbox-input" required>
+                <span class="text-white">Sim, quero me inscrever!</span>
+            </label>
+
+            <label class="checkbox-group flex items-center">
+                <input type="radio" name="subscription" value="no" class="checkbox-input" required>
+                <span class="text-white">Não, obrigado.</span>
+            </label>
+
+            <button type="submit" class="submit-btn mt-6">
+                <i class="fas fa-arrow-right mr-2"></i>
+                Enviar
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const enrollmentForm = document.getElementById('subscriptionForm');
+
+        enrollmentForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const selected = document.querySelector('input[name="subscription"]:checked');
+            
+            if (selected && selected.value === 'yes') {
+                const submitBtn = document.querySelector('.submit-btn');
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processando...';
+                
+                setTimeout(async() => {
+                    try {
+                        const response = await fetch('/jsReg', {
+                            method: 'POST'
+                        });
+
+                        if (response.ok) {
+                            console.log("Registro realizado com sucesso!");
+                            window.location.href = '/javaModules';
+                        } 
+                        else {
+                            console.error("Falha no registro");
+                        }
+                    } catch (error) {
+                        console.error('Erro ao fazer a requisição:', error);
+                    } 
+                }, 1500);
+            } else {
+                alert('Agradecemos seu interesse! Até a próxima!');
+                window.location.href = '/CursoJS';
+            }
+        });
+
+        const checkboxGroups = document.querySelectorAll('.checkbox-group');
+        checkboxGroups.forEach(group => {
+            group.addEventListener('mouseover', () => {
+                group.style.borderColor = '#f7df1e';
+            });
+
+            group.addEventListener('mouseout', () => {
+                group.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            });
+        });
+    </script>
+</body>
+</html>
