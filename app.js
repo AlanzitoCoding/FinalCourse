@@ -9,7 +9,7 @@ const port = 8081;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "cimatec",
+    password: "2006Pa#*#",
     database: "FinalCourse"
 });
 
@@ -152,7 +152,6 @@ app.get('/userInfo', (req, res) => {
             
             if(results.length > 0){
                 res.json(results);
-                console.log(results);
             }
             else{
                 console.log("Couldn't find user.")
@@ -163,6 +162,63 @@ app.get('/userInfo', (req, res) => {
         res.redirect('/loginScreen');
     }
 })
+
+app.get('/logout', (req, res) => {
+    req.session.loggedin = false;
+    req.session.email = '';
+    console.log('Logged out');
+    res.redirect('/');
+})
+
+app.post('/gitComment', (req, res) => {
+    const {comment} = req.body;
+
+    db.query("insert into comments (courseID_FK, userEmail_FK, userComment) values (1, ?, ?);", [req.session.email, comment], function(err, results, fields){
+        if(err) throw err;
+
+        console.log('Comment sent');
+    })
+})
+
+app.post('/htmlcssComment', (req, res) => {
+    const {comment} = req.body;
+
+    db.query("insert into comments (courseID_FK, userEmail_FK, userComment) values (2, ?, ?);", [req.session.email, comment], function(err, results, fields){
+        if(err) throw err;
+
+        console.log('Comment sent');
+    })
+})
+
+app.post('/jsComment', (req, res) => {
+    const {comment} = req.body;
+
+    db.query("insert into comments (courseID_FK, userEmail_FK, userComment) values (3, ?, ?);", [req.session.email, comment], function(err, results, fields){
+        if(err) throw err;
+
+        console.log('Comment sent');
+    })
+})
+
+app.post('/gitWatchedVideo', (req, res) => {
+    const {video} = req.body;
+
+    try {
+        db.query("insert into watchedVideos values (?, 1, ?, true);", [video, req.session.email], function(err, results, fields){
+            if(err) {
+                console.error(err);
+                res.status(500).json({ error: 'Erro ao salvar no banco de dados' });
+                return;
+            }
+
+            console.log('Vídeo salvo:', video);
+            res.json({ success: true, message: 'Vídeo marcado como assistido' });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
 
 
 app.get('/', (req, res) => {
