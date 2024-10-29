@@ -207,7 +207,72 @@ button:hover::before {
     50% {
         opacity: 1;
     }
+
+    
 }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            box-shadow: 
+                5px 5px 15px rgba(50, 50, 50, 0.6),
+                -5px -5px 15px rgba(66, 153, 225, 0.07);
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .modal-content p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-content button {
+            background: var(--primary-color) !important;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 16px;
+            width: 200px; /* Fixed width for buttons */
+            margin: 5px auto; /* Center horizontally */
+            display: block;
+        }
+
+        .modal-content button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+        }
     </style>
 </head>
 <body class="font-sans" onload="fetchData()">
@@ -234,23 +299,23 @@ button:hover::before {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="userInfo">
                         <div class="flex items-center">
                             <p class="font-bold mr-2">Nome:</p>
-                            <p id="uName" name="userName" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userName')"></i>
+                            <p contenteditable="true" id="uName" name="userName" class="mr-2"></p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uName')"></i>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">CPF:</p>
-                            <p id="uCPF" name="userCPF" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userCPF')"></i>
+                            <p contenteditable="true" id="uCPF" name="userCPF" class="mr-2"></p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uCPF')"></i>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">E-mail:</p>
-                            <p id="uEmail" name="userEmail" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userEmail')"></i>
+                            <p contenteditable="true" id="uEmail" name="userEmail" class="mr-2"></p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uEmail')"></i>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">Número:</p>
-                            <p id="uPhone" name="userPhone" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userPhone')"></i>
+                            <p contenteditable="true" id="uPhone" name="userPhone" class="mr-2"></p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uPhone')"></i>
                         </div>
                     </div>
                 </div>
@@ -260,14 +325,12 @@ button:hover::before {
         <div class="neumorphic p-8 mb-8 fade-in">
             <h2 class="text-2xl font-bold mb-4">Cursos Inscritos</h2>
             <ul id="enrolledCourses" class="list-disc list-inside">
-                <li>Curso de GitHub</li>
-                <li>Curso de HTML/CSS</li>
-                <li>Curso de JavaScript</li>
             </ul>
         </div>
         <form action="/logout">
             <p><button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Sair</button></p>
         </form>
+        <button id="deleteButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Excluir Conta</button>
     </div>
 
     <footer class="neumorphic p-4 mt-12">
@@ -275,6 +338,17 @@ button:hover::before {
             <p>&copy; 2024 Plataforma de Cursos. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 class="text-xl mb-4">Você realmente deseja excluir sua conta?</h2>
+            <form action="/deleteUser">
+                <button type="submit">Sim</button>
+            </form>
+
+            <button id="modalNao">Não</button>
+        </div>
+    </div>
 
     <script>
         function fetchData() {
@@ -311,8 +385,7 @@ button:hover::before {
             });
         }
 
-        document.addEventListener("DOMContentLoaded", fetchData());
-
+        
         function updateProfileImage(input) {
             if (input.files && input.files[0]) {
                 const reader = new FileReader();
@@ -322,28 +395,85 @@ button:hover::before {
                 reader.readAsDataURL(input.files[0]);
             }
         }
-
+        
         function toggleEdit(elementId) {
             const element = document.getElementById(elementId);
             const currentValue = element.textContent;
-
+            
             if (element.tagName === 'P') {
                 const input = document.createElement('input');
                 input.type = 'text';
                 input.value = currentValue;
                 input.className = 'edit-input';
                 input.onblur = function() {
-                    saveEdit(elementId, this.value);
+                    updateName(currentValue);
                 };
                 input.onkeypress = function(e) {
                     if (e.key === 'Enter') {
-                        saveEdit(elementId, this.value);
+                        updateName(currentValue);
                     }
                 };
                 element.parentNode.replaceChild(input, element);
                 input.focus();
             }
         }
-    </script>
+        
+        function updateName(){
+            fetch('/updateName',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify({userName: userName})
+            })
+            .then(results => results.json())
+            .then(data => {
+                fetchData();
+            })
+        }
+        
+        function listCourses(){
+            fetch('/listCourses')
+            .then(response => response.json())
+            .then(data => {
+                const enrolledCourses = document.getElementById('enrolledCourses');
+                
+                enrolledCourses.innerHTML = '<ul>';
+                
+                data.forEach(row => {
+                    enrolledCourses.innerHTML += `<li>${row.courseName}</li>`                
+                });
+
+                enrolledCourses.innerHTML += '</ul>';
+            })
+            .catch(error => {
+                console.error("Erro ao buscar dados do usuário: " + error);
+            });
+        }
+        
+        
+        const modal = document.getElementById("modal");
+        const deleteButton = document.getElementById("deleteButton");
+        const modalNao = document.getElementById('modalNao')
+        
+        deleteButton.onclick = () => {
+            modal.style.display = "flex";
+        };
+        
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+        
+        modalNao.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+
+        document.addEventListener("DOMContentLoaded", listCourses());
+        document.addEventListener("DOMContentLoaded", fetchData());
+        </script>
 </body>
 </html>

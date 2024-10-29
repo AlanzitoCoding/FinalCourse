@@ -343,6 +343,41 @@ app.get('/jsProgressPercentage', (req, res) => {
     }
 })
 
+app.put('/updateName', (req, res) => {
+    const {userName} = req.body;
+
+    db.query('update users set userName = ? where userEmail = ?;' [userName, req.session.email], function(err, results, fields){
+        if(err) throw err;
+
+        console.log("User name was successfully updated");
+    })
+})
+
+app.delete('/deleteUser', (req, res) => {
+    db.query('delete from users where userEmail = ?;', [req.session.email], function(err, results, fields){
+        if(err) throw err;
+
+        console.log("Successfully deleted");
+        req.session.loggedin = false;
+        req.session.email = '';
+
+        res.redirect('/');
+    })
+})
+
+app.get('/listCourses', (req, res) => {
+    db.query("select courseName from courseUsers inner join courses on courseID_FK = courseID and userEmail_FK = ?;", [req.session.email], function(err, results, fields){
+        if(err) throw err;
+        
+        if(results.length > 0){
+            console.log(results);
+            res.json(results);
+        }
+        else{
+            console.log("Couldn't find user.")
+        }
+    })
+})
 
 
 app.get('/', (req, res) => {
