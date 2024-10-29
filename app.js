@@ -10,6 +10,8 @@ const FileStore = require('session-file-store')(session);
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
     authDomain: "coursesportal-7e59f.firebaseapp.com",
@@ -54,11 +56,19 @@ app.get('/registerScreen', (req, res) => {
 });
 
 app.get('/perfil', (req, res) => {
-    res.sendFile(__dirname + 'perfil.html')
+    res.sendFile(__dirname + '/HTMLs/perfil.html')
 })
 
-app.get('/modulesScreen', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Modules/modules.html');
+app.get('/gitModules', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Modules/modulesGit.html');
+});
+
+app.get('/htmlModules', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Modules/modulesHtml.html');
+});
+
+app.get('/javaModules', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Modules/modulesJava.html');
 });
 
 app.get('/Cursos', function(req, res){
@@ -71,6 +81,10 @@ app.get('/CursoGithub', function(req, res){
 
 app.get('/Cursohtml', function(req, res){
     res.sendFile(__dirname + '/HTMLs/CursoHTML.html');
+});
+
+app.get('/CursoJS', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/CursoJavaScript.html');
 });
 
 

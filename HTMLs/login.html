@@ -40,59 +40,59 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(0, 0, 0, 0.4);
             z-index: -1;
         }
 
         .loginField {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            background-color: var(--highlight-color);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 10px 10px rgb(0, 0, 0, 0.3);
             width: 350px;
             text-align: center;
-            position: relative;
-            z-index: 1;
+            align-items: center;
         }
 
         h2 {
-            color: var(--text-color);
-            margin-bottom: 30px;
-            font-weight: 600;
+            color: #333;
+            margin-bottom: 20px;
         }
 
         input {
-            width: 100%;
-            padding: 15px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
-            border-radius: 10px;
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
             background-color: var(--background-color);
-            color: var(--text-color);
-            font-size: 16px;
-            transition: all 0.3s ease;
+            box-shadow: inset 5px 5px 10px var(--shadow-color),
+                        inset -5px -5px 10px var(--highlight-color);
         }
 
         input:focus {
             outline: none;
-            border-color: var(--primary-color);
+            box-shadow: inset 5px 5px 10px #444,
+                        inset -5px -5px 10px #777;
+            background-color: #999;
+            color: white;
         }
 
         button {
             width: 100%;
-            padding: 15px;
+            padding: 10px;
             border: none;
-            border-radius: 10px;
-            background: var(--primary-color);
+            border-radius: 5px;
+            background: linear-gradient(145deg, #888, #555);
             color: white;
-            font-size: 18px;
-            font-weight: 600;
+            font-size: 16px;
             cursor: pointer;
             transition: all 0.3s ease;
+            margin-bottom: 10px;
         }
 
         button:hover {
-            background: var(--secondary-color);
+            opacity: 0.9;
         }
 
         p {
@@ -143,6 +143,34 @@
         }
 
     </style>
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+<script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+    <script>
+      function handleCredentialResponse(response) {
+        const data = jwt_decode(response.credential)
+        console.log(data)
+      }
+      window.onload = function () {
+        google.accounts.id.initialize({
+          client_id: "1089442985258-l60e90ipc4t9ql8iamdd4p4pn5nnk0ov.apps.googleusercontent.com",
+          callback: handleCredentialResponse
+        });
+        google.accounts.id.renderButton(
+          document.getElementById("buttonDiv"),{          
+           theme: "outline",
+           type: "standard",
+           shape:"pill",
+           theme: "filled_black",
+           text: "signin_with",
+           size: "medium",
+           logo_alignment: "left" 
+        }  // customization attributes
+        );
+        google.accounts.id.prompt(); // also display the One Tap dialog
+      }
+    </script>
+
 </head>
 <body>
     <div class="overlay"></div>
@@ -156,9 +184,16 @@
             <input type="email" placeholder="E-mail" id="email" name="email" required>
             <input type="password" placeholder="Senha" id="senha" name="senha" required>
             <button type="submit">Entrar</button>
+             
+          
+             <div id="buttonDiv"></div>
+            
+
         </form>
         <p>Não possui uma conta? <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button></p>
     </div>
+
+    
 
     <script>
         document.getElementById('login-form').addEventListener('submit', async (e) => {

@@ -17,7 +17,7 @@
         }
         .neumorphic {
             background: #e0e5ec;
-            box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px  rgba(255,255,255, 0.5);
+            box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255, 0.5);
             border-radius: 10px;
             transition: all 0.3s ease;
         }
@@ -31,6 +31,30 @@
         }
         .fade-in {
             animation: fadeIn 1s ease-in;
+        }
+        .profile-image {
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        .profile-image:hover {
+            transform: scale(1.05);
+        }
+        .edit-icon {
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .edit-icon:hover {
+            color: #4299e1;
+        }
+        .edit-input {
+            background-color: transparent;
+            border: none;
+            border-bottom: 1px solid #4299e1;
+            outline: none;
+            padding: 2px 0;
         }
     </style>
 </head>
@@ -53,23 +77,38 @@
         <h1 class="text-4xl font-bold mb-8 text-center fade-in">Meu Perfil</h1>
 
         <div class="neumorphic p-8 mb-8 fade-in">
-            <h2 class="text-2xl font-bold mb-4">Informações Pessoais</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <p class="font-bold">Nome:</p>
-                    <p id="userName"></p>
+            <div class="flex flex-col md:flex-row items-center mb-8">
+                <div class="md:w-1/3 mb-4 md:mb-0 flex flex-col items-center">
+                    <img id="profileImage" src="https://picsum.photos/200" alt="Foto de Perfil" class="profile-image neumorphic mb-4">
+                    <label for="imageUpload" class="cursor-pointer bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300">
+                        Alterar Foto
+                    </label>
+                    <input type="file" id="imageUpload" accept="image/*" class="hidden" onchange="updateProfileImage(this)">
                 </div>
-                <div>
-                    <p class="font-bold">CPF:</p>
-                    <p id="userCPF"></p>
-                </div>
-                <div>
-                    <p class="font-bold">E-mail:</p>
-                    <p id="userEmail"></p>
-                </div>
-                <div>
-                    <p class="font-bold">Telefone:</p>
-                    <p id="userPhone"></p>
+                <div class="md:w-2/3 md:pl-8">
+                    <h2 class="text-2xl font-bold mb-4">Informações Pessoais</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="flex items-center">
+                            <p class="font-bold mr-2">Nome:</p>
+                            <p id="userName" class="mr-2">João da Silva</p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userName')"></i>
+                        </div>
+                        <div class="flex items-center">
+                            <p class="font-bold mr-2">CPF:</p>
+                            <p id="userCPF" class="mr-2">123.456.789-00</p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userCPF')"></i>
+                        </div>
+                        <div class="flex items-center">
+                            <p class="font-bold mr-2">E-mail:</p>
+                            <p id="userEmail" class="mr-2">joao.silva@email.com</p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userEmail')"></i>
+                        </div>
+                        <div class="flex items-center">
+                            <p class="font-bold mr-2">Número:</p>
+                            <p id="userPhone" class="mr-2">(11) 98765-4321</p>
+                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('userPhone')"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -83,18 +122,17 @@
             </ul>
         </div>
         <form action="login.html">
-            <p><button type="submit">Sair</button></p>
+            <p><button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Sair</button></p>
         </form>
     </div>
 
     <footer class="neumorphic p-4 mt-12">
         <div class="container mx-auto text-center">
-            <p>&copy; 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
+            <p>&copy; 2024 Plataforma de Cursos. Todos os direitos reservados.</p>
         </div>
     </footer>
 
     <script>
-        
         const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
 
@@ -105,8 +143,7 @@
             icon.classList.toggle('fa-sun');
         });
 
-       
-       /* const userData = {
+        const userData = {
             name: "João da Silva",
             cpf: "123.456.789-00",
             email: "joao.silva@email.com",
@@ -114,7 +151,6 @@
             enrolledCourses: ["Curso de GitHub", "Curso de HTML/CSS", "Curso de JavaScript"]
         };
 
-    
         document.getElementById('userName').textContent = userData.name;
         document.getElementById('userCPF').textContent = userData.cpf;
         document.getElementById('userEmail').textContent = userData.email;
@@ -122,26 +158,51 @@
 
         const enrolledCoursesElement = document.getElementById('enrolledCourses');
         enrolledCoursesElement.innerHTML = userData.enrolledCourses.map(course => `<li>${course}</li>`).join('');
-        */
-        function fetchData() {
-            fetch('/getAcc').then(response => response.json())
-            .then(userData => {
-                const userCPF = document.getElementById('userCPF')
-                const userEmail = document.getElementById('userEmail')
-                const userName = document.getElementById('userName')
-                const userPhone = document.getElementById('userPhone')
 
-                userCPF.innerHTML = userData.cpf
-                userName.innerHTML = userData.nome
-                userEmail.innerHTML = userData.email
-                userPhone.innerHTML = userData.telefone
-
-                
-            })
-
+        function updateProfileImage(input) {
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('profileImage').src = e.target.result;
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
         }
 
-        window.onload = fetchData();
+        function toggleEdit(elementId) {
+            const element = document.getElementById(elementId);
+            const currentValue = element.textContent;
+
+            if (element.tagName === 'P') {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = currentValue;
+                input.className = 'edit-input';
+                input.onblur = function() {
+                    saveEdit(elementId, this.value);
+                };
+                input.onkeypress = function(e) {
+                    if (e.key === 'Enter') {
+                        saveEdit(elementId, this.value);
+                    }
+                };
+                element.parentNode.replaceChild(input, element);
+                input.focus();
+            }
+        }
+
+        function saveEdit(elementId, newValue) {
+            const element = document.createElement('p');
+            element.id = elementId;
+            element.textContent = newValue;
+            element.className = 'mr-2';
+            const input = document.querySelector(`input.edit-input`);
+            input.parentNode.replaceChild(element, input);
+
+            // Update userData object
+            const key = elementId.replace('user', '').toLowerCase();
+            userData[key] = newValue;
+        }
     </script>
 </body>
 </html>

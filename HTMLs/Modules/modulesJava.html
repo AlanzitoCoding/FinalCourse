@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curso - Módulos de Vídeo</title>
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #181818;
+      color: #FFF;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 20px;
+      background-color: #202020;
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    header .btn-voltar {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      color: #FFF;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+
+    header .btn-voltar:hover {
+      color: #aaa;
+    }
+
+    header .btn-voltar::before {
+      content: "←";
+      margin-right: 8px;
+    }
+
+    header .curso-info {
+      text-align: right;
+    }
+
+    header .progress-bar {
+      flex-grow: 1;
+      margin: 0 20px;
+      background-color: #404040;
+      height: 10px;
+      border-radius: 5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header .progress {
+      height: 100%;
+      background-color: #e0e0e0;
+      border-radius: 5px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: 200px auto 300px;
+      gap: 20px;
+      padding: 20px;
+      height: calc(100vh - 80px);
+      overflow: hidden;
+    }
+
+    .navbar {
+      background-color: #202020;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 100%;
+      scrollbar-width: thin;
+      scrollbar-color: #555 #202020;
+    }
+
+    .navbar ul {
+      list-style: none;
+    }
+
+    .navbar ul li {
+      margin-bottom: 15px;
+    }
+
+    .navbar ul li a {
+      text-decoration: none;
+      color: #AAA;
+      padding: 10px;
+      display: block;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+      text-align: center;
+    }
+
+    .navbar ul li a:hover:not(.active) {
+      background-color: #333;
+    }
+
+    .navbar ul li a.active {
+        border: 1px solid #bebebe;
+    }
+
+    .video-section {
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-y: auto;
+      max-height: 100%;
+    }
+
+    .video-container {
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .video-container iframe {
+      width: 100%;
+      height: 450px;
+      border-radius: 10px;
+    }
+
+    .video-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    /* Botões */
+    .btn-like, .btn-dislike {
+      background-color: #303030;
+      color: white;
+      border: 1px solid #555;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-left: 5px;
+      transition: background-color 0.3s ease;
+      align-items: center;
+    }
+
+    .btn-like:hover, .btn-dislike:hover {
+      background-color: #888;
+    }
+
+    .btn-anterior, .btn-proxima {
+      background-color: #303030;
+      color: white;
+      border: 1px solid #555;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      align-items: center;
+    }
+
+    .btn-anterior:hover, .btn-proxima:hover {
+      background-color: #888;
+    }
+
+    .extra-section {
+      background-color: #202020;
+      padding: 20px;
+      overflow-y: auto;
+      max-height: 100%;
+    }
+
+    .btn-concluir {
+      display: block;
+      width: 100%;
+      padding: 10px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-bottom: 20px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn-concluir:hover {
+      background-color: #2ecc71;
+    }
+
+    .btn-concluir:active {
+      transform: scale(0.95);
+    }
+
+    .btn-concluir i {
+      margin-left: 8px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 400px;
+      padding: 10px;
+      border: 1px solid #555;
+      border-radius: 5px;
+      background-color: #333;
+      resize: none;
+      transition: background-color 0.3s ease, box-shadow 0.3s ease;
+      margin-top: 7px;
+    }
+
+    textarea:focus {
+      background-color: #bbb;
+      color: #000;
+      outline: none;
+    }
+
+    .btn-enviar {
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #303030;
+      color: white;
+      border: 1px solid #555;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+    }
+
+    .btn-enviar:hover {
+      background-color: #888;
+    }
+
+    .btn-enviar:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a class="btn-voltar" href="/Cursos">Cursos</a>
+    <div class="progress-bar">
+      <div class="progress"></div>
+    </div>
+    <div class="curso-info">
+      <h1>JavaScript</h1>
+    </div>
+  </header>
+
+  <main>
+    <aside class="navbar">
+      <ul>
+        <li><a href="#" onclick="loadVideo(0)" class="active">Aula 1</a></li>
+        <li><a href="#" onclick="loadVideo(1)">Aula 2</a></li>
+        <li><a href="#" onclick="loadVideo(2)">Aula 3</a></li>
+        <li><a href="#" onclick="loadVideo(3)">Aula 4</a></li>
+        <li><a href="#" onclick="loadVideo(4)">Aula 5</a></li>
+        <li><a href="#" onclick="loadVideo(5)">Aula 6</a></li>
+        <li><a href="#" onclick="loadVideo(6)">Aula 7</a></li>
+        <li><a href="#" onclick="loadVideo(7)">Aula 8</a></li>
+        <li><a href="#" onclick="loadVideo(8)">Aula 9</a></li>
+        <li><a href="#" onclick="loadVideo(9)">Aula 10</a></li>
+        <li><a href="#" onclick="loadVideo(10)">Aula 11</a></li>
+        <li><a href="#" onclick="loadVideo(11)">Aula 12</a></li>
+        <li><a href="#" onclick="loadVideo(12)">Aula 13</a></li>
+        <li><a href="#" onclick="loadVideo(13)">Aula 14</a></li>
+        <li><a href="#" onclick="loadVideo(14)">Aula 15</a></li>
+        <li><a href="#" onclick="loadVideo(15)">Aula 16</a></li>
+        <li><a href="#" onclick="loadVideo(16)">Aula 17</a></li>
+        <li><a href="#" onclick="loadVideo(17)">Aula 18</a></li>
+        <li><a href="#" onclick="loadVideo(18)">Aula 19</a></li>
+        <li><a href="#" onclick="loadVideo(19)">Aula 20</a></li>
+      </ul>
+    </aside>
+
+    <section class="video-section">
+      <div class="video-container">
+        <iframe id="videoFrame" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=kxHcSaw7uUfY9o1t" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+        <div class="video-controls">
+          <div>
+            <button class="btn-like"><i class="ph ph-thumbs-up"></i></button>
+            <button class="btn-dislike"><i class="ph ph-thumbs-down"></i></button>
+          </div>
+          <div>
+            <button class="btn-anterior" onclick="previousModule()"><i class="ph ph-arrow-left"></i> Anterior</button>
+            <button class="btn-proxima" onclick="nextModule()">Próxima <i class="ph ph-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="extra-section">
+      <button class="btn-concluir" onclick="completeModule()">Marcar como Concluída</button>
+      <div class="comentario-section">
+        <label for="comentario">Deixe um comentário:</label>
+        <textarea id="comentario" rows="4" placeholder="Escreva aqui seu comentário..."></textarea>
+        <button class="btn-enviar">Enviar Comentário<i class="ph ph-chat-text"></i></button>
+      </div>
+    </aside>
+  </main>
+
+  <script>
+    const videos = [
+        "https://www.youtube.com/embed/uzEhd3Lugik?si=UT2oRZhD5QNlatCq", 
+        "https://www.youtube.com/embed/Ptbk2af68e8?si=YOqBdOX6nBOWW7xN", 
+        "https://www.youtube.com/embed/rUTKomc2gG8?si=ryy_V6v3dc1qvAKE", 
+        "https://www.youtube.com/embed/FdePtO5JSd0?si=Cczyyo6K9KF_qx82", 
+        "https://www.youtube.com/embed/OmmJBfcMJA8?si=vrsZpna_9dmNqeFO", 
+        "https://www.youtube.com/embed/FjT97HVT5g8?si=Nh1qnodC8Rhg3l0o",
+        "https://www.youtube.com/embed/Vbabsye7mWo?si=DS40zw7ZWdcSGjWq",
+        "https://www.youtube.com/embed/OJgu_KCCUSY?si=-ntswZ483gKR61xf",
+        "https://www.youtube.com/embed/hZG9ODUdxHo?si=cOnREfoPCnQ6oIpF",
+        "https://www.youtube.com/embed/BP63NhITvao?si=vMDSarKnOcN-RiQF",
+        "https://www.youtube.com/embed/H80nCKs9c2k?si=3_OYcU2uI-LAhJg-",
+        "https://www.youtube.com/embed/WWZX8RWLxIk?si=i27r2LYxrvIp-_Fb", 
+        "https://www.youtube.com/embed/wWnBB-mZIvY?si=UOpaOzy9boBQAalt", 
+        "https://www.youtube.com/embed/uPFasdmZHJc?si=JCuxzEACGH-C_UL6", 
+        "https://www.youtube.com/embed/cOdG4eACN2A?si=bvoCFupqFNntaZUz", 
+        "https://www.youtube.com/embed/EEStcIe8rAM?si=b-r6POMwdWIs1tnF", 
+        "https://www.youtube.com/embed/3emz6rpcJyA?si=H4JX7FAVoL4oq5YM", 
+        "https://www.youtube.com/embed/5rZqYPKIwkY?si=0gcjaTg9aQUz2jhF", 
+        "https://www.youtube.com/embed/eX-lkN_Zahc?si=bh4V2r206pvOhz1p", 
+        "https://www.youtube.com/embed/5m4UhZd-Les?si=jb24EuQJXK5Wl2-l", 
+    ];
+
+    let currentModule = 0;
+    const totalModules = videos.length;
+
+    function loadVideo(moduleIndex) {
+        currentModule = moduleIndex;
+        document.getElementById('videoFrame').src = videos[moduleIndex];
+        updateActiveLink();
+        updateProgress();
+    }
+
+    function previousModule() {
+        if (currentModule > 0) {
+            loadVideo(currentModule - 1);
+        }
+    }
+
+    function nextModule() {
+        if (currentModule < videos.length - 1) {
+            loadVideo(currentModule + 1);
+        }
+    }
+    
+    function updateActiveLink() {
+        const links = document.querySelectorAll('.navbar ul li a');
+        links.forEach((link, index) => {
+            link.classList.toggle('active', index === currentModule);
+        });
+    }
+
+    function updateProgress() {
+        const completedModules = parseInt(localStorage.getItem('completedModules') || '0');
+        const progress = (completedModules / totalModules) * 100;
+        document.querySelector('.progress').style.width = `${progress}%`;
+    }
+
+    function completeModule() {
+        let completedModules = parseInt(localStorage.getItem('completedModules') || '0');
+        if (currentModule + 1 > completedModules) {
+            completedModules = currentModule + 1;
+            localStorage.setItem('completedModules', completedModules);
+            updateProgress();
+            alert(`Módulo ${currentModule + 1} concluído!`);
+        } else {
+            alert('Este módulo já foi concluído anteriormente.');
+        }
+    }
+
+    loadVideo(0);
+    updateProgress();
+  </script>
+</body>
+</html>
