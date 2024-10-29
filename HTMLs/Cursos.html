@@ -360,22 +360,37 @@ body::before {
 
         
         function updateGitHubProgress() {
-            const completedModules = parseInt(localStorage.getItem('completedModules') || '0');
-            const totalModules = 12; 
-            const progress = (completedModules / totalModules) * 100;
-            document.getElementById('github-progress').style.width = `${progress}%`;
+            fetch('/gitProgressPercentage')
+            .then(response => response.json())
+            .then(data => {
+
+            const progressBar = document.querySelector('#github-progress'); 
+            data.forEach(row => {
+                progressBar.style.width = `${row.percentage}%`;
+            })
+            })
         }
         function updatehtmlProgress() {
-            const completedModules = parseInt(localStorage.getItem('completedModules') || '0');
-            const totalModules = 12; 
-            const progress = (completedModules / totalModules) * 100;
-            document.getElementById('html-progress').style.width = `${progress}%`;
+            fetch('/htmlcssProgressPercentage')
+            .then(response => response.json())
+            .then(data => {
+
+            const progressBar = document.querySelector('#html-progress'); 
+            data.forEach(row => {
+                progressBar.style.width = `${row.percentage}%`;
+            })
+            })
         }
         function updatejsProgress() {
-            const completedModules = parseInt(localStorage.getItem('completedModules') || '0');
-            const totalModules = 12; 
-            const progress = (completedModules / totalModules) * 100;
-            document.getElementById('js-progress').style.width = `${progress}%`;
+            fetch('/jsProgressPercentage')
+            .then(response => response.json())
+            .then(data => {
+
+            const progressBar = document.querySelector('#js-progress'); 
+            data.forEach(row => {
+                progressBar.style.width = `${row.percentage}%`;
+            })
+            })
         }
 
         

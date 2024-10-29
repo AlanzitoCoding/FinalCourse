@@ -220,6 +220,130 @@ app.post('/gitWatchedVideo', (req, res) => {
     }
 });
 
+app.post('/htmlcssWatchedVideo', (req, res) => {
+    const {video} = req.body;
+
+    try {
+        db.query("insert into watchedVideos values (?, 2, ?, true);", [video, req.session.email], function(err, results, fields){
+            if(err) {
+                console.error(err);
+                res.status(500).json({ error: 'Erro ao salvar no banco de dados' });
+                return;
+            }
+
+            console.log('Vídeo salvo:', video);
+            res.json({ success: true, message: 'Vídeo marcado como assistido' });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
+
+app.post('/jsWatchedVideo', (req, res) => {
+    const {video} = req.body;
+
+    try {
+        db.query("insert into watchedVideos values (?, 3, ?, true);", [video, req.session.email], function(err, results, fields){
+            if(err) {
+                console.error(err);
+                res.status(500).json({ error: 'Erro ao salvar no banco de dados' });
+                return;
+            }
+
+            console.log('Vídeo salvo:', video);
+            res.json({ success: true, message: 'Vídeo marcado como assistido' });
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+});
+
+app.post('/checkVideo', (req, res) => {
+    const {video} = req.body;
+
+    try {
+        db.query("select * from watchedVideos where videoLink_FK = ? and userEmail_FK = ?;", [video, req.session.email], function(err, results, fields){
+            if(err) {
+                console.error(err);
+                res.status(500).json({ error: 'Erro ao checar no banco de dados' });
+                return;
+            }
+
+            if(results.length > 0){
+                console.log(1)
+                res.json(1);
+            }
+            else{
+                console.log(0);
+                res.json(0);
+            }
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+})
+
+app.get('/gitProgressPercentage', (req, res) => {
+    try {
+        db.query("select sum(wv.isWatched)*100/c.modulesAmount as percentage from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID and wv.courseID_FK = 1 and userEmail_FK = ? group by courseID;", [req.session.email], function(err, results, fields){
+            if(err) {
+                console.error(err);
+                res.status(500).json({ error: 'Erro ao checar no banco de dados' });
+                return;
+            }
+
+            console.log(results)
+            res.json(results);
+            
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+})
+
+app.get('/htmlcssProgressPercentage', (req, res) => {
+    try {
+        db.query("select sum(wv.isWatched)*100/c.modulesAmount as percentage from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID and wv.courseID_FK = 2 and userEmail_FK = ? group by courseID;", [req.session.email], function(err, results, fields){
+            if(err) {
+                console.error(err);
+                res.status(500).json({ error: 'Erro ao checar no banco de dados' });
+                return;
+            }
+
+            console.log(results)
+            res.json(results);
+            
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+})
+
+app.get('/jsProgressPercentage', (req, res) => {
+    try {
+        db.query("select sum(wv.isWatched)*100/c.modulesAmount as percentage from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID and wv.courseID_FK = 3 and userEmail_FK = ? group by courseID;", [req.session.email], function(err, results, fields){
+            if(err) {
+                console.error(err);
+                res.status(500).json({ error: 'Erro ao checar no banco de dados' });
+                return;
+            }
+
+            console.log(results)
+            res.json(results);
+            
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Erro interno do servidor' });
+    }
+})
+
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTMLs', 'home.html'));

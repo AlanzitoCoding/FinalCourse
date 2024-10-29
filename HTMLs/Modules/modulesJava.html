@@ -311,7 +311,7 @@
     </section>
 
     <aside class="extra-section">
-      <button class="btn-concluir" onclick="sendVideoData()">Marcar como Concluída</button>
+      <button class="btn-concluir" onclick="completeModule()">Marcar como Concluída</button>
       <div class="comentario-section">
         <form action="/jsComment" method="post">
           <label for="comentario">Deixe um comentário:</label>
@@ -376,21 +376,41 @@
     }
 
     function updateProgress() {
-        const completedModules = parseInt(localStorage.getItem('completedModules') || '0');
-        const progress = (completedModules / totalModules) * 100;
-        document.querySelector('.progress').style.width = `${progress}%`;
+        fetch('/jsProgressPercentage')
+        .then(response => response.json())
+        .then(data => {
+
+          const progressBar = document.querySelector('.progress'); 
+          data.forEach(row => {
+            progressBar.style.width = `${row.percentage}%`;
+          })
+        })
     }
 
     function completeModule() {
-        let completedModules = parseInt(localStorage.getItem('completedModules') || '0');
-        if (currentModule + 1 > completedModules) {
-            completedModules = currentModule + 1;
-            localStorage.setItem('completedModules', completedModules);
-            updateProgress();
-            alert(`Módulo ${currentModule + 1} concluído!`);
-        } else {
-            alert('Este módulo já foi concluído anteriormente.');
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+
+      fetch('/checkVideo', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ video: videoSrc })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data === 1){
+          alert('Este módulo já foi concluído!');
         }
+        else{
+          sendVideoData();
+          updateProgress();
+        }
+      })
+      .catch((error) => {
+          console.error('Erro:', error);
+      });
     }
 
     function sendVideoData() {
@@ -399,7 +419,7 @@
 
       console.log('Enviando video:', videoSrc);
         
-      fetch('/gitWatchedVideo', {
+      fetch('/jsWatchedVideo', {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
