@@ -354,16 +354,26 @@ app.put('/updateName', (req, res) => {
 })
 
 app.delete('/deleteUser', (req, res) => {
-    db.query('delete from users where userEmail = ?;', [req.session.email], function(err, results, fields){
-        if(err) throw err;
+    if (!req.session.loggedin) {
+        return res.redirect('/loginScreen');
+    }
 
-        console.log("Successfully deleted");
-        req.session.loggedin = false;
-        req.session.email = '';
+    db.query('DELETE FROM users WHERE userEmail = ?', [req.session.email], (err, results) => {
+        if (err) {
+            console.error('Erro ao deletar usuário:', err);
+            return res.status(500).send('Erro ao deletar conta');
+        }
 
-        res.redirect('/');
-    })
-})
+        console.log('User deletado')
+        // Destruir a sessão
+        req.session.destroy((err) => {
+            if (err) {
+                console.error('Erro ao destruir sessão:', err);
+            }
+            res.redirect('/');
+        });
+    });
+});
 
 app.get('/listCourses', (req, res) => {
     db.query("select courseName from courseUsers inner join courses on courseID_FK = courseID and userEmail_FK = ?;", [req.session.email], function(err, results, fields){

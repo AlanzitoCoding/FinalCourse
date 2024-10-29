@@ -341,8 +341,8 @@ button:hover::before {
 
     <div class="modal" id="modal">
         <div class="modal-content">
+            <form action="/deleteUser" method="delete">
             <h2 class="text-xl mb-4">Você realmente deseja excluir sua conta?</h2>
-            <form action="/deleteUser">
                 <button type="submit">Sim</button>
             </form>
 
@@ -454,7 +454,6 @@ button:hover::before {
         
         const modal = document.getElementById("modal");
         const deleteButton = document.getElementById("deleteButton");
-        const modalNao = document.getElementById('modalNao')
         
         deleteButton.onclick = () => {
             modal.style.display = "flex";
@@ -466,11 +465,9 @@ button:hover::before {
             }
         };
         
-        modalNao.onclick = (event) => {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        };
+        document.getElementById('modalNao').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'none';
+        });
 
         document.addEventListener("DOMContentLoaded", listCourses());
         document.addEventListener("DOMContentLoaded", fetchData());

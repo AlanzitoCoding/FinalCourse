@@ -254,6 +254,70 @@
     .btn-enviar:active {
       transform: scale(0.95);
     }
+
+    .modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(5px);
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+      }
+
+      .modal-content {
+          background: rgba(10, 10, 10, 0.95);
+          padding: 30px;
+          border-radius: 10px;
+          text-align: center;
+          border: 1px solid rgba(66, 153, 225, 0.1);
+          box-shadow: 
+              5px 5px 15px rgba(50, 50, 50, 0.6),
+              -5px -5px 15px rgba(66, 153, 225, 0.07);
+          max-width: 400px;
+          width: 90%;
+          transform: scale(0.9);
+          transition: transform 0.3s ease;
+      }
+
+      .modal.active .modal-content {
+          transform: scale(1);
+      }
+
+      .modal-content h2 {
+          margin-bottom: 20px;
+          color: var(--primary-color);
+      }
+
+      .modal-content p {
+          margin-bottom: 25px;
+          line-height: 1.6;
+      }
+
+      .modal-content button {
+          background: var(--primary-color) !important;
+          color: white;
+          padding: 12px 25px;
+          border: none;
+          border-radius: 5px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+          font-size: 16px;
+          width: 200px; /* Fixed width for buttons */
+          margin: 5px auto; /* Center horizontally */
+          display: block;
+      }
+
+      .modal-content button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+      }
   </style>
 </head>
 <body>
@@ -266,6 +330,12 @@
       <h1>GitHub</h1>
     </div>
   </header>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+        <h2 class="text-xl mb-4">Acesso Rápido</h2>
+    </div>
+  </div>
 
   <main>
     <aside class="navbar">
@@ -303,6 +373,7 @@
             <textarea id="comentario" name="comment" rows="4" placeholder="Escreva aqui seu comentário..."></textarea>
             <button class="btn-enviar" type="submit">Enviar Comentário<i class="ph ph-chat-text"></i></button>
         </form>
+        <button id="commentsButton">Ver comentários</button>
       </div>
     </aside>
   </main>
@@ -407,80 +478,22 @@
 
     loadVideo(0);
     updateProgress();
-
-        let player;
-        let currentTime = 0;
-
-        // Criar o player do YouTube
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('player', {
-                height: '360',
-                width: '640',
-                videoId: 'dQw4w9WgXcQ', // Substitua pelo ID do vídeo desejado
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-
-        function onPlayerReady(event) {
-            updateProgressBar();
-            setInterval(updateProgressBar, 1000);
-        }
-
-        function onPlayerStateChange(event) {
-            if (event.data == YT.PlayerState.PAUSED) {
-                saveCurrentTime();
-            }
-        }
-
-        function updateProgressBar() {
-            if (player && player.getCurrentTime) {
-                currentTime = player.getCurrentTime();
-                const duration = player.getDuration();
-                const progress = (currentTime / duration) * 100;
-                document.getElementById('progress').style.width = `${progress}%`;
-            }
-        }
-
-        function saveCurrentTime() {
-            database.ref('lastWatchedTime').set({
-                time: currentTime
-            });
-        }
-
-        function resumeVideo() {
-            database.ref('lastWatchedTime').once('value').then((snapshot) => {
-                const savedTime = snapshot.val().time;
-                if (savedTime) {
-                    player.seekTo(savedTime, true);
-                    player.playVideo();
-                }
-            });
-        }
-
-        document.getElementById('playPauseBtn').addEventListener('click', () => {
-            if (player.getPlayerState() == YT.PlayerState.PLAYING) {
-                player.pauseVideo();
-            } else {
-                player.playVideo();
-            }
-        });
-
-        document.getElementById('resumeBtn').addEventListener('click', resumeVideo);
-
-        // Alternância do modo escuro
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
-
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-        });
-
         // Animação de flutuação
-        const container = document.querySelector('.container');
-        container.classList.add('floating');
+      const container = document.querySelector('.container');
+      container.classList.add('floating');
+
+      const modal = document.getElementById("modal");
+      const commentsButton = document.getElementById("commentsButton");
+        
+      commentsButton.onclick = () => {
+          modal.style.display = "flex";
+      };
+        
+      window.onclick = (event) => {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      };
   </script>
 </body>
 </html>
