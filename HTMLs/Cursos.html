@@ -7,45 +7,286 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            background-color: #e0e5ec;
-            transition: background-color 0.3s ease;
-        }
-        .dark-mode {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        .neumorphic {
-            background: #e0e5ec;
-            box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px  rgba(255,255,255, 0.5);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        .dark-mode .neumorphic {
-            background: #2d3748;
-            box-shadow: 9px 9px 16px rgba(0,0,0,0.4), -9px -9px 16px rgba(255,255,255,0.1);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .fade-in {
-            animation: fadeIn 1s ease-in;
-        }
-        .progress-container {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        .progress-bar {
-            height: 10px;
-            transition: width 0.5s ease-in-out;
-        }
-        .dark-mode .progress-container {
-            background-color: #4a5568;
-        }
+        :root {
+    --primary-color: #4299e1;
+    --secondary-color: #2b6cb0;
+    --dark-bg: #0a0a0a;
+    --light-shadow: rgba(255, 255, 255, 0.7);
+    --dark-shadow: rgba(0, 0, 0, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: #a0aec0;
+    --bg-card: rgba(10, 10, 10, 0.95);
+}
+
+/* Animated Background (mantido do perfil) */
+@keyframes lineMove {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+body {
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Animated Lines Background (mantido do perfil) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 45%, rgba(66, 153, 225, 0.1) 45%, rgba(66, 153, 225, 0.1) 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, rgba(66, 153, 225, 0.1) 45%, rgba(66, 153, 225, 0.1) 55%, transparent 55%);
+    background-size: 60px 60px;
+    animation: lineMove 20s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.course-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 
+        5px 5px 15px rgba(0, 0, 0, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        8px 8px 20px rgba(0, 0, 0, 0.6),
+        -8px -8px 20px rgba(66, 153, 225, 0.07);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.course-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid rgba(66, 153, 225, 0.1);
+}
+
+.course-content {
+    padding: 1.5rem;
+}
+
+.course-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.course-description {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+/* Enhanced Neumorphic Styles */
+.neumorphic {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    box-shadow: 
+        5px 5px 15px rgba(50, 50, 50, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+    transition: all 0.3s ease;
+}
+
+.neumorphic:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        8px 8px 20px rgba(50, 50, 50, 0.6),
+        -8px -8px 20px rgba(66, 153, 225, 0.07);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.progress-container {
+    width: 100%;
+    background: rgba(255, 253, 253, 0.3);
+    border-radius: 9999px;
+    height: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 9999px;
+    transition: width 0.5s ease-in-out;
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(66, 153, 225, 0.1);
+}
+
+.course-stats {
+    display: flex;
+    gap: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.course-price {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.enroll-button {
+    width: 100%;
+    background: var(--primary-color) !important;
+    border: none !important;
+    color: #ffffff !important;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: bold !important;
+    text-align: center;
+    transition: all 0.3s ease !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.enroll-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.enroll-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+}
+
+.enroll-button:hover::before {
+    left: 100%;
+}
+
+/* Filters section */
+.filters {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin: 2rem auto;
+    max-width: 1400px;
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    box-shadow: 
+        5px 5px 15px rgba(0, 0, 0, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+}
+
+.search-bar {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(15, 15, 15, 0.9);
+    border: none;
+    border-bottom: 2px solid var(--primary-color);
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+    background: rgba(20, 20, 20, 0.9);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+    outline: none;
+}
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-tag {
+    background: rgba(15, 15, 15, 0.9);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(66, 153, 225, 0.1);
+}
+
+.filter-tag:hover,
+.filter-tag.active {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+}
+
+@media (max-width: 640px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .course-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { 
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
     </style>
 </head>
 <body class="font-sans">

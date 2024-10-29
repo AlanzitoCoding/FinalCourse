@@ -7,69 +7,213 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            background-color: #e0e5ec;
-            transition: background-color 0.3s ease;
-        }
-        .dark-mode {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        .neumorphic {
-            background: #e0e5ec;
-            box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px rgba(255,255,255, 0.5);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        .dark-mode .neumorphic {
-            background: #2d3748;
-            box-shadow: 9px 9px 16px rgba(0,0,0,0.4), -9px -9px 16px rgba(255,255,255,0.1);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .fade-in {
-            animation: fadeIn 1s ease-in;
-        }
-        .profile-image {
-            width: 200px;
-            height: 200px;
-            object-fit: cover;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-        .profile-image:hover {
-            transform: scale(1.05);
-        }
-        .edit-icon {
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .edit-icon:hover {
-            color: #4299e1;
-        }
-        .edit-input {
-            background-color: transparent;
-            border: none;
-            border-bottom: 1px solid #4299e1;
-            outline: none;
-            padding: 2px 0;
-        }
+        /* Custom Properties */
+:root {
+    --primary-color: #4299e1;
+    --secondary-color: #2b6cb0;
+    --dark-bg: #0a0a0a;
+    --light-shadow: rgba(255, 255, 255, 0.7);
+    --dark-shadow: rgba(0, 0, 0, 0.2);
+}
+
+/* Animated Background */
+@keyframes lineMove {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+/* Base Styles */
+body {
+    background: var(--dark-bg);
+    color: #ffffff;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Animated Lines Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 45%, rgba(66, 153, 225, 0.1) 45%, rgba(66, 153, 225, 0.1) 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, rgba(66, 153, 225, 0.1) 45%, rgba(66, 153, 225, 0.1) 55%, transparent 55%);
+    background-size: 60px 60px;
+    animation: lineMove 20s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+/* Enhanced Neumorphic Styles */
+.neumorphic {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    box-shadow: 
+        5px 5px 15px rgba(50, 50, 50, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+    transition: all 0.3s ease;
+}
+
+.neumorphic:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        8px 8px 20px rgba(0, 0, 0, 0.6),
+        -8px -8px 20px rgba(66, 153, 225, 0.07);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+/* Navigation Styles */
+nav a {
+    color: #ffffff;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    transition: width 0.3s ease;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Form Elements */
+.edit-input {
+    background: rgba(15, 15, 15, 0.9);
+    color: #ffffff;
+    border: none;
+    border-bottom: 2px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.edit-input:focus {
+    background: rgba(20, 20, 20, 0.9);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+}
+
+/* Course List Styles */
+#enrolledCourses li {
+    background: rgba(15, 15, 15, 0.9);
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    transition: all 0.3s ease;
+}
+
+#enrolledCourses li:hover {
+    background: rgba(20, 20, 20, 0.9);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+    transform: translateX(5px);
+}
+
+/* Profile Image Styles */
+.profile-image {
+    border: 4px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.profile-image:hover {
+    transform: scale(1.05);
+    border-color: var(--secondary-color);
+}
+
+/* Dark Mode Toggle adjustments */
+#darkModeToggle {
+    background: rgba(20, 20, 20, 0.9);
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+#darkModeToggle:hover {
+    background: rgba(25, 25, 25, 0.9);
+    transform: scale(1.05);
+}
+
+/* Button Styles */
+button {
+    background: var(--primary-color) !important;
+    border: none !important;
+    color: #ffffff !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+}
+
+button:hover::before {
+    left: 100%;
+}
+
+/* Adicional: Efeito de brilho nas bordas dos elementos importantes */
+.highlight-container {
+    position: relative;
+}
+
+.highlight-container::after {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, 
+        transparent, 
+        rgba(66, 153, 225, 0.1), 
+        transparent
+    );
+    border-radius: inherit;
+    z-index: -1;
+    animation: borderGlow 2s ease-in-out infinite;
+}
+
+@keyframes borderGlow {
+    0%, 100% {
+        opacity: 0.5;
+    }
+    50% {
+        opacity: 1;
+    }
+}
     </style>
 </head>
 <body class="font-sans" onload="fetchData()">
     <nav class="neumorphic p-4 mb-8">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold">Plataforma de Cursos</a>
-            <div>
-                <a href="home.html" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
-                <a href="cursos.html" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
-                <a href="perfil.html" class="mx-2 hover:text-blue-500 transition duration-300">Meu Perfil</a>
-                <button id="darkModeToggle" class="ml-4 focus:outline-none">
-                    <i class="fas fa-moon"></i>
-                </button>
-            </div>
+            <a href="/" class="text-2xl font-bold"><- Voltar a Tela Principal</a>
         </div>
     </nav>
 
