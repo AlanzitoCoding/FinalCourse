@@ -7,58 +7,317 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            background-color: #e0e5ec;
-            transition: background-color 0.3s ease;
-        }
-        .dark-mode {
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        .neumorphic {
-            background: #e0e5ec;
-            box-shadow: 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px  rgba(255,255,255, 0.5);
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        .dark-mode .neumorphic {
-            background: #2d3748;
-            box-shadow: 9px 9px 16px rgba(0,0,0,0.4), -9px -9px 16px rgba(255,255,255,0.1);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .fade-in {
-            animation: fadeIn 1s ease-in;
-        }
-        .progress-container {
-            width: 100%;
-            background-color: #e0e0e0;
-            border-radius: 5px;
-            overflow: hidden;
-            margin: 10px 0;
-        }
-        .progress-bar {
-            height: 10px;
-            transition: width 0.5s ease-in-out;
-        }
-        .dark-mode .progress-container {
-            background-color: #4a5568;
-        }
+        :root {
+    --primary-color: #4299e1;
+    --secondary-color: #2b6cb0;
+    --dark-bg: #0a0a0a;
+    --light-shadow: rgba(255, 255, 255, 0.7);
+    --dark-shadow: rgba(0, 0, 0, 0.2);
+    --text-primary: #ffffff;
+    --text-secondary: #a0aec0;
+    --bg-card: rgba(10, 10, 10, 0.95);
+}
+
+/* Animated Background (mantido do perfil) */
+@keyframes lineMove {
+    0% {
+        background-position: 0% 0%;
+    }
+    100% {
+        background-position: 100% 100%;
+    }
+}
+
+body {
+    background: var(--dark-bg);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    position: relative;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+/* Animated Lines Background (mantido do perfil) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        linear-gradient(45deg, transparent 45%, rgba(66, 153, 225, 0.1) 45%, rgba(66, 153, 225, 0.1) 55%, transparent 55%),
+        linear-gradient(-45deg, transparent 45%, rgba(66, 153, 225, 0.1) 45%, rgba(66, 153, 225, 0.1) 55%, transparent 55%);
+    background-size: 60px 60px;
+    animation: lineMove 20s linear infinite;
+    z-index: -1;
+    opacity: 0.5;
+}
+
+.course-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.course-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 
+        5px 5px 15px rgba(0, 0, 0, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+    transition: all 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        8px 8px 20px rgba(0, 0, 0, 0.6),
+        -8px -8px 20px rgba(66, 153, 225, 0.07);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.course-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 2px solid rgba(66, 153, 225, 0.1);
+}
+
+.course-content {
+    padding: 1.5rem;
+}
+
+.course-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.course-description {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+/* Enhanced Neumorphic Styles */
+.neumorphic {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    box-shadow: 
+        5px 5px 15px rgba(50, 50, 50, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+    transition: all 0.3s ease;
+}
+
+.neumorphic:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        8px 8px 20px rgba(50, 50, 50, 0.6),
+        -8px -8px 20px rgba(66, 153, 225, 0.07);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+}
+
+.refs {
+    display: flex;
+    align-items: center;
+}
+
+.refs img {
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 50px;
+    border: 2px solid var(--primary-color);
+    margin-left: 50px;
+    transition: all 0.3s ease;
+}
+
+.refs img:hover {
+    transform: scale(1.1);
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 15px var(--primary-color);
+}
+
+.progress-container {
+    width: 100%;
+    background: rgba(255, 253, 253, 0.3);
+    border-radius: 9999px;
+    height: 8px;
+    overflow: hidden;
+    margin: 1rem 0;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 9999px;
+    transition: width 0.5s ease-in-out;
+}
+
+.course-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(66, 153, 225, 0.1);
+}
+
+.course-stats {
+    display: flex;
+    gap: 1rem;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+}
+
+.course-price {
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+.enroll-button {
+    width: 100%;
+    background: var(--primary-color) !important;
+    border: none !important;
+    color: #ffffff !important;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    font-weight: bold !important;
+    text-align: center;
+    transition: all 0.3s ease !important;
+    position: relative;
+    overflow: hidden;
+}
+
+.enroll-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.2),
+        transparent
+    );
+    transition: 0.5s;
+}
+
+.enroll-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+}
+
+.enroll-button:hover::before {
+    left: 100%;
+}
+
+/* Filters section */
+.filters {
+    background: var(--bg-card);
+    backdrop-filter: blur(10px);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    margin: 2rem auto;
+    max-width: 1400px;
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    box-shadow: 
+        5px 5px 15px rgba(0, 0, 0, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+}
+
+.search-bar {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(15, 15, 15, 0.9);
+    border: none;
+    border-bottom: 2px solid var(--primary-color);
+    border-radius: 0.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-bar:focus {
+    background: rgba(20, 20, 20, 0.9);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+    outline: none;
+}
+
+.filter-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.filter-tag {
+    background: rgba(15, 15, 15, 0.9);
+    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(66, 153, 225, 0.1);
+}
+
+.filter-tag:hover,
+.filter-tag.active {
+    background: var(--primary-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
+}
+
+@media (max-width: 640px) {
+    .course-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+
+    .course-card {
+        margin-bottom: 1.5rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { 
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to { 
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
     </style>
 </head>
 <body class="font-sans">
     <nav class="neumorphic p-4 mb-8">
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-2xl font-bold">Plataforma de Cursos</a>
-            <div>
-                <a href="home.html" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
-                <a href="cursos.html" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
-                <a href="perfil.html" class="mx-2 hover:text-blue-500 transition duration-300">Meu Perfil</a>
-                <button id="darkModeToggle" class="ml-4 focus:outline-none">
-                    <i class="fas fa-moon"></i>
-                </button>
+            <div class="refs">
+                <a href="/" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
+                <a href="/Cursos" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
+                <a><img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="" id="profile-icon"></a>
             </div>
         </div>
     </nav>
@@ -82,6 +341,9 @@
                 <center><img src="data:image/jpeg;base64,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" alt="HTML/CSS Course" class="w-full h-40 object-cover mb-4 rounded" alt="HTML/CSS Course" class="mb-4 rounded"></center>
                 <h2 class="text-2xl font-bold mb-2">Curso de HTML/CSS</h2>
                 <p class="mb-4">Domine as linguagens fundamentais para criação de páginas web.</p>
+                <div class="progress-container">
+                    <div class="progress-bar bg-blue-500" id="html-progress"></div>
+                </div>
                 <a href="/Cursohtml" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Iniciar Curso</a>
             </div>
 
@@ -89,6 +351,9 @@
                 <center><img src="data:image/png;base64,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" alt="JavaScript Course" class="w-full h-40 object-cover mb-4 rounded" alt="JavaScript Course" class="mb-4 rounded"></center>
                 <h2 class="text-2xl font-bold mb-2">Curso de JavaScript</h2>
                 <p class="mb-4">Aprenda a programar em JavaScript e crie aplicações web interativas.</p>
+                <div class="progress-container">
+                    <div class="progress-bar bg-blue-500" id="js-progress"></div>
+                </div>
                 <a href="/CursoJS" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300">Iniciar Curso</a>
             </div>
         </div>
@@ -113,10 +378,37 @@
 
         
         function updateGitHubProgress() {
-            const completedModules = parseInt(localStorage.getItem('completedModules') || '0');
-            const totalModules = 12; 
-            const progress = (completedModules / totalModules) * 100;
-            document.getElementById('github-progress').style.width = `${progress}%`;
+            fetch('/gitProgressPercentage')
+            .then(response => response.json())
+            .then(data => {
+
+            const progressBar = document.querySelector('#github-progress'); 
+            data.forEach(row => {
+                progressBar.style.width = `${row.percentage}%`;
+            })
+            })
+        }
+        function updatehtmlProgress() {
+            fetch('/htmlcssProgressPercentage')
+            .then(response => response.json())
+            .then(data => {
+
+            const progressBar = document.querySelector('#html-progress'); 
+            data.forEach(row => {
+                progressBar.style.width = `${row.percentage}%`;
+            })
+            })
+        }
+        function updatejsProgress() {
+            fetch('/jsProgressPercentage')
+            .then(response => response.json())
+            .then(data => {
+
+            const progressBar = document.querySelector('#js-progress'); 
+            data.forEach(row => {
+                progressBar.style.width = `${row.percentage}%`;
+            })
+            })
         }
 
         
@@ -124,6 +416,14 @@
 
     
         setInterval(updateGitHubProgress, 5000);
+        window.addEventListener('load', updatehtmlProgress);
+
+    
+        setInterval(updatehtmlProgress, 5000);
+        window.addEventListener('load', updatejsProgress);
+
+    
+        setInterval(updatejsProgress, 5000);
     </script>
 </body>
 </html>
