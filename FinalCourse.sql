@@ -1,8 +1,8 @@
-create database FinalCourse;
+create database if not exists FinalCourse ;
 use FinalCourse;
 
 create table users(
-	userCPF int not null,
+	userCPF varchar(11) not null,
     userName varchar(255) not null,
 	userEmail varchar(255) not null,
     userPassword varchar(255) not null,
@@ -10,6 +10,7 @@ create table users(
     
     Primary Key(userEmail)
 );
+
 
 create table courses(
 	courseID int not null auto_increment,
@@ -19,6 +20,7 @@ create table courses(
     Primary Key(courseID)
 );
 
+
 insert into courses (courseName, modulesAmount) values ("GitHub", 5), ("HTML e CSS", 20), ("JS", 20);
 
 create table courseUsers(
@@ -27,8 +29,8 @@ create table courseUsers(
     courseID_FK int not null,
     
     Primary Key(cousID),
-    Foreign Key (userEmail_FK) references users (userEmail),
-    Foreign Key (courseID_FK) references courses (courseID)
+    Foreign Key (userEmail_FK) references users (userEmail) on delete cascade,
+    Foreign Key (courseID_FK) references courses (courseID) on delete cascade
 );
 
 create table comments(
@@ -38,8 +40,8 @@ create table comments(
     userComment text not null,
     
     Primary Key(commentID),
-    Foreign Key (courseID_FK) references courses (courseID),
-    Foreign Key (userEmail_FK) references users (userEmail)
+    Foreign Key (courseID_FK) references courses (courseID) on delete cascade,
+    Foreign Key (userEmail_FK) references users (userEmail) on delete cascade
 );
 
 create table videos(
@@ -90,10 +92,24 @@ create table watchedVideos(
     userEmail_FK varchar(255) not null,
     isWatched boolean not null,
     
-    Foreign Key (videoLink_FK) references videos (videoLink),
-    Foreign Key (courseID_FK) references courses (courseID),
-    Foreign Key (userEmail_FK) references users (userEmail)
+    Foreign Key (videoLink_FK) references videos (videoLink) on delete cascade,
+    Foreign Key (courseID_FK) references courses (courseID) on delete cascade,
+    Foreign Key (userEmail_FK) references users (userEmail) on delete cascade
 );
+
+create table videoFeedback(
+	feedbackID int not null auto_increment,
+	videoLink_FK varchar(255) not null,
+    courseID_FK int not null,
+    userEmail_FK varchar(255) not null,
+    feedback boolean not null,
+    
+    Primary Key(feedbackID),
+    Foreign Key (videoLink_FK) references videos (videoLink) on delete cascade,
+    Foreign Key (courseID_FK) references courses (courseID) on delete cascade,
+    Foreign Key (userEmail_FK) references users (userEmail) on delete cascade
+);
+
 
 select * from users;
 select * from courses;
