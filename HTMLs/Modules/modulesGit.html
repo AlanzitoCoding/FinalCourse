@@ -297,6 +297,8 @@
           margin-bottom: 25px;
           line-height: 1.6;
       }
+
+      
   </style>
 </head>
 <body>
@@ -333,8 +335,8 @@
 
         <div class="video-controls">
           <div>
-            <button class="btn-like"><i class="ph ph-thumbs-up"></i></button>
-            <button class="btn-dislike"><i class="ph ph-thumbs-down"></i></button>
+            <button class="btn-like" onclick="likeAction()"><i class="ph ph-thumbs-up"></i></button>
+            <button class="btn-dislike" onclick="dislikeAction()"><i class="ph ph-thumbs-down"></i></button>
           </div>
           <div>
             <button class="btn-anterior" onclick="previousModule()"><i class="ph ph-arrow-left"></i> Anterior</button>
@@ -357,11 +359,23 @@
     </aside>
   </main>
 
-  <script>
+  <script src="https://use.fontawesome.com/fe459689b4.js">
     listComments()
        const modal = document.getElementById("modal");
       const commentsButton = document.getElementById("commentsButton");
+      var like = document.querySelector('.btn-like');
+    var dislike = document.querySelector('.btn-dislike');
         
+    function likeAction() {
+    like.style.color = like.style.color === 'white' ? 'black': 'white';
+    like.style.color = 'black';
+}
+
+function dislikeAction() {
+  dislike.style.color = 'black';
+  dislike.style.color = dislike.style.color === 'white' ? 'black': 'white';
+}
+
       commentsButton.onclick = () => {
           modal.style.display = "flex";
       };
@@ -488,6 +502,27 @@
                 console.error("Erro ao buscar comentários: " + error);
             });
 
+    }
+
+    
+
+
+    function feedback(fb){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+      const courseID = 1;
+      
+      fetch('/videoFeedback', {
+        method: 'post',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({ video: videoSrc, courseID: courseID, feedback: fb })
+      })
+      .then(response => response.json())
+      .then(data => {
+
+      })
     }
 
     loadVideo(0);

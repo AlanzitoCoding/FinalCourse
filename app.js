@@ -433,6 +433,16 @@ app.get('/listCourses', (req, res) => {
     })
 })
 
+app.post('/videoFeedback', (req, res) => {
+    const {video, courseID, feedback} = req.body;
+
+    db.query('insert into videoFeedback (videoLink_FK, courseID_FK, userEmail_FK, feedback) values (?, ?, ?, ?)', [video, courseID, req.session.email, feedback], function(err, results, fields){
+        if(err) throw err;
+
+        console.log('Feedback sent');
+    })
+})
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTMLs', 'home.html'));
