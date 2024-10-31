@@ -297,27 +297,6 @@
           margin-bottom: 25px;
           line-height: 1.6;
       }
-
-      .modal-content button {
-          background: var(--primary-color) !important;
-          color: white;
-          padding: 12px 25px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-          font-size: 16px;
-          width: 200px; /* Fixed width for buttons */
-          margin: 5px auto; /* Center horizontally */
-          display: block;
-      }
-
-      .modal-content button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
-      }
   </style>
 </head>
 <body>
@@ -332,8 +311,8 @@
   </header>
 
   <div class="modal" id="modal">
-    <div class="modal-content">
-        <h2 class="text-xl mb-4">Acesso Rápido</h2>
+    <div class="modal-content" id="modal-content">
+        <h2 class="text-xl mb-4">Comentários</h2>
     </div>
   </div>
 
@@ -494,13 +473,13 @@
       fetch('/getGitComment')
             .then(response => response.json())
             .then(data => {
-                const commentModal = document.getElementById('modal');
+                const commentModal = document.getElementById('modal-content');
                 
-                commentModal.innerHTML = '<div>';
+                commentModal.innerHTML = `<div class='commentModalVisual'>`;
                 
                 data.forEach(row => {
-                  commentModal.innerHTML += `<p>${row.userEmail_FK}</p><br>`
-                  commentModal.innerHTML += `<p>${row.userComment}</p>`
+                  commentModal.innerHTML += `<h3>${row.userEmail_FK}</h3>`
+                  commentModal.innerHTML += `<p>${row.userComment}</p><br>`
                 });
 
                 commentModal.innerHTML += '</div>';
@@ -508,6 +487,7 @@
             .catch(error => {
                 console.error("Erro ao buscar comentários: " + error);
             });
+
     }
 
     loadVideo(0);
