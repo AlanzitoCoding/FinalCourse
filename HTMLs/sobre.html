@@ -6,6 +6,9 @@
     <title>Sobre - SMGFA Courses</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         * {
             margin: 0;
@@ -235,6 +238,46 @@
                 font-size: 1.8rem;
             }
         }
+
+        .neumorphic {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            box-shadow: 
+                5px 5px 15px rgba(50, 50, 50, 0.5),
+                -5px -5px 15px rgba(66, 153, 225, 0.05);
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+
+        .neumorphic:hover {
+            transform: translateY(-5px);
+            box-shadow: 
+                8px 8px 20px rgba(0, 0, 0, 0.6),
+                -8px -8px 20px rgba(66, 153, 225, 0.07);
+            border: 1px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .refs {
+            display: flex;
+            align-items: center;
+        }
+
+        .refs img {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            border: 2px solid var(--primary-color);
+            margin-left: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .refs img:hover {
+            transform: scale(1.1);
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
     </style>
 </head>
 <body>
@@ -242,9 +285,18 @@
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
-    
 
-    <button class="theme-toggle" onclick="toggleTheme()">🌓</button>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFA Courses</a>
+            <div class="refs">
+                <a href="/" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
+                <a href="/Cursos" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
+                <a href="/sobre" class="mx-2 hover:text-blue-500 transition duration-300">Sobre</a>
+                <a><img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="" id="profile-icon"></a>
+            </div>
+        </div>
+    </nav>
 
     <section class="about-section">
         <div class="about-header">
@@ -271,36 +323,36 @@
 
         <div class="stats-container">
             <div class="stat-item" data-aos="zoom-in" data-aos-delay="100">
-                <div class="stat-number" data-value="50000">0</div>
+                <div class="stat-number" data-value="245">0</div>
                 <div class="stat-label">Alunos Formados</div>
             </div>
 
             <div class="stat-item" data-aos="zoom-in" data-aos-delay="200">
-                <div class="stat-number" data-value="100">0</div>
+                <div class="stat-number" data-value="3">0</div>
                 <div class="stat-label">Cursos Disponíveis</div>
             </div>
 
             <div class="stat-item" data-aos="zoom-in" data-aos-delay="300">
-                <div class="stat-number" data-value="95">0</div>
+                <div class="stat-number" data-value="100%">0</div>
                 <div class="stat-label">Satisfação dos Alunos</div>
             </div>
 
             <div class="stat-item" data-aos="zoom-in" data-aos-delay="400">
-                <div class="stat-number" data-value="200">0</div>
+                <div class="stat-number" data-value="6">0</div>
                 <div class="stat-label">Professores Especialistas</div>
             </div>
         </div>
     </section>
 
     <script>
+        document.body.classList.toggle('dark-mode');
         AOS.init({
             duration: 1000,
             once: true
         });
 
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
-        }
+        
+        
 
         // Animação dos números
         const stats = document.querySelectorAll('.stat-number');
