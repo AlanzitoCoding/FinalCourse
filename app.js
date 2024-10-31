@@ -34,14 +34,15 @@ app.post('/submit', (req, res) => {
         if(err) throw err;
 
         console.log("1 record inserted");
+        req.session.loggedin = true;
+        req.session.email = email;
         res.redirect("/");
     });
 });
 
 
 app.post("/auth", (req, res) => {
-    let email = req.body.email;
-    let senha = req.body.senha;
+   const {email, senha} = req.body
     
     db.query("select * from users where userEmail = ? and userPassword = ?;", [email, senha], function(err, results, fields){
         if(err) throw err;
@@ -56,11 +57,14 @@ app.post("/auth", (req, res) => {
                 res.redirect('/');
             }
             else{
-                res.json({ success: false, message: "Incorrect email and/or password." });
+                const message = "Incorrect email and/or password."
+                res.json(message);
+                
             }
         }
         else{
-            res.json({ success: false, message: 'Please, insert your email and password!' });
+            const message = 'Please, insert your email and password!'
+            res.json(message);
         }
     })
 });
@@ -146,21 +150,22 @@ app.post('/jsAuth', (req, res) => {
 })
 
 app.get('/userInfo', (req, res) => {
-    if (req.session.loggedin) {
-        db.query("select * from users where userEmail = ?", [req.session.email], function(err, results, fields){
-            if(err) throw err;
-            
-            if(results.length > 0){
-                res.json(results);
-            }
-            else{
-                console.log("Couldn't find user.")
-            }
-        })
-    } 
-    else {
+    if (!req.session.loggedin) {
+
         res.redirect('/loginScreen');
     }
+
+    db.query("select * from users where userEmail = ?", [req.session.email], function(err, results, fields){
+        if(err) throw err;
+        
+        if(results.length > 0){
+            res.json(results);
+        }
+        else{
+            console.log("Couldn't find user.")
+        }
+    })
+    
 })
 
 app.get('/logout', (req, res) => {
@@ -180,6 +185,20 @@ app.post('/gitComment', (req, res) => {
     })
 })
 
+
+app.get('/getGitComment', (req,res) => {
+
+db.query('select * from comments where courseID_FK = 1', function(err, results, fields){
+    if(err) throw err;
+
+    console.log('Comment gotten!');
+    res.json(results)
+})
+
+
+})
+
+
 app.post('/htmlcssComment', (req, res) => {
     const {comment} = req.body;
 
@@ -190,6 +209,18 @@ app.post('/htmlcssComment', (req, res) => {
     })
 })
 
+app.get('/getHtmlComment', (req,res) => {
+
+    db.query('select * from comments where courseID_FK = 2', function(err, results, fields){
+        if(err) throw err;
+    
+        console.log('Comment gotten!');
+        res.json(results)
+    })
+    
+    
+})
+
 app.post('/jsComment', (req, res) => {
     const {comment} = req.body;
 
@@ -198,6 +229,18 @@ app.post('/jsComment', (req, res) => {
 
         console.log('Comment sent');
     })
+})
+
+app.get('/getJsComment', (req,res) => {
+    db.query('select * from comments where courseID_FK = 3', function(err, results, fields){
+        if(err) throw err;
+    
+        console.log('Comment gotten!');
+        res.json(results)
+    })
+    
+    
+
 })
 
 app.post('/gitWatchedVideo', (req, res) => {
@@ -355,7 +398,7 @@ app.put('/updateName', (req, res) => {
 
 app.delete('/deleteUser', (req, res) => {
     if (!req.session.loggedin) {
-        return res.redirect('/loginScreen');
+         res.redirect('/loginScreen');
     }
 
     db.query('DELETE FROM users WHERE userEmail = ?', [req.session.email], (err, results) => {
@@ -365,6 +408,7 @@ app.delete('/deleteUser', (req, res) => {
         }
 
         console.log('User deletado')
+        
         // Destruir a sessão
         req.session.destroy((err) => {
             if (err) {
@@ -403,7 +447,13 @@ app.get('/registerScreen', (req, res) => {
 });
 
 app.get('/perfil', (req, res) => {
-    res.sendFile(__dirname + '/HTMLs/perfil.html')
+    if(req.session.loggedin){
+        res.sendFile(__dirname + '/HTMLs/perfil.html')
+
+    }else{
+        
+        res.sendFile(path.join(__dirname, 'HTMLs', 'login.html'))
+    }
 })
 app.get('/sobre', (req, res) => {
     res.sendFile(__dirname + '/HTMLs/sobre.html')

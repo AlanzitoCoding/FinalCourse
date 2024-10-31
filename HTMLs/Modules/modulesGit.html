@@ -297,27 +297,6 @@
           margin-bottom: 25px;
           line-height: 1.6;
       }
-
-      .modal-content button {
-          background: var(--primary-color) !important;
-          color: white;
-          padding: 12px 25px;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          position: relative;
-          overflow: hidden;
-          font-size: 16px;
-          width: 200px; /* Fixed width for buttons */
-          margin: 5px auto; /* Center horizontally */
-          display: block;
-      }
-
-      .modal-content button:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
-      }
   </style>
 </head>
 <body>
@@ -332,8 +311,8 @@
   </header>
 
   <div class="modal" id="modal">
-    <div class="modal-content">
-        <h2 class="text-xl mb-4">Acesso Rápido</h2>
+    <div class="modal-content" id="modal-content">
+        <h2 class="text-xl mb-4">Comentários</h2>
     </div>
   </div>
 
@@ -379,6 +358,19 @@
   </main>
 
   <script>
+    listComments()
+       const modal = document.getElementById("modal");
+      const commentsButton = document.getElementById("commentsButton");
+        
+      commentsButton.onclick = () => {
+          modal.style.display = "flex";
+      };
+        
+      window.onclick = (event) => {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      };
     const videos = [
         "https://www.youtube.com/embed/vFzRi3wGfI8?si=V4MN8jJKJAjbbzsn", 
         "https://www.youtube.com/embed/boUA0S628hY?si=AWCtl7WmG3037PMA", 
@@ -476,24 +468,35 @@
       });
     }
 
+    function listComments(){
+
+      fetch('/getGitComment')
+            .then(response => response.json())
+            .then(data => {
+                const commentModal = document.getElementById('modal-content');
+                
+                commentModal.innerHTML = `<div class='commentModalVisual'>`;
+                
+                data.forEach(row => {
+                  commentModal.innerHTML += `<h3>${row.userEmail_FK}</h3>`
+                  commentModal.innerHTML += `<p>${row.userComment}</p><br>`
+                });
+
+                commentModal.innerHTML += '</div>';
+            })
+            .catch(error => {
+                console.error("Erro ao buscar comentários: " + error);
+            });
+
+    }
+
     loadVideo(0);
     updateProgress();
         // Animação de flutuação
       const container = document.querySelector('.container');
       container.classList.add('floating');
 
-      const modal = document.getElementById("modal");
-      const commentsButton = document.getElementById("commentsButton");
-        
-      commentsButton.onclick = () => {
-          modal.style.display = "flex";
-      };
-        
-      window.onclick = (event) => {
-          if (event.target == modal) {
-              modal.style.display = "none";
-          }
-      };
+   
   </script>
 </body>
 </html>
