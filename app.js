@@ -455,6 +455,9 @@ app.get('/perfil', (req, res) => {
         res.sendFile(path.join(__dirname, 'HTMLs', 'login.html'))
     }
 })
+app.get('/sobre', (req, res) => {
+    res.sendFile(__dirname + '/HTMLs/sobre.html')
+})
 
 app.get('/gitModules', function(req, res){
     res.sendFile(__dirname + '/HTMLs/Modules/modulesGit.html');

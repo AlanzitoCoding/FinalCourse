@@ -2,11 +2,11 @@ create database FinalCourse;
 use FinalCourse;
 
 create table users(
-	userCPF int not null,
+	userCPF varchar(11) not null,
     userName varchar(255) not null,
 	userEmail varchar(255) not null,
     userPassword varchar(255) not null,
-    userPhone int not null,
+    userPhone varchar(13) not null,
     
     Primary Key(userEmail)
 );
