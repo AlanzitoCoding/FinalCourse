@@ -161,33 +161,28 @@
 
         <p>Não possui uma conta? <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button></p>
         
-        <div id="messageBox"></div>
+        
     </div>
 </body>
 </html>
 
 <script>
-    async function login(event) {
-        event.preventDefault();
+   fetch('/auth', {
+            method: 'POST'
+        }).then(res => {
+            if(res.success){
+            window.location.href = res.url
 
-        const email = document.getElementById('email').value;
-        const senha = document.getElementById('senha').value;
+            }else{
+                const message = res.message
 
-        const response = await fetch('/auth', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ email, senha })
-        });
+                alert(message)
+            }
+        }).catch(err =>{
+            console.log(err)
 
-        const result = await response.json();
+        })
 
-        const messageBox = document.getElementById('messageBox');
-        if (result.success) {
-            window.location.href = '/';
-        } else {
-            messageBox.innerHTML = result.message;
-        }
-    }
+       
+    
 </script>

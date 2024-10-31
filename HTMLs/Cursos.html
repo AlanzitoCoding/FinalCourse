@@ -308,12 +308,77 @@ body::before {
 .fade-in {
     animation: fadeIn 0.5s ease-out forwards;
 }
+
+.modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            box-shadow: 
+                5px 5px 15px rgba(50, 50, 50, 0.6),
+                -5px -5px 15px rgba(66, 153, 225, 0.07);
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .modal-content p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modal-content button {
+            background: var(--primary-color) !important;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 16px;
+            width: 200px; /* Fixed width for buttons */
+            margin: 5px auto; /* Center horizontally */
+            display: block;
+        }
+
+        .modal-content button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+        }
+
     </style>
 </head>
 <body class="font-sans">
     <nav class="neumorphic p-4 mb-8">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold">Plataforma de Cursos</a>
+            <a href="/Cursos" class="text-2xl font-bold">Plataforma de Cursos</a>
             <div class="refs">
                 <a href="/" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
                 <a href="/Cursos" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
@@ -321,6 +386,15 @@ body::before {
             </div>
         </div>
     </nav>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2 class="text-xl mb-4">Acesso Rápido</h2>
+            <button onclick="window.location.href='/loginScreen'">Login</button>
+            <button onclick="window.location.href='/perfil'">Perfil</button>
+        </div>
+    </div>
+
 
     <div class="container mx-auto px-4">
         <h1 class="text-4xl font-bold mb-8 text-center fade-in">Nossos Cursos</h1>
@@ -365,7 +439,22 @@ body::before {
         </div>
     </footer>
 
-    <script>
+    <script> 
+        updateGitHubProgress()
+        updatehtmlProgress()
+        updatejsProgress()
+        const modal = document.getElementById("modal");
+        const profileIcon = document.getElementById("profile-icon");
+
+        profileIcon.onclick = () => {
+            modal.style.display = "flex";
+        };
+
+        window.onclick = (event) => {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
         const darkModeToggle = document.getElementById('darkModeToggle');
         const body = document.body;
 
@@ -410,20 +499,8 @@ body::before {
             })
             })
         }
-
         
-        window.addEventListener('load', updateGitHubProgress);
-
-    
-        setInterval(updateGitHubProgress, 5000);
-        window.addEventListener('load', updatehtmlProgress);
-
-    
-        setInterval(updatehtmlProgress, 5000);
-        window.addEventListener('load', updatejsProgress);
-
-    
-        setInterval(updatejsProgress, 5000);
+        
     </script>
 </body>
 </html>

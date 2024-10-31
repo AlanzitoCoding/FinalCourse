@@ -379,6 +379,19 @@
   </main>
 
   <script>
+    listComments()
+       const modal = document.getElementById("modal");
+      const commentsButton = document.getElementById("commentsButton");
+        
+      commentsButton.onclick = () => {
+          modal.style.display = "flex";
+      };
+        
+      window.onclick = (event) => {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      };
     const videos = [
         "https://www.youtube.com/embed/vFzRi3wGfI8?si=V4MN8jJKJAjbbzsn", 
         "https://www.youtube.com/embed/boUA0S628hY?si=AWCtl7WmG3037PMA", 
@@ -476,24 +489,34 @@
       });
     }
 
+    function listComments(){
+
+      fetch('/getGitComment')
+            .then(response => response.json())
+            .then(data => {
+                const commentModal = document.getElementById('modal');
+                
+                commentModal.innerHTML = '<div>';
+                
+                data.forEach(row => {
+                  commentModal.innerHTML += `<p>${row.userEmail_FK}</p><br>`
+                  commentModal.innerHTML += `<p>${row.userComment}</p>`
+                });
+
+                commentModal.innerHTML += '</div>';
+            })
+            .catch(error => {
+                console.error("Erro ao buscar comentários: " + error);
+            });
+    }
+
     loadVideo(0);
     updateProgress();
         // Animação de flutuação
       const container = document.querySelector('.container');
       container.classList.add('floating');
 
-      const modal = document.getElementById("modal");
-      const commentsButton = document.getElementById("commentsButton");
-        
-      commentsButton.onclick = () => {
-          modal.style.display = "flex";
-      };
-        
-      window.onclick = (event) => {
-          if (event.target == modal) {
-              modal.style.display = "none";
-          }
-      };
+   
   </script>
 </body>
 </html>

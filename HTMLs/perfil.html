@@ -341,11 +341,9 @@ button:hover::before {
 
     <div class="modal" id="modal">
         <div class="modal-content">
-            <form action="/deleteUser" method="delete">
             <h2 class="text-xl mb-4">Você realmente deseja excluir sua conta?</h2>
-                <button type="submit">Sim</button>
-            </form>
-
+            
+            <button type="submit" onclick="deleteUser()">Sim</button>
             <button id="modalNao">Não</button>
         </div>
     </div>
@@ -375,13 +373,10 @@ button:hover::before {
 
                 })
 
-                /*document.getElementById('uName').textContent = data.userName;
-                document.getElementById('uCPF').textContent = data.userCPF;
-                document.getElementById('uEmail').textContent = data.userEmail;
-                document.getElementById('uPhone').textContent = data.userPhone;*/
             })
             .catch(error => {
                 console.error("Erro ao buscar dados do usuário: " + error);
+                
             });
         }
 
@@ -451,6 +446,23 @@ button:hover::before {
             });
         }
         
+         function deleteUser(){
+            
+            
+           fetch('/deleteUser',{
+                method: 'DELETE',headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+
+                window.location.href = response.url;
+                
+            }).catch(error => {
+                console.error("Erro ao deletar usuário: " + error);
+            })
+            
+        }
         
         const modal = document.getElementById("modal");
         const deleteButton = document.getElementById("deleteButton");
