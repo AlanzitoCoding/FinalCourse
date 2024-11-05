@@ -451,49 +451,6 @@
 
     loadVideo(0);
     updateProgress();
-    
-    const firebaseConfig = {
-    apiKey: "AIzaSyCzRU7UCjiA5OhRo6NouMfVlTxCTL-YAPk",
-    authDomain: "coursesportal-7e59f.firebaseapp.com",
-    projectId: "coursesportal-7e59f",
-    storageBucket: "coursesportal-7e59f.appspot.com",
-    messagingSenderId: "1089442985258",
-    appId: "1:1089442985258:web:658bb10d567f5ffdb0da53"
-
-}
-
-firebase.initializeApp(firebaseConfig)
-    const database = firebase.database();
-        const commentsRef = database.ref('comments');
-
-        const commentForm = document.getElementById('commentForm');
-        const commentsList = document.getElementById('commentsList');
-
-        commentForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const comment = document.getElementById('comentario').value;
-            
-            commentsRef.push({
-                name: name,
-                comment: comment,
-                timestamp: firebase.database.ServerValue.TIMESTAMP
-            });
-
-            commentForm.reset();
-        });
-
-        commentsRef.on('child_added', (snapshot) => {
-            const comment = snapshot.val();
-            const commentElement = document.createElement('div');
-            commentElement.className = 'comment neumorphic';
-            commentElement.innerHTML = `
-                <h3>${comment.name}</h3>
-                <p>${comment.comment}</p>
-            `;
-            commentsList.appendChild(commentElement);
-
-        });
   </script>
 </body>
 </html>

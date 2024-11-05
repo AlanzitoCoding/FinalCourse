@@ -314,29 +314,28 @@
 
   <div class="modal" id="modal">
     <div class="modal-content" id="modal-content">
-        <h2 class="text-xl mb-4">Comentários</h2>
     </div>
   </div>
 
   <main>
     <aside class="navbar">
       <ul>
-        <li><a href="#" onclick="loadVideo(0)" class="active">Módulo 1</a></li>
-        <li><a href="#" onclick="loadVideo(1)">Módulo 2</a></li>
-        <li><a href="#" onclick="loadVideo(2)">Módulo 3</a></li>
-        <li><a href="#" onclick="loadVideo(3)">Módulo 4</a></li>
-        <li><a href="#" onclick="loadVideo(4)">Módulo 5</a></li>
+        <li><a href="#" onclick="loadVideo(0)" class="active">Aula 1</a></li>
+        <li><a href="#" onclick="loadVideo(1)">Aula 2</a></li>
+        <li><a href="#" onclick="loadVideo(2)">Aula 3</a></li>
+        <li><a href="#" onclick="loadVideo(3)">Aula 4</a></li>
+        <li><a href="#" onclick="loadVideo(4)">Aula 5</a></li>
       </ul>
     </aside>
 
     <section class="video-section">
       <div class="video-container">
-        <iframe id="videoFrame" name="video" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=kxHcSaw7uUfY9o1t" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe id="videoFrame" name="video" src="https://www.youtube.com/embed/vFzRi3wGfI8?si=V4MN8jJKJAjbbzsn" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
         <div class="video-controls">
           <div>
-            <button class="btn-like" onclick="likeAction()"><i class="ph ph-thumbs-up"></i></button>
-            <button class="btn-dislike" onclick="dislikeAction()"><i class="ph ph-thumbs-down"></i></button>
+            <button class="btn-like"><i class="ph ph-thumbs-up"></i></button>
+            <button class="btn-dislike"><i class="ph ph-thumbs-down"></i></button>
           </div>
           <div>
             <button class="btn-anterior" onclick="previousModule()"><i class="ph ph-arrow-left"></i> Anterior</button>
@@ -359,25 +358,12 @@
     </aside>
   </main>
 
-  <script src="https://use.fontawesome.com/fe459689b4.js">
-    listComments()
-       const modal = document.getElementById("modal");
-      const commentsButton = document.getElementById("commentsButton");
-      var like = document.querySelector('.btn-like');
-    var dislike = document.querySelector('.btn-dislike');
-        
-    function likeAction() {
-    like.style.color = like.style.color === 'white' ? 'black': 'white';
-    like.style.color = 'black';
-}
-
-function dislikeAction() {
-  dislike.style.color = 'black';
-  dislike.style.color = dislike.style.color === 'white' ? 'black': 'white';
-}
+  <script>
+    
 
       commentsButton.onclick = () => {
           modal.style.display = "flex";
+          listComments();
       };
         
       window.onclick = (event) => {
@@ -385,6 +371,7 @@ function dislikeAction() {
               modal.style.display = "none";
           }
       };
+
     const videos = [
         "https://www.youtube.com/embed/vFzRi3wGfI8?si=V4MN8jJKJAjbbzsn", 
         "https://www.youtube.com/embed/boUA0S628hY?si=AWCtl7WmG3037PMA", 
@@ -483,46 +470,23 @@ function dislikeAction() {
     }
 
     function listComments(){
-
       fetch('/getGitComment')
-            .then(response => response.json())
-            .then(data => {
-                const commentModal = document.getElementById('modal-content');
+        .then(response => response.json())
+        .then(data => {
+            const commentModal = document.getElementById('modal-content');
+              
+            commentModal.innerHTML = `<h2 class="text-xl mb-4">Comentários</h2><div class='commentModalVisual'>`;
                 
-                commentModal.innerHTML = `<div class='commentModalVisual'>`;
-                
-                data.forEach(row => {
-                  commentModal.innerHTML += `<h3>${row.userEmail_FK}</h3>`
-                  commentModal.innerHTML += `<p>${row.userComment}</p><br>`
-                });
-
-                commentModal.innerHTML += '</div>';
-            })
-            .catch(error => {
-                console.error("Erro ao buscar comentários: " + error);
+            data.forEach(row => {
+              commentModal.innerHTML += `<h3>${row.userEmail_FK}</h3>`
+              commentModal.innerHTML += `<p>${row.userComment}</p><br>`
             });
 
-    }
-
-    
-
-
-    function feedback(fb){
-      const videoFrame = document.getElementById('videoFrame');
-      const videoSrc = videoFrame.getAttribute('src');
-      const courseID = 1;
-      
-      fetch('/videoFeedback', {
-        method: 'post',
-        headers: {
-          'Content-Type' : 'application/json'
-        },
-        body: JSON.stringify({ video: videoSrc, courseID: courseID, feedback: fb })
-      })
-      .then(response => response.json())
-      .then(data => {
-
-      })
+            commentModal.innerHTML += '</div>';
+        })
+        .catch(error => {
+            console.error("Erro ao buscar comentários: " + error);
+        });
     }
 
     loadVideo(0);
