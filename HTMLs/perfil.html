@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Custom Properties */
+   
 :root {
     --primary-color: #4299e1;
     --secondary-color: #2b6cb0;
@@ -16,7 +16,6 @@
     --dark-shadow: rgba(0, 0, 0, 0.2);
 }
 
-/* Animated Background */
 @keyframes lineMove {
     0% {
         background-position: 0% 0%;
@@ -26,7 +25,7 @@
     }
 }
 
-/* Base Styles */
+
 body {
     background: var(--dark-bg);
     color: #ffffff;
@@ -34,7 +33,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Animated Lines Background */
 body::before {
     content: '';
     position: fixed;
@@ -51,7 +49,6 @@ body::before {
     opacity: 0.5;
 }
 
-/* Enhanced Neumorphic Styles */
 .neumorphic {
     background: rgba(10, 10, 10, 0.95);
     backdrop-filter: blur(10px);
@@ -70,7 +67,7 @@ body::before {
     border: 1px solid rgba(66, 153, 225, 0.2);
 }
 
-/* Navigation Styles */
+
 nav a {
     color: #ffffff;
     position: relative;
@@ -264,8 +261,8 @@ button:hover::before {
             position: relative;
             overflow: hidden;
             font-size: 16px;
-            width: 200px; /* Fixed width for buttons */
-            margin: 5px auto; /* Center horizontally */
+            width: 200px; 
+            margin: 5px auto; 
             display: block;
         }
 
@@ -273,6 +270,88 @@ button:hover::before {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
         }
+        .modaledit {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modaledit-content {
+            background: rgba(10, 10, 10, 0.95);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            box-shadow: 
+                5px 5px 15px rgba(50, 50, 50, 0.6),
+                -5px -5px 15px rgba(66, 153, 225, 0.07);
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modaledit.active .modaledit-content {
+            transform: scale(1);
+        }
+
+        .modaledit-content h2 {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+
+        .modaledit-content p {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .modaledit-content button {
+            background: var(--primary-color) !important;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            font-size: 16px;
+            width: 200px; 
+            margin: 5px auto; 
+            display: block;
+        }
+
+        .modaledit-content button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+        }
+        input {
+            width: 95%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            background-color: var(--background-color);
+            box-shadow: inset 5px 5px 10px var(--shadow-color),
+                        inset -5px -5px 10px var(--highlight-color);
+        }
+
+        input:focus {
+            outline: none;
+            box-shadow: inset 5px 5px 10px #444,
+                        inset -5px -5px 10px #777;
+            background-color: #999;
+            color: white;
+        }
+
     </style>
 </head>
 <body class="font-sans" onload="fetchData()">
@@ -299,23 +378,19 @@ button:hover::before {
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="userInfo">
                         <div class="flex items-center">
                             <p class="font-bold mr-2">Nome:</p>
-                            <p contenteditable="true" id="uName" name="userName" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uName')"></i>
+                            <p contenteditable="false" id="uName" name="userName" class="mr-2"></p>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">CPF:</p>
-                            <p contenteditable="true" id="uCPF" name="userCPF" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uCPF')"></i>
+                            <p contenteditable="false" id="uCPF" name="userCPF" class="mr-2"></p>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">E-mail:</p>
-                            <p contenteditable="true" id="uEmail" name="userEmail" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uEmail')"></i>
+                            <p contenteditable="false" id="uEmail" name="userEmail" class="mr-2"></p>
                         </div>
                         <div class="flex items-center">
                             <p class="font-bold mr-2">Número:</p>
-                            <p contenteditable="true" id="uPhone" name="userPhone" class="mr-2"></p>
-                            <i class="fas fa-pencil-alt edit-icon" onclick="toggleEdit('uPhone')"></i>
+                            <p contenteditable="false" id="uPhone" name="userPhone" class="mr-2"></p>
                         </div>
                     </div>
                 </div>
@@ -327,9 +402,12 @@ button:hover::before {
             <ul id="enrolledCourses" class="list-disc list-inside">
             </ul>
         </div>
+        <button id="editButtom" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Editar Perfil</button>
         <form action="/logout">
+          <br>
             <p><button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Sair</button></p>
         </form>
+        <br>
         <button id="deleteButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Excluir Conta</button>
     </div>
 
@@ -345,6 +423,23 @@ button:hover::before {
             
             <button type="submit" onclick="deleteUser()">Sim</button>
             <button id="modalNao">Não</button>
+        </div>
+    </div>
+
+    <div class="modaledit" id="modaledit">
+        <div class="modaledit-content">
+           
+            <h2 class="text-xl mb-4">Edite as suas informações abaixo</h2>
+            <input type="text" placeholder="Nome" name="userName" id = "nome" required>
+            <br>
+            <input type="number" placeholder="CPF" name="userCPF" id = "cpf" required>
+            <br>
+            <input type="tel" placeholder="Telefone" name="userPhone" id = "telefone" required>
+            <br>
+            <input type="password" placeholder="Password" name="userPassword" id = "senha" required>
+            
+            <button type="submit" onclick="editUser()">Editar</button>
+       
         </div>
     </div>
 
@@ -413,19 +508,26 @@ button:hover::before {
             }
         }
         
-        function updateName(){
-            fetch('/updateName',{
+       function editUser(){
+
+       const userName = document.querySelector('userName').value
+       const userCPF = document.querySelector('userCPF').value
+       const userPhone = document.querySelector('userPhone').value
+       const userPassword = document.querySelector('userPassword').value
+
+        fetch('/editUser', {
                 method: 'PUT',
                 headers: {
-                    'Content-Type' : 'application/json'
+                    'Content-Type': 'application/json'
                 },
-                body : JSON.stringify({userName: userName})
-            })
-            .then(results => results.json())
+                body: JSON.stringify({ userName: userName, userCPF: userCPF, userPhone: userPhone, userPassword: userPassword })
+            }).then(res => res.json())
             .then(data => {
-                fetchData();
+                alert(data.message)
+                fetchData()
             })
-        }
+
+       }
         
         function listCourses(){
             fetch('/listCourses')
@@ -463,9 +565,12 @@ button:hover::before {
             })
             
         }
+  
         
         const modal = document.getElementById("modal");
         const deleteButton = document.getElementById("deleteButton");
+        const modaledit = document.getElementById("modaledit");
+        const editButton = document.getElementById("editButtom");
         
         deleteButton.onclick = () => {
             modal.style.display = "flex";
@@ -476,10 +581,22 @@ button:hover::before {
                 modal.style.display = "none";
             }
         };
+
+        editButton.onclick = () => {
+            modaledit.style.display = "flex";
+        };
+        
+        window.onclick = (event) => {
+            if (event.target == modaledit) {
+                modaledit.style.display = "none";
+            }
+        };
         
         document.getElementById('modalNao').addEventListener('click', function() {
             document.getElementById('modal').style.display = 'none';
         });
+
+
 
         document.addEventListener("DOMContentLoaded", listCourses());
         document.addEventListener("DOMContentLoaded", fetchData());

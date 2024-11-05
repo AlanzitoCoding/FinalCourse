@@ -152,7 +152,7 @@
     <div class="flying-paper paper3"></div>
 
     <div class="loginField">
-        <form method="post" action="/auth">
+        <form id="login">
             <h2>Bem-vindo de volta!</h2>
             <input type="email" placeholder="E-mail" id="email" name="email" required>
             <input type="password" placeholder="Senha" id="senha" name="senha" required>
@@ -167,14 +167,24 @@
 </html>
 
 <script>
+
+document.getElementById('login').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData.entries());
    fetch('/auth', {
-            method: 'POST'
-        }).then(res => {
-            if(res.success){
-            window.location.href = res.url
+            method: 'POST', 
+            headers: {
+                    'Content-Type': 'application/json'
+                },
+            body: JSON.stringify(data)
+        }).then(res => res.json())
+        .then(data => {
+            if(data.ok){
+            window.location.href = '/'
 
             }else{
-                const message = res.message
+                const message = data.message
 
                 alert(message)
             }
@@ -182,6 +192,7 @@
             console.log(err)
 
         })
+    })
 
        
     
