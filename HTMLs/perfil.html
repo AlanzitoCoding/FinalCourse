@@ -428,7 +428,7 @@ button:hover::before {
 
     <div class="modaledit" id="modaledit">
         <div class="modaledit-content">
-            <form id="editUser">
+           
             <h2 class="text-xl mb-4">Edite as suas informações abaixo</h2>
             <input type="text" placeholder="Nome" name="userName" id = "nome" required>
             <br>
@@ -438,8 +438,8 @@ button:hover::before {
             <br>
             <input type="password" placeholder="Password" name="userPassword" id = "senha" required>
             
-            <button type="submit">Editar</button>
-        </form>
+            <button type="submit" onclick="editUser()">Editar</button>
+       
         </div>
     </div>
 
@@ -508,25 +508,26 @@ button:hover::before {
             }
         }
         
-        document.getElementById('editUser').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
-            fetch('/editUser',{
+       function editUser(){
+
+       const userName = document.querySelector('userName').value
+       const userCPF = document.querySelector('userCPF').value
+       const userPhone = document.querySelector('userPhone').value
+       const userPassword = document.querySelector('userPassword').value
+
+        fetch('/editUser', {
                 method: 'PUT',
                 headers: {
-                    'Content-Type' : 'application/json'
+                    'Content-Type': 'application/json'
                 },
-
-
-                body : JSON.stringify({data})
-            })
-            .then(results => results.json())
+                body: JSON.stringify({ userName: userName, userCPF: userCPF, userPhone: userPhone, userPassword: userPassword })
+            }).then(res => res.json())
             .then(data => {
                 alert(data.message)
-                fetchData();
+                fetchData()
             })
-        })
+
+       }
         
         function listCourses(){
             fetch('/listCourses')
