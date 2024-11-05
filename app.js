@@ -53,18 +53,18 @@ app.post("/auth", (req, res) => {
                 req.session.email = email;
                 
                 console.log(req.session.email);
+                res.json({ok:true});
                 
-                res.redirect('/');
             }
             else{
-                const message = "Incorrect email and/or password."
-                res.json(message);
+                const msg = "Incorrect email and/or password."
+                res.json({message: msg});
                 
             }
         }
         else{
-            const message = 'Please, insert your email and password!'
-            res.json(message);
+            const msg = 'Please, insert your email and password!'
+            res.json({message: msg});
         }
     })
 });
@@ -386,18 +386,21 @@ app.get('/jsProgressPercentage', (req, res) => {
     }
 })
 
-app.put('/updateName', (req, res) => {
-    const {userName} = req.body;
+app.put('/editUser', (req, res) => {
 
-    db.query('update users set userName = ? where userEmail = ?;' [userName, req.session.email], function(err, results, fields){
+    const {userName, userCPF, userPhone, userPassword} = req.body;
+
+    db.query('update users set userName = ?, userCPF = ?, userPhone = ?, userPassword = ? where userEmail = ?;' [userName, userCPF, userPhone, userPassword, req.session.email], function(err, results, fields){
         if(err) throw err;
 
-        console.log("User name was successfully updated");
+
+        console.log("Informações alteradas com sucesso!");
+        res.json({message: 'Informações alteradas com sucesso!'})
     })
 })
 
 app.delete('/deleteUser', (req, res) => {
-    if (!req.session.loggedin) {
+    if (req.session.loggedin) {
          res.redirect('/loginScreen');
     }
 
