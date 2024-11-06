@@ -159,7 +159,6 @@
       padding: 10px;
       cursor: pointer;
       border-radius: 5px;
-      margin-left: 5px;
       transition: background-color 0.3s ease;
       align-items: center;
     }
@@ -298,7 +297,36 @@
           line-height: 1.6;
       }
 
-      
+      .videoRatingBtnDiv {
+        display: flex;
+        align-items: center;
+        gap: 15px; /* Espaçamento entre as divs de like e dislike */
+      }
+
+      .likeDiv, .dislikeDiv {
+        display: flex;
+        align-items: center;
+        border: 1px solid #555;
+        border-radius: 5px;
+        gap: 6px; /* Espaçamento entre o botão e o contador */
+      }
+
+      .btn-like, .btn-dislike {
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        font-size: 16px; /* Tamanho da fonte para os ícones */
+      }
+
+      .btn-like:hover, .btn-dislike:hover {
+        opacity: 0.7; /* Efeito de hover */
+      }
+
+      #likeAmt, #dislikeAmt {
+        font-size: 14px;
+        margin: 0;
+        margin-right: 6px;
+      }      
   </style>
 </head>
 <body>
@@ -333,9 +361,15 @@
         <iframe id="videoFrame" name="video" src="https://www.youtube.com/embed/vFzRi3wGfI8?si=V4MN8jJKJAjbbzsn" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
         <div class="video-controls">
-          <div>
-            <button class="btn-like"><i class="ph ph-thumbs-up"></i></button>
-            <button class="btn-dislike"><i class="ph ph-thumbs-down"></i></button>
+          <div class="videoRatingBtnDiv">
+            <div class="likeDiv">
+              <button class="btn-like" onclick="sendRating(1)"><i class="ph ph-thumbs-up"></i></button>
+              <p id="likeAmt">1</p>
+            </div>
+            <div class="dislikeDiv">
+              <button class="btn-dislike" onclick="sendRating(0)"><i class="ph ph-thumbs-down"></i></button>
+              <p id="dislikeAmt">1</p>
+            </div>
           </div>
           <div>
             <button class="btn-anterior" onclick="previousModule()"><i class="ph ph-arrow-left"></i> Anterior</button>
@@ -489,8 +523,77 @@
         });
     }
 
+    function deleteRating(){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+
+      fetch('/deleteRating', {
+        method: 'Delete',
+        headers: {
+          'Content-Type' : 'application/json', 
+        },
+        body: JSON.stringify({video: videoSrc, courseID: 1})
+      })
+      .then(response => {
+        console.log('Avaliação retirada');
+      })
+      .catch(error => {
+        console.error("Erro ao deletar usuário: " + error);
+      })
+    }
+
+    function sendRating(rating){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+
+      deleteRating();
+      
+      fetch('/videoRating', {
+        method: 'POST',
+        headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ video: videoSrc, courseID: 1, rating: rating })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Sucesso:', data);
+          })
+          .catch((error) => {
+            console.error('Erro:', error);
+          });
+        likesNDislikes();
+      }
+
+    function likesNDislikes(){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+
+        fetch('/likesNDislikes', {
+          method: 'Get',
+          headers: {
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify({video: videoSrc})
+        })
+        .then(response => response.json())
+        .then(data => {
+          const likeAmt = document.getElementById('likeAmt');
+          const dislikeAmt = document.getElementById('dislikeAmt');
+
+          likeAmt.innerHTML = '';
+          dislikeAmt.innerHTML = '';
+
+          data.forEach(row => {
+            likeAmt.innerHTML += `${row.Likes}`
+            dislikeAmt.innerHTML += `${row.Dislikes}`
+          })
+        })
+    }
+
     loadVideo(0);
     updateProgress();
+    likesNDislikes();
         // Animação de flutuação
       const container = document.querySelector('.container');
       container.classList.add('floating');

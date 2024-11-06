@@ -9,7 +9,7 @@ const port = 8081;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "cimatec",
+    password: "2006Pa#*#",
     database: "FinalCourse"
 });
 
@@ -436,13 +436,42 @@ app.get('/listCourses', (req, res) => {
     })
 })
 
-app.post('/videoFeedback', (req, res) => {
-    const {video, courseID, feedback} = req.body;
+app.post('/videoRating', (req, res) => {
+    const {video, courseID, rating} = req.body;
 
-    db.query('insert into videoFeedback (videoLink_FK, courseID_FK, userEmail_FK, feedback) values (?, ?, ?, ?)', [video, courseID, req.session.email, feedback], function(err, results, fields){
+    db.query('insert into videoRating (videoLink_FK, courseID_FK, userEmail_FK, rating) values (?, ?, ?, ?)', [video, courseID, req.session.email, rating], function(err, results, fields){
         if(err) throw err;
 
-        console.log('Feedback sent');
+        console.log('Rating sent');
+    })
+});
+
+app.delete('/deleteRating', (req, res) => {
+    const {video, courseID} = req.body;
+
+    db.query('delete from videoRating where videoLink_FK = ? and courseID_FK = ? and userEmail_FK = ?', [video, courseID, req.session.email], function(err, results, fields){
+        if(err){
+            console.error('Erro ao excluir avaliação: ' + err);
+            return res.status(500).send('Erro ao deletar avaliação');
+        }
+
+        console.log('Avaliação excluída!')
+    })
+})
+
+app.get('/likesNDislikes', (req, res) => {
+    const {video} = req.body;
+
+    db.query('select (select count(rating) from videoRating where rating = 1 and videoLink_FK = ?) as Likes, (select count(rating) from videoRating where rating = 0 and videoLink_FK = ?) as Dislikes;', [video, video], function(err, results, fields){
+        if(err) throw err;
+
+        if(results.length > 0){
+            res.json(results);
+            console.log(results);
+        }
+        else{
+            console.log("Couldn't find user.")
+        }
     })
 })
 

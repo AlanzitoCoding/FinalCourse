@@ -549,10 +549,9 @@ button:hover::before {
         }
         
          function deleteUser(){
-            
-            
            fetch('/deleteUser',{
-                method: 'DELETE',headers: {
+                method: 'DELETE',
+                headers: {
                     'Content-Type': 'application/json'
                 }
             })

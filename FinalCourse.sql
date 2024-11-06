@@ -1,4 +1,4 @@
-create database if not exists FinalCourse ;
+create database if not exists FinalCourse;
 use FinalCourse;
 
 create table users(
@@ -19,7 +19,6 @@ create table courses(
     
     Primary Key(courseID)
 );
-
 
 insert into courses (courseName, modulesAmount) values ("GitHub", 5), ("HTML e CSS", 20), ("JS", 20);
 
@@ -97,14 +96,14 @@ create table watchedVideos(
     Foreign Key (userEmail_FK) references users (userEmail) on delete cascade
 );
 
-create table videoFeedback(
-	feedbackID int not null auto_increment,
+create table videoRating(
+	ratingID int not null auto_increment,
 	videoLink_FK varchar(255) not null,
     courseID_FK int not null,
     userEmail_FK varchar(255) not null,
-    feedback boolean not null,
+    rating boolean not null,
     
-    Primary Key(feedbackID),
+    Primary Key(ratingID),
     Foreign Key (videoLink_FK) references videos (videoLink) on delete cascade,
     Foreign Key (courseID_FK) references courses (courseID) on delete cascade,
     Foreign Key (userEmail_FK) references users (userEmail) on delete cascade
@@ -117,6 +116,7 @@ select * from courseUsers;
 select * from comments;
 select * from videos order by courseID_FK;
 select * from watchedVideos;
+select * from videoRating;
 
 select courseName from courseUsers inner join courses on courseID_FK = courseID and userEmail_FK = "asd@gmail.com";
 select sum(wv.isWatched)*100/c.modulesAmount from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID  and wv.courseID_FK = 1 and userEmail_FK = "asd@gmail.com" group by courseID;
