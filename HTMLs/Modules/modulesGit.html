@@ -393,8 +393,6 @@
   </main>
 
   <script>
-    
-
       commentsButton.onclick = () => {
           modal.style.display = "flex";
           listComments();
@@ -589,6 +587,9 @@
             dislikeAmt.innerHTML += `${row.Dislikes}`
           })
         })
+        .catch(error => {
+          console.error("Erro ao buscar avaliação do vídeo: " + error); 
+        });
     }
 
     loadVideo(0);
