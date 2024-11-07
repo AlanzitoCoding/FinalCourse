@@ -459,7 +459,7 @@ app.delete('/deleteRating', (req, res) => {
     })
 })
 
-app.get('/likesNDislikes', (req, res) => {
+app.post('/likesNDislikes', (req, res) => {
     const {video} = req.body;
 
     db.query('select (select count(rating) from videoRating where rating = 1 and videoLink_FK = ?) as Likes, (select count(rating) from videoRating where rating = 0 and videoLink_FK = ?) as Dislikes;', [video, video], function(err, results, fields){
