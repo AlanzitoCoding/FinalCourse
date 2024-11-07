@@ -440,13 +440,15 @@ button:hover::before {
            
             <form>
             <h2 class="text-xl mb-4">Edite as suas informações abaixo</h2>
-            <input type="text" placeholder="Nome" name="userName" id = "userName" required>
+            <h2 class="text-xl mb-4">Edite apenas as informações que deseja:</h2>
+
+            <input type="text" placeholder="Nome" name="userName" id = "userName" >
             <br>
-            <input type="number" placeholder="CPF" name="userCPF" id = "userCPF" required>
+            <input type="number" placeholder="CPF" name="userCPF" id = "userCPF" >
             <br>
-            <input type="tel" placeholder="Telefone" name="userPhone" id = "userPhone" required>
+            <input type="tel" placeholder="Telefone" name="userPhone" id = "userPhone" >
             <br>
-            <input type="password" placeholder="Password" name="userPassword" id = "userPassword" required>
+            <input type="password" placeholder="Password" name="userPassword" id = "userPassword" >
             
             <button type="submit" onclick="editUser()">Editar</button>
         </form>
@@ -454,6 +456,8 @@ button:hover::before {
     </div>
 
     <script>
+        document.addEventListener("DOMContentLoaded", fetchData());
+
         function fetchData() {
         fetch('/userInfo')
             .then(response => response.json())
@@ -467,6 +471,19 @@ button:hover::before {
                 uCPF.innerHTML = '';
                 uEmail.innerHTML = '';
                 uPhone.innerHTML = '';
+
+                 const userName = document.querySelector('#userName')
+                 const userCPF = document.querySelector('#userCPF')
+                 const userPhone = document.querySelector('#userPhone')
+                 const userPassword = document.querySelector('#userPassword')
+
+                
+
+                /*userName.innerHTML = '';
+                userCPF.innerHTML = '';
+                userPhone.innerHTML = '';
+                userPassword.innerHTML = '';*/
+                
                 
                 data.forEach(row => {
 
@@ -475,8 +492,21 @@ button:hover::before {
                     uEmail.innerHTML += `${row.userEmail}`
                     uPhone.innerHTML += `${row.userPhone}`
                     
+                    
 
                 })
+
+                data.forEach(row => {
+
+                    userName.value = `${row.userName}`
+                    userCPF.value = `${row.userCPF}`
+                    userPhone.value = `${row.userPhone}`
+                    userPassword.value = `${row.userPassword}`
+                    
+                    
+
+                })
+               
 
             })
             .catch(error => {
@@ -520,10 +550,11 @@ button:hover::before {
         
        function editUser(){
 
-       const userName = document.querySelector('#userName').value
-       const userCPF = document.querySelector('#userCPF').value
-       const userPhone = document.querySelector('#userPhone').value
-       const userPassword = document.querySelector('#userPassword').value
+        const userName = document.querySelector('#userName').value
+        const userCPF = document.querySelector('#userCPF').value
+        const userPhone = document.querySelector('#userPhone').value
+        const userPassword = document.querySelector('#userPassword').value
+ 
 
         fetch('/updateUser', {
                 method: 'PUT',
@@ -612,7 +643,7 @@ button:hover::before {
 
 
         document.addEventListener("DOMContentLoaded", listCourses());
-        document.addEventListener("DOMContentLoaded", fetchData());
+        
         </script>
 </body>
 </html>
