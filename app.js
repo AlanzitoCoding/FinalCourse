@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const mysql = require('mysql2');
+const { error } = require('console');
 const port = 8081;
 
 const db = mysql.createConnection({
@@ -31,12 +32,14 @@ app.post('/submit', (req, res) => {
     const query = "insert into users values (?, ?, ?, ?, ?);"
 
     db.query(query, [cpf, nome, email, senha, telefone], function(err, result){
-        if(err) throw err;
+        if(err){
+           return res.json({message: 'Erro ao cadastrar usuário!'})
+        };
 
         console.log("1 record inserted");
         req.session.loggedin = true;
         req.session.email = email;
-        res.redirect("/");
+        res.json({message: 'Cadastro efetuado!'})
     });
 });
 
@@ -386,13 +389,13 @@ app.get('/jsProgressPercentage', (req, res) => {
     }
 })
 
-app.put('/editUser', (req, res) => {
+app.put('/updateUser', (req, res) => {
 
     const {userName, userCPF, userPhone, userPassword} = req.body;
+    console.log(`${userName} | ${userCPF} | ${userPhone} | ${userPassword}`)
 
-    db.query('update users set userName = ?, userCPF = ?, userPhone = ?, userPassword = ? where userEmail = ?;' [userName, userCPF, userPhone, userPassword, req.session.email], function(err, results, fields){
+    db.query('UPDATE users SET userName = ?, userCPF = ?, userPhone = ?, userPassword = ? WHERE userEmail = ?', [userName, userCPF, userPhone, userPassword, req.session.email], function(err, results, fields){
         if(err) throw err;
-
 
         console.log("Informações alteradas com sucesso!");
         res.json({message: 'Informações alteradas com sucesso!'})
@@ -400,25 +403,29 @@ app.put('/editUser', (req, res) => {
 })
 
 app.delete('/deleteUser', (req, res) => {
-    if (req.session.loggedin) {
+
+    const {userPassword} = req.body
+
+    /*if (req.session.loggedin) {
          res.redirect('/loginScreen');
-    }
+    }*/
 
-    db.query('DELETE FROM users WHERE userEmail = ?', [req.session.email], (err, results) => {
-        if (err) {
+    db.query('DELETE FROM users WHERE userEmail = ? AND userPassword = ?', [req.session.email, userPassword], (err, results) => {
+        if (!results.affectedRows || err ) {
             console.error('Erro ao deletar usuário:', err);
-            return res.status(500).send('Erro ao deletar conta');
-        }
+            return
 
-        console.log('User deletado')
+        }
         
-        // Destruir a sessão
+        console.log('User deletado')
+        // Destruir a sessão'
         req.session.destroy((err) => {
             if (err) {
                 console.error('Erro ao destruir sessão:', err);
             }
-            res.redirect('/');
         });
+
+        res.redirect('/')
     });
 });
 
@@ -469,6 +476,7 @@ app.post('/likesNDislikes', (req, res) => {
         console.log(results);
     })
 })
+
 
 
 app.get('/', (req, res) => {

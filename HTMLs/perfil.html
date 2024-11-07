@@ -31,6 +31,7 @@ body {
     color: #ffffff;
     position: relative;
     overflow-x: hidden;
+    
 }
 
 body::before {
@@ -409,6 +410,10 @@ button:hover::before {
         </form>
         <br>
         <button id="deleteButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Excluir Conta</button>
+        <form action="/HTMLs/Certificado.html">
+        <br>
+        <button id="CertificadoButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Gerar Certificado</button>
+        </form>
     </div>
 
     <footer class="neumorphic p-4 mt-12">
@@ -420,26 +425,31 @@ button:hover::before {
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 class="text-xl mb-4">Você realmente deseja excluir sua conta?</h2>
+            <h2 class="text-xl mb-4">Digite sua senha para confirmar!</h2>
             
+            <input type="password" placeholder="Senha" id="passwordConfirm">
             <button type="submit" onclick="deleteUser()">Sim</button>
             <button id="modalNao">Não</button>
         </div>
     </div>
 
+    
+
     <div class="modaledit" id="modaledit">
         <div class="modaledit-content">
            
+            <form>
             <h2 class="text-xl mb-4">Edite as suas informações abaixo</h2>
-            <input type="text" placeholder="Nome" name="userName" id = "nome" required>
+            <input type="text" placeholder="Nome" name="userName" id = "userName" required>
             <br>
-            <input type="number" placeholder="CPF" name="userCPF" id = "cpf" required>
+            <input type="number" placeholder="CPF" name="userCPF" id = "userCPF" required>
             <br>
-            <input type="tel" placeholder="Telefone" name="userPhone" id = "telefone" required>
+            <input type="tel" placeholder="Telefone" name="userPhone" id = "userPhone" required>
             <br>
-            <input type="password" placeholder="Password" name="userPassword" id = "senha" required>
+            <input type="password" placeholder="Password" name="userPassword" id = "userPassword" required>
             
             <button type="submit" onclick="editUser()">Editar</button>
-       
+        </form>
         </div>
     </div>
 
@@ -510,12 +520,12 @@ button:hover::before {
         
        function editUser(){
 
-       const userName = document.querySelector('userName').value
-       const userCPF = document.querySelector('userCPF').value
-       const userPhone = document.querySelector('userPhone').value
-       const userPassword = document.querySelector('userPassword').value
+       const userName = document.querySelector('#userName').value
+       const userCPF = document.querySelector('#userCPF').value
+       const userPhone = document.querySelector('#userPhone').value
+       const userPassword = document.querySelector('#userPassword').value
 
-        fetch('/editUser', {
+        fetch('/updateUser', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -549,11 +559,15 @@ button:hover::before {
         }
         
          function deleteUser(){
+
+            const userPassword = document.querySelector('#passwordConfirm').value
+
            fetch('/deleteUser',{
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({userPassword: userPassword})
             })
             .then(response => {
 
