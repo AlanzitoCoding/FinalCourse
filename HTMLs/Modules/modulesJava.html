@@ -563,7 +563,7 @@
         headers: {
           'Content-Type' : 'application/json', 
         },
-        body: JSON.stringify({video: videoSrc, courseID: 1})
+        body: JSON.stringify({video: videoSrc, courseID: 3})
       })
       .then(response => {
         console.log('Avaliação retirada');
@@ -584,7 +584,7 @@
         headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ video: videoSrc, courseID: 1, rating: rating })
+            body: JSON.stringify({ video: videoSrc, courseID: 3, rating: rating })
           })
           .then(response => response.json())
           .then(data => {

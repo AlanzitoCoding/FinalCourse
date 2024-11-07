@@ -562,8 +562,9 @@
           .catch((error) => {
             console.error('Erro:', error);
           });
-        likesNDislikes();
-      }
+
+      likesNDislikes();
+    }
 
     function likesNDislikes(){
       const videoFrame = document.getElementById('videoFrame');
@@ -585,8 +586,8 @@
           dislikeAmt.innerHTML = '';
 
           data.forEach(row => {
-            likeAmt.innerHTML += `${row.Likes}`
-            dislikeAmt.innerHTML += `${row.Dislikes}`
+            likeAmt.innerHTML += `${(row.Likes)}`
+            dislikeAmt.innerHTML += `${(row.Dislikes)}`
           })
         })
         .catch(error => {
