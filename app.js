@@ -9,7 +9,7 @@ const port = 8081;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "",
+    password: "Gab123",
     database: "FinalCourse"
 });
 
@@ -386,13 +386,13 @@ app.get('/jsProgressPercentage', (req, res) => {
     }
 })
 
-app.put('/editUser', (req, res) => {
+app.put('/updateUser', (req, res) => {
 
     const {userName, userCPF, userPhone, userPassword} = req.body;
+    console.log(`${userName} | ${userCPF} | ${userPhone} | ${userPassword}`)
 
-    db.query('update users set userName = ?, userCPF = ?, userPhone = ?, userPassword = ? where userEmail = ?;' [userName, userCPF, userPhone, userPassword, req.session.email], function(err, results, fields){
+    db.query('UPDATE users SET userName = ?, userCPF = ?, userPhone = ?, userPassword = ? WHERE userEmail = ?', [userName, userCPF, userPhone, userPassword, req.session.email], function(err, results, fields){
         if(err) throw err;
-
 
         console.log("Informações alteradas com sucesso!");
         res.json({message: 'Informações alteradas com sucesso!'})
@@ -459,7 +459,7 @@ app.delete('/deleteRating', (req, res) => {
     })
 })
 
-app.get('/likesNDislikes', (req, res) => {
+app.post('/likesNDislikes', (req, res) => {
     const {video} = req.body;
 
     db.query('select (select count(rating) from videoRating where rating = 1 and videoLink_FK = ?) as Likes, (select count(rating) from videoRating where rating = 0 and videoLink_FK = ?) as Dislikes;', [video, video], function(err, results, fields){

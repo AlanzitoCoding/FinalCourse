@@ -31,6 +31,7 @@ body {
     color: #ffffff;
     position: relative;
     overflow-x: hidden;
+    
 }
 
 body::before {
@@ -433,17 +434,18 @@ button:hover::before {
     <div class="modaledit" id="modaledit">
         <div class="modaledit-content">
            
+            <form>
             <h2 class="text-xl mb-4">Edite as suas informações abaixo</h2>
-            <input type="text" placeholder="Nome" name="userName" id = "nome" required>
+            <input type="text" placeholder="Nome" name="userName" id = "userName" required>
             <br>
-            <input type="number" placeholder="CPF" name="userCPF" id = "cpf" required>
+            <input type="number" placeholder="CPF" name="userCPF" id = "userCPF" required>
             <br>
-            <input type="tel" placeholder="Telefone" name="userPhone" id = "telefone" required>
+            <input type="tel" placeholder="Telefone" name="userPhone" id = "userPhone" required>
             <br>
-            <input type="password" placeholder="Password" name="userPassword" id = "senha" required>
+            <input type="password" placeholder="Password" name="userPassword" id = "userPassword" required>
             
             <button type="submit" onclick="editUser()">Editar</button>
-       
+        </form>
         </div>
     </div>
 
@@ -514,12 +516,12 @@ button:hover::before {
         
        function editUser(){
 
-       const userName = document.querySelector('userName').value
-       const userCPF = document.querySelector('userCPF').value
-       const userPhone = document.querySelector('userPhone').value
-       const userPassword = document.querySelector('userPassword').value
+       const userName = document.querySelector('#userName').value
+       const userCPF = document.querySelector('#userCPF').value
+       const userPhone = document.querySelector('#userPhone').value
+       const userPassword = document.querySelector('#userPassword').value
 
-        fetch('/editUser', {
+        fetch('/updateUser', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

@@ -254,6 +254,80 @@
     .btn-enviar:active {
       transform: scale(0.95);
     }
+
+    .modal {
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.7);
+          backdrop-filter: blur(5px);
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+      }
+
+      .modal-content {
+          background: rgba(10, 10, 10, 0.95);
+          padding: 30px;
+          border-radius: 10px;
+          text-align: center;
+          border: 1px solid rgba(66, 153, 225, 0.1);
+          box-shadow: 
+              5px 5px 15px rgba(50, 50, 50, 0.6),
+              -5px -5px 15px rgba(66, 153, 225, 0.07);
+          max-width: 400px;
+          width: 90%;
+          transform: scale(0.9);
+          transition: transform 0.3s ease;
+      }
+
+      .modal.active .modal-content {
+          transform: scale(1);
+      }
+
+      .modal-content h2 {
+          margin-bottom: 20px;
+          color: var(--primary-color);
+      }
+
+      .modal-content p {
+          margin-bottom: 25px;
+          line-height: 1.6;
+      }
+
+      .videoRatingBtnDiv {
+        display: flex;
+        align-items: center;
+        gap: 15px; /* Espaçamento entre as divs de like e dislike */
+      }
+
+      .likeDiv, .dislikeDiv {
+        display: flex;
+        align-items: center;
+        border: 1px solid #555;
+        border-radius: 5px;
+        gap: 6px; /* Espaçamento entre o botão e o contador */
+      }
+
+      .btn-like, .btn-dislike {
+        background-color: transparent;
+        cursor: pointer;
+        border: none;
+        font-size: 16px; /* Tamanho da fonte para os ícones */
+      }
+
+      .btn-like:hover, .btn-dislike:hover {
+        opacity: 0.7; /* Efeito de hover */
+      }
+
+      #likeAmt, #dislikeAmt {
+        font-size: 14px;
+        margin: 0;
+        margin-right: 6px;
+      }    
   </style>
 </head>
 <body>
@@ -266,6 +340,11 @@
       <h1>JavaScript</h1>
     </div>
   </header>
+
+  <div class="modal" id="modal">
+    <div class="modal-content" id="modal-content">
+    </div>
+  </div>
 
   <main>
     <aside class="navbar">
@@ -298,9 +377,15 @@
         <iframe id="videoFrame" src="https://www.youtube.com/embed/Ejkb_YpuHWs?si=kxHcSaw7uUfY9o1t" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
         <div class="video-controls">
-          <div>
-            <button class="btn-like"><i class="ph ph-thumbs-up"></i></button>
-            <button class="btn-dislike"><i class="ph ph-thumbs-down"></i></button>
+          <div class="videoRatingBtnDiv">
+            <div class="likeDiv">
+              <button class="btn-like" onclick="sendRating(1)"><i class="ph ph-thumbs-up"></i></button>
+              <p id="likeAmt">1</p>
+            </div>
+            <div class="dislikeDiv">
+              <button class="btn-dislike" onclick="sendRating(0)"><i class="ph ph-thumbs-down"></i></button>
+              <p id="dislikeAmt">1</p>
+            </div>
           </div>
           <div>
             <button class="btn-anterior" onclick="previousModule()"><i class="ph ph-arrow-left"></i> Anterior</button>
@@ -318,11 +403,23 @@
           <textarea id="comentario" name="comment" rows="4" placeholder="Escreva aqui seu comentário..."></textarea>
           <button class="btn-enviar" type="submit">Enviar Comentário<i class="ph ph-chat-text"></i></button>
         </form>
+        <button id="commentsButton">Ver comentários</button>
       </div>
     </aside>
   </main>
 
   <script>
+    commentsButton.onclick = () => {
+          modal.style.display = "flex";
+          listComments();
+      };
+        
+      window.onclick = (event) => {
+          if (event.target == modal) {
+              modal.style.display = "none";
+          }
+      };
+
     const videos = [
         "https://www.youtube.com/embed/uzEhd3Lugik?si=UT2oRZhD5QNlatCq", 
         "https://www.youtube.com/embed/Ptbk2af68e8?si=YOqBdOX6nBOWW7xN", 
@@ -359,12 +456,14 @@
     function previousModule() {
         if (currentModule > 0) {
             loadVideo(currentModule - 1);
+            likesNDislikes();
+          }
         }
-    }
-
-    function nextModule() {
-        if (currentModule < videos.length - 1) {
+        
+        function nextModule() {
+          if (currentModule < videos.length - 1) {
             loadVideo(currentModule + 1);
+            likesNDislikes();
         }
     }
     
@@ -435,8 +534,103 @@
       });
     }
 
+    function listComments(){
+      fetch('/getJsComment')
+        .then(response => response.json())
+        .then(data => {
+            const commentModal = document.getElementById('modal-content');
+              
+            commentModal.innerHTML = `<h2 class="text-xl mb-4">Comentários</h2><div class='commentModalVisual'>`;
+                
+            data.forEach(row => {
+              commentModal.innerHTML += `<h3>${row.userEmail_FK}</h3>`
+              commentModal.innerHTML += `<p>${row.userComment}</p><br>`
+            });
+
+            commentModal.innerHTML += '</div>';
+        })
+        .catch(error => {
+            console.error("Erro ao buscar comentários: " + error);
+        });
+    }
+
+    function deleteRating(){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+
+      fetch('/deleteRating', {
+        method: 'Delete',
+        headers: {
+          'Content-Type' : 'application/json', 
+        },
+        body: JSON.stringify({video: videoSrc, courseID: 1})
+      })
+      .then(response => {
+        console.log('Avaliação retirada');
+      })
+      .catch(error => {
+        console.error("Erro ao deletar usuário: " + error);
+      })
+    }
+
+    function sendRating(rating){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+
+      deleteRating();
+      
+      fetch('/videoRating', {
+        method: 'POST',
+        headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ video: videoSrc, courseID: 1, rating: rating })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Sucesso:', data);
+          })
+          .catch((error) => {
+            console.error('Erro:', error);
+          });
+        likesNDislikes();
+      }
+
+    function likesNDislikes(){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
+
+        fetch('/likesNDislikes', {
+          method: 'POST',
+          headers: {
+            'Content-Type' : 'application/json',
+          },
+          body: JSON.stringify({video: videoSrc})
+        })
+        .then(response => response.json())
+        .then(data => {
+          const likeAmt = document.getElementById('likeAmt');
+          const dislikeAmt = document.getElementById('dislikeAmt');
+
+          likeAmt.innerHTML = '';
+          dislikeAmt.innerHTML = '';
+
+          data.forEach(row => {
+            likeAmt.innerHTML += `${row.Likes}`
+            dislikeAmt.innerHTML += `${row.Dislikes}`
+          })
+        })
+        .catch(error => {
+          console.error("Erro ao buscar avaliação do vídeo: " + error); 
+        });
+    }
+
     loadVideo(0);
     updateProgress();
+    likesNDislikes();
+
+    const container = document.querySelector('.container');
+    container.classList.add('floating');
   </script>
 </body>
 </html>

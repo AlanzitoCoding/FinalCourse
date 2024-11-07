@@ -425,12 +425,14 @@
     function previousModule() {
         if (currentModule > 0) {
             loadVideo(currentModule - 1);
+            likesNDislikes();
+          }
         }
-    }
-
-    function nextModule() {
-        if (currentModule < videos.length - 1) {
+        
+        function nextModule() {
+          if (currentModule < videos.length - 1) {
             loadVideo(currentModule + 1);
+            likesNDislikes();
         }
     }
     
@@ -568,7 +570,7 @@
       const videoSrc = videoFrame.getAttribute('src');
 
         fetch('/likesNDislikes', {
-          method: 'Get',
+          method: 'POST',
           headers: {
             'Content-Type' : 'application/json',
           },
