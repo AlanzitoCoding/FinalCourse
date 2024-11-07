@@ -9,7 +9,7 @@ const port = 8081;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "",
+    password: "2006Pa#*#",
     database: "FinalCourse"
 });
 
@@ -465,13 +465,8 @@ app.post('/likesNDislikes', (req, res) => {
     db.query('select (select count(rating) from videoRating where rating = 1 and videoLink_FK = ?) as Likes, (select count(rating) from videoRating where rating = 0 and videoLink_FK = ?) as Dislikes;', [video, video], function(err, results, fields){
         if(err) throw err;
 
-        if(results.length > 0){
-            res.json(results);
-            console.log(results);
-        }
-        else{
-            console.log("Couldn't find user.")
-        }
+        res.json(results);
+        console.log(results);
     })
 })
 
