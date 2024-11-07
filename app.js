@@ -549,6 +549,10 @@ app.get('/QJS', function(req, res){
     res.sendFile(__dirname + '/HTMLs/Question/Coursejs.html');
 });
 
+app.get('/Certificado', function(req, res){
+    res.sendFile(__dirname + '/HTMLs/Certificado.html');
+});
+
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
