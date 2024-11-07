@@ -10,7 +10,7 @@ const port = 8081;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "2006Pa#*#",
+    password: "Gab123",
     database: "FinalCourse"
 });
 
@@ -468,6 +468,7 @@ app.delete('/deleteRating', (req, res) => {
 
 app.post('/likesNDislikes', (req, res) => {
     const {video} = req.body;
+    console.log(video)
 
     db.query('select (select count(rating) from videoRating where rating = 1 and videoLink_FK = ?) as Likes, (select count(rating) from videoRating where rating = 0 and videoLink_FK = ?) as Dislikes;', [video, video], function(err, results, fields){
         if(err) throw err;

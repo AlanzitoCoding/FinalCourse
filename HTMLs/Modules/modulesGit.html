@@ -393,6 +393,9 @@
   </main>
 
   <script>
+   
+    likesNDislikes();
+
       commentsButton.onclick = () => {
           modal.style.display = "flex";
           listComments();
@@ -465,7 +468,7 @@
       fetch('/checkVideo', {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
           },
           body: JSON.stringify({ video: videoSrc })
       })
@@ -494,7 +497,7 @@
       fetch('/gitWatchedVideo', {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
           },
           body: JSON.stringify({ video: videoSrc })
       })
@@ -534,7 +537,7 @@
       fetch('/deleteRating', {
         method: 'Delete',
         headers: {
-          'Content-Type' : 'application/json', 
+          'Content-Type' : 'application/json'
         },
         body: JSON.stringify({video: videoSrc, courseID: 1})
       })
@@ -555,7 +558,7 @@
       fetch('/videoRating', {
         method: 'POST',
         headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({ video: videoSrc, courseID: 1, rating: rating })
           })
@@ -590,69 +593,17 @@
           dislikeAmt.innerHTML = '';
 
           data.forEach(row => {
-            likeAmt.innerHTML += `${(row.Likes)}`
-            dislikeAmt.innerHTML += `${(row.Dislikes)}`
+            likeAmt.innerHTML += `${row.Likes}`
+            dislikeAmt.innerHTML += `${row.Dislikes}`
           })
         })
         .catch(error => {
           console.error("Erro ao buscar avaliação do vídeo: " + error); 
         });
     }
-
-    function generateCertificate() {
-      if(gitPercentage == 100){
-        const doc = new jsPDF({
-            orientation: 'landscape',
-            unit: 'mm',
-            format: 'a4'
-        });
-
-          // Configurações do certificado
-          doc.setFont("helvetica", "bold");
-          doc.setFontSize(40);
-          doc.setTextColor(44, 62, 80);
-
-          // Título
-          doc.text("Certificado de Conclusão", 150, 50, { align: "center" });
-
-          // Conteúdo
-          doc.setFontSize(16);
-          doc.setFont("helvetica", "normal");
-          doc.text(
-              `Certificamos que ${studentName} concluiu com êxito o curso de GitHub,\n` +
-              `com carga horária de 25 horas, finalizado em ${new Date().toLocaleDateString()}.`,
-              150, 100, { align: "center", maxWidth: 200 }
-          );
-
-          // Assinatura
-          doc.setFontSize(14);
-          doc.text("SMGFAP Courses", 150, 160, { align: "center"});
-          doc.line(100, 165, 200, 165); // Linha para assinatura
-          doc.setFontSize(12);
-          doc.text("Diretor de Ensino", 150, 175, { align: "center" });
-
-          // Rodapé
-          doc.setFontSize(10);
-          doc.setTextColor(128, 128, 128);
-          doc.text("Certificado emitido eletronicamente", 150, 190, { align: "center" });
-
-          // Download do certificado
-          doc.save(`Certificado_GitHub_${studentName}.pdf`);
-
-          // Mostrar mensagem de sucesso
-          const courseCard = document.querySelector(`.course-card:has(button[onclick*="GitHub"])`);
-          const successMessage = courseCard.querySelector('.success-message');
-          successMessage.style.display = 'block';
-          setTimeout(() => {
-              successMessage.style.display = 'none';
-          }, 3000);
-      }
-    }
-
     loadVideo(0);
     updateProgress();
     likesNDislikes();
-    generateCertificate();
         // Animação de flutuação
       const container = document.querySelector('.container');
       container.classList.add('floating');
