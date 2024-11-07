@@ -32,12 +32,14 @@ app.post('/submit', (req, res) => {
     const query = "insert into users values (?, ?, ?, ?, ?);"
 
     db.query(query, [cpf, nome, email, senha, telefone], function(err, result){
-        if(err) throw err;
+        if(err){
+           return res.json({message: 'Erro ao cadastrar usuário!'})
+        };
 
         console.log("1 record inserted");
         req.session.loggedin = true;
         req.session.email = email;
-        res.redirect("/");
+        res.json({message: 'Cadastro efetuado!'})
     });
 });
 
