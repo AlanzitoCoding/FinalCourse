@@ -479,6 +479,8 @@ app.post('/likesNDislikes', (req, res) => {
 
 
 
+
+
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'HTMLs', 'home.html'));
 });

@@ -474,12 +474,6 @@
             <p class="subtitle">Parabéns pela sua conquista!</p>
         </div>
 
-        <div class="student-info">
-            <div class="student-name">Aluno: <span id="studentName">Digite seu nome</span></div>
-            <div class="student-email">Email: <span id="studentEmail">Digite seu email</span></div>
-            <button onclick="updateStudentInfo()" style="margin-top: 10px; padding: 5px 10px;">Atualizar Dados</button>
-        </div>
-
         <div class="courses-grid">
             <!-- GitHub Course -->
             <div class="course-card">
@@ -544,29 +538,64 @@
     </div>
 <script>
     const { jsPDF } = window.jspdf;
+    
+    // Atualizar datas de conclusão
+    document.getElementById('githubDate').textContent = new Date().toLocaleDateString();
+    document.getElementById('htmlDate').textContent = new Date().toLocaleDateString();
+    document.getElementById('jsDate').textContent = new Date().toLocaleDateString();
+    
+fetchData();
+updateGitHubProgress();
+updateHtmlProgress();
+updateJsProgress();
 
-// Atualizar datas de conclusão
-document.getElementById('githubDate').textContent = new Date().toLocaleDateString();
-document.getElementById('htmlDate').textContent = new Date().toLocaleDateString();
-document.getElementById('jsDate').textContent = new Date().toLocaleDateString();
+var studentName = '';
+var gitPercentage = 0;
+var htmlPercentage = 0;
+var jsPercentage = 0;
 
-let studentName = "Digite seu nome";
-let studentEmail = "Digite seu email";
-
-function updateStudentInfo() {
-    const newName = prompt("Digite seu nome:", studentName);
-    const newEmail = prompt("Digite seu email:", studentEmail);
-
-    if (newName && newEmail) {
-        studentName = newName;
-        studentEmail = newEmail;
-        document.getElementById('studentName').textContent = studentName;
-        document.getElementById('studentEmail').textContent = studentEmail;
-    }
+function fetchData() {
+    fetch('/userInfo')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row => {
+            studentName += `${row.userName}`
+        })
+    })
+    .catch(error => {
+        console.error("Erro ao buscar dados do usuário: " + error);
+                
+    });
 }
 
-function toggleTheme() {
-    document.body.classList.toggle('dark-mode');
+function updateGitHubProgress() {
+    fetch('/gitProgressPercentage')
+    .then(response => response.json())
+    .then(data => { 
+        data.forEach(row => {
+            gitPercentage = `${row.percentage}%`;
+        })
+    })
+}
+
+function updateHtmlProgress() {
+    fetch('/htmlcssProgressPercentage')
+    .then(response => response.json())
+    .then(data => { 
+        data.forEach(row => {
+            htmlPercentage = `${row.percentage}%`;
+        })
+    })
+}
+
+function updateJsProgress() {
+    fetch('/jsProgressPercentage')
+    .then(response => response.json())
+    .then(data => { 
+        data.forEach(row => {
+            jsPercentage = `${row.percentage}%`;
+        })
+    })
 }
 
 function generateCertificate(courseName) {
@@ -576,7 +605,6 @@ function generateCertificate(courseName) {
         format: 'a4'
     });
 
-    // Definir carga horária baseada no curso
     let courseHours;
     switch(courseName) {
         case 'GitHub':
@@ -611,7 +639,7 @@ function generateCertificate(courseName) {
 
     // Assinatura
     doc.setFontSize(14);
-    doc.text("𝒜𝓁𝑒𝓍 𝒮𝒶𝓂𝒾 𝑅𝑜𝒸𝒽𝒶 𝑅𝒾𝒷𝑒𝒾𝓇𝑜", 150, 160, { align: "center"});
+    doc.text("SMGFAP Courses", 150, 160, { align: "center"});
     doc.line(100, 165, 200, 165); // Linha para assinatura
     doc.setFontSize(12);
     doc.text("Diretor de Ensino", 150, 175, { align: "center" });
