@@ -421,11 +421,15 @@ button:hover::before {
     <div class="modal" id="modal">
         <div class="modal-content">
             <h2 class="text-xl mb-4">Você realmente deseja excluir sua conta?</h2>
+            <h2 class="text-xl mb-4">Digite sua senha para confirmar!</h2>
             
+            <input type="password" placeholder="Senha" id="passwordConfirm">
             <button type="submit" onclick="deleteUser()">Sim</button>
             <button id="modalNao">Não</button>
         </div>
     </div>
+
+    
 
     <div class="modaledit" id="modaledit">
         <div class="modaledit-content">
@@ -551,11 +555,15 @@ button:hover::before {
         }
         
          function deleteUser(){
+
+            const userPassword = document.querySelector('#passwordConfirm').value
+
            fetch('/deleteUser',{
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify({userPassword: userPassword})
             })
             .then(response => {
 

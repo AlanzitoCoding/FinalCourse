@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
 const mysql = require('mysql2');
+const { error } = require('console');
 const port = 8081;
 
 const db = mysql.createConnection({
@@ -400,25 +401,29 @@ app.put('/updateUser', (req, res) => {
 })
 
 app.delete('/deleteUser', (req, res) => {
-    if (req.session.loggedin) {
+
+    const {userPassword} = req.body
+
+    /*if (req.session.loggedin) {
          res.redirect('/loginScreen');
-    }
+    }*/
 
-    db.query('DELETE FROM users WHERE userEmail = ?', [req.session.email], (err, results) => {
-        if (err) {
+    db.query('DELETE FROM users WHERE userEmail = ? AND userPassword = ?', [req.session.email, userPassword], (err, results) => {
+        if (!results.affectedRows || err ) {
             console.error('Erro ao deletar usuário:', err);
-            return res.status(500).send('Erro ao deletar conta');
-        }
+            return
 
-        console.log('User deletado')
+        }
         
-        // Destruir a sessão
+        console.log('User deletado')
+        // Destruir a sessão'
         req.session.destroy((err) => {
             if (err) {
                 console.error('Erro ao destruir sessão:', err);
             }
-            res.redirect('/');
         });
+
+        res.redirect('/')
     });
 });
 
@@ -474,6 +479,7 @@ app.post('/likesNDislikes', (req, res) => {
         }
     })
 })
+
 
 
 app.get('/', (req, res) => {
