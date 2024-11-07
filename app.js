@@ -10,7 +10,7 @@ const port = 8081;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "Gab123",
+    password: "cimatec",
     database: "FinalCourse"
 });
 
@@ -406,9 +406,6 @@ app.delete('/deleteUser', (req, res) => {
 
     const {userPassword} = req.body
 
-    /*if (req.session.loggedin) {
-         res.redirect('/loginScreen');
-    }*/
 
     db.query('DELETE FROM users WHERE userEmail = ? AND userPassword = ?', [req.session.email, userPassword], (err, results) => {
         if (!results.affectedRows || err ) {

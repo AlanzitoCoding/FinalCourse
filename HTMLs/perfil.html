@@ -353,12 +353,44 @@ button:hover::before {
             color: white;
         }
 
+        nav .btn-voltar {
+      display: flex;
+      align-items: center;
+      background-color: transparent;
+      color: #FFF;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      transition: color 0.3s;
+      text-decoration: none;
+    }
+
+    nav .btn-voltar:hover {
+      color: #aaa;
+    }
+
+    nav .btn-voltar::before {
+      content: "←";
+      margin-right: 8px;
+    }
+
+    .btnsDiv{
+        display: flex;
+        justify-content: space-evenly;
+        align-content: baseline;
+    }
+    
+    .btnsDiv button{
+        width: 120px;
+        height: 75px;
+    }
     </style>
 </head>
 <body class="font-sans" onload="fetchData()">
     <nav class="neumorphic p-4 mb-8">
         <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold"><- Voltar a Tela Principal</a>
+            <a href="/" class="btn-voltar">Voltar a Tela Principal</a>
         </div>
     </nav>
 
@@ -397,23 +429,21 @@ button:hover::before {
                 </div>
             </div>
         </div>
-
         <div class="neumorphic p-8 mb-8 fade-in">
             <h2 class="text-2xl font-bold mb-4">Cursos Inscritos</h2>
             <ul id="enrolledCourses" class="list-disc list-inside">
             </ul>
         </div>
-        <button id="editButtom" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Editar Perfil</button>
-        <form action="/logout">
-          <br>
-            <p><button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Sair</button></p>
-        </form>
-        <br>
-        <button id="deleteButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Excluir Conta</button>
-        <form action="/Certificado" method="get">
-        <br>
-        <button id="CertificadoButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Gerar Certificado</button>
-        </form>
+        <div class="btnsDiv">
+            <button id="editButtom" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Editar Perfil</button>
+            <form action="/logout">
+                <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Sair</button>
+            </form>
+            <button id="deleteButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Excluir Conta</button>
+            <form action="/Certificado" method="get">
+                <button id="CertificadoButton" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300">Gerar Certificado</button>
+            </form>
+        </div>
     </div>
 
     <footer class="neumorphic p-4 mt-12">

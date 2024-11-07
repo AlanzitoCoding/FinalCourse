@@ -393,8 +393,7 @@
   </main>
 
   <script>
-   
-    likesNDislikes();
+    var gitPercentage = 0;
 
       commentsButton.onclick = () => {
           modal.style.display = "flex";
@@ -439,6 +438,8 @@
         }
     }
     
+    
+
     function updateActiveLink() {
         const links = document.querySelectorAll('.navbar ul li a');
         links.forEach((link, index) => {
@@ -446,18 +447,18 @@
         });
     }
 
-    var gitPercentage = 0;
+    
 
     function updateProgress() {
         fetch('/gitProgressPercentage')
         .then(response => response.json())
         .then(data => {
-
+          
           const progressBar = document.querySelector('.progress'); 
           data.forEach(row => {
             progressBar.style.width = `${row.percentage}%`;
-            gitPercentage = `${row.percentage}`;
-          })
+                    
+          })         
         })
     }
 
@@ -601,10 +602,87 @@
           console.error("Erro ao buscar avaliação do vídeo: " + error); 
         });
     }
+
+    var studentName = '';
+
+    function fetchData() {
+    fetch('/userInfo')
+    .then(response => response.json())
+    .then(data => {
+        data.forEach(row => {
+            studentName += `${row.userName}`
+        })
+    })
+    .catch(error => {
+        console.error("Erro ao buscar dados do usuário: " + error);
+                
+    });
+}
+
+
+
+    function generateCertificate() {
+      fetch('/gitProgressPercentage')
+        .then(response => response.json())
+        .then(data => {
+           
+          /*data.forEach(row => {
+            
+          gitPercentage += row.percentage                       
+            
+          
+          }) */ 
+          
+          gitPercentage = Number.parseFloat(data.percentage) 
+        })
+
+        console.log('Porcentagem: ' + gitPercentage)
+
+        if(gitPercentage == 100.0){
+      const doc = new jsPDF({
+        orientation: 'landscape',
+        unit: 'mm',
+        format: 'a4'
+    });
+
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(40);
+    doc.setTextColor(44, 62, 80);
+
+    // Título
+    doc.text("Certificado de Conclusão", 150, 50, { align: "center" });
+
+    // Conteúdo
+    doc.setFontSize(16);
+    doc.setFont("helvetica", "normal");
+    doc.text(
+        `Certificamos que ${studentName} concluiu com êxito o curso de GitHub\n` +
+        `com carga horária de 20 minutos, finalizado em ${new Date().toLocaleDateString()}.`,
+        150, 100, { align: "center", maxWidth: 200 }
+    );
+
+    // Assinatura
+    doc.setFontSize(14);
+    doc.text("SMGFAP Courses", 150, 160, { align: "center"});
+    doc.line(100, 165, 200, 165); // Linha para assinatura
+    doc.setFontSize(12);
+    doc.text("Diretor de Ensino", 150, 175, { align: "center" });
+
+    // Rodapé
+    doc.setFontSize(10);
+    doc.setTextColor(128, 128, 128);
+    doc.text("Certificado emitido eletronicamente", 150, 190, { align: "center" });
+
+    // Download do certificado
+    doc.save(`Certificado_GitHub_${studentName}.pdf`);
+        }
+}
     loadVideo(0);
     updateProgress();
     likesNDislikes();
-        // Animação de flutuação
+    
+    
+    console.log('Porcentagem curso: ' + gitPercentage)
       const container = document.querySelector('.container');
       container.classList.add('floating');
 
