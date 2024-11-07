@@ -393,6 +393,9 @@
   </main>
 
   <script>
+   
+    likesNDislikes();
+
       commentsButton.onclick = () => {
           modal.style.display = "flex";
           listComments();
@@ -462,7 +465,7 @@
       fetch('/checkVideo', {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
           },
           body: JSON.stringify({ video: videoSrc })
       })
@@ -490,7 +493,7 @@
       fetch('/gitWatchedVideo', {
           method: 'POST',
           headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
           },
           body: JSON.stringify({ video: videoSrc })
       })
@@ -530,7 +533,7 @@
       fetch('/deleteRating', {
         method: 'Delete',
         headers: {
-          'Content-Type' : 'application/json', 
+          'Content-Type' : 'application/json'
         },
         body: JSON.stringify({video: videoSrc, courseID: 1})
       })
@@ -551,7 +554,7 @@
       fetch('/videoRating', {
         method: 'POST',
         headers: {
-              'Content-Type': 'application/json',
+              'Content-Type': 'application/json'
             },
             body: JSON.stringify({ video: videoSrc, courseID: 1, rating: rating })
           })
@@ -586,18 +589,17 @@
           dislikeAmt.innerHTML = '';
 
           data.forEach(row => {
-            likeAmt.innerHTML += `${(row.Likes)}`
-            dislikeAmt.innerHTML += `${(row.Dislikes)}`
+            likeAmt.innerHTML += `${row.Likes}`
+            dislikeAmt.innerHTML += `${row.Dislikes}`
           })
         })
         .catch(error => {
           console.error("Erro ao buscar avaliação do vídeo: " + error); 
         });
     }
-
     loadVideo(0);
     updateProgress();
-    likesNDislikes();
+    
         // Animação de flutuação
       const container = document.querySelector('.container');
       container.classList.add('floating');
