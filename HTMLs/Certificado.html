@@ -544,12 +544,11 @@
     document.getElementById('htmlDate').textContent = new Date().toLocaleDateString();
     document.getElementById('jsDate').textContent = new Date().toLocaleDateString();
     
-fetchData();
+
 updateGitHubProgress();
 updateHtmlProgress();
 updateJsProgress();
 
-var studentName = '';
 var gitPercentage = 0;
 var htmlPercentage = 0;
 var jsPercentage = 0;
@@ -574,15 +573,18 @@ function listCourses(){
 }
 
 function fetchData() {
-    fetch('/userInfo')
+   return fetch('/userInfo')
     .then(response => response.json())
     .then(data => {
-        studentName = `${data.userName}` 
+
+        console.log('Dados do fetch: ' + data[0].userName)
+            
+            return data[0].userName
 
     })
     .catch(error => {
         console.error("Erro ao buscar dados do usuário: " + error);
-                
+        return null
     });
 }
 
@@ -617,6 +619,15 @@ function updateJsProgress() {
 }
 
 function generateCertificate(courseName) {
+    fetchData().then(studentName => {
+
+        if(!studentName) {
+            console.error('Nome do estudante não encontrado!')
+            return  
+        }
+    
+
+    console.log('NOME DO ESTUDANTE: ' + studentName )
     const doc = new jsPDF({
         orientation: 'landscape',
         unit: 'mm',
@@ -677,6 +688,7 @@ function generateCertificate(courseName) {
     setTimeout(() => {
         successMessage.style.display = 'none';
     }, 3000);
+})
 }
 document.body.classList.toggle('dark-mode');
         AOS.init({

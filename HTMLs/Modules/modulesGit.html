@@ -393,7 +393,8 @@
   </main>
 
   <script>
-    var gitPercentage = 0;
+    
+    var gitPercentage = 100;
 
       commentsButton.onclick = () => {
           modal.style.display = "flex";
@@ -610,7 +611,7 @@
     .then(response => response.json())
     .then(data => {
         data.forEach(row => {
-            studentName += `${row.userName}`
+            studentName = JSON.stringify(data.userName)
         })
     })
     .catch(error => {
@@ -622,6 +623,7 @@
 
 
     function generateCertificate() {
+      
       fetch('/gitProgressPercentage')
         .then(response => response.json())
         .then(data => {
@@ -633,12 +635,12 @@
           
           }) */ 
           
-          gitPercentage = Number.parseFloat(data.percentage) 
+          gitPercentage = JSON.stringify(data.percentage) 
         })
 
         console.log('Porcentagem: ' + gitPercentage)
 
-        if(gitPercentage == 100.0){
+        if(gitPercentage == 100.00){
       const doc = new jsPDF({
         orientation: 'landscape',
         unit: 'mm',
