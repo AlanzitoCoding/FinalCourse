@@ -574,33 +574,29 @@
           });
       }
 
-      function sendRating(rating) {
-        const videoFrame = document.getElementById("videoFrame");
-        const videoSrc = videoFrame.getAttribute("src");
+    function sendRating(rating){
+      const videoFrame = document.getElementById('videoFrame');
+      const videoSrc = videoFrame.getAttribute('src');
 
-        deleteRating();
-
-        fetch("/videoRating", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            video: videoSrc,
-            courseID: 1,
-            rating: rating,
-          }),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Sucesso:", data);
+      deleteRating();
+      
+      fetch('/videoRating', {
+        method: 'POST',
+        headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ video: videoSrc, courseID: 1, rating: rating })
+          })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Sucesso:', data);
           })
           .catch((error) => {
             console.error("Erro:", error);
           });
 
-        likesNDislikes();
-      }
+      likesNDislikes();
+    }
 
       function likesNDislikes() {
         const videoFrame = document.getElementById("videoFrame");
@@ -621,15 +617,17 @@
             likeAmt.innerHTML = "";
             dislikeAmt.innerHTML = "";
 
-            data.forEach((row) => {
-              likeAmt.innerHTML += `${row.Likes}`;
-              dislikeAmt.innerHTML += `${row.Dislikes}`;
-            });
+          data.forEach(row => {
+            likeAmt.innerHTML += `${row.Likes}`
+            dislikeAmt.innerHTML += `${row.Dislikes}`
           })
-          .catch((error) => {
-            console.error("Erro ao buscar avaliação do vídeo: " + error);
-          });
-      }
+        })
+        .catch(error => {
+          console.error("Erro ao buscar avaliação do vídeo: " + error); 
+        });
+    }
+
+    var studentName = '';
 
       function fetchData() {
         return fetch("/userInfo")
