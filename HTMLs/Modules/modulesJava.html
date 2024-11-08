@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Curso - Módulos de Vídeo</title>
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     * {
       margin: 0;
@@ -505,6 +506,7 @@
         else{
           sendVideoData();
           updateProgress();
+          generateCertificate()
         }
       })
       .catch((error) => {
@@ -623,6 +625,102 @@
         .catch(error => {
           console.error("Erro ao buscar avaliação do vídeo: " + error); 
         });
+    }
+    
+    function fetchData() {
+      return fetch("/userInfo")
+        .then((response) => response.json())
+        .then((data) => {
+          return data[0].userName;
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar dados do usuário: " + error);
+          return null;
+        });
+    }
+
+    function fetchPercentage() {
+      return fetch("/progressCoursePercentage", {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ courseID: 3 })
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          return data[0].percentage;
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar porcentagem: " + error);
+          return null;
+        });
+    }
+
+    function generateCertificate() {
+      fetchPercentage().then((percentage) => {
+        if (!percentage) {
+          console.error("Porcentagem não encontrado!");
+          return;
+        }
+
+        console.log("Porcentagem: " + percentage);
+
+        if (percentage === "100.0000") {
+          fetchData().then((studentName) => {
+            if (!studentName) {
+              console.error("Nome do estudante não encontrado!");
+              return;
+            }
+
+            console.log("NOME DO ESTUDANTE: " + studentName);
+            const { jsPDF } = window.jspdf;
+
+            const doc = new jsPDF({
+              orientation: "landscape",
+              unit: "mm",
+              format: "a4",
+            });
+
+            doc.setFont("helvetica", "bold");
+            doc.setFontSize(40);
+            doc.setTextColor(44, 62, 80);
+
+            // Título
+            doc.text("Certificado de Conclusão", 150, 50, {
+              align: "center",
+            });
+
+            // Conteúdo
+            doc.setFontSize(16);
+            doc.setFont("helvetica", "normal");
+            doc.text(
+              `Certificamos que ${studentName} concluiu com êxito o curso de Javascript\n` +
+                `com carga horária de 60 horas, finalizado em ${new Date().toLocaleDateString()}.`,
+              150,
+              100,
+              { align: "center", maxWidth: 200 }
+            );
+
+            // Assinatura
+            doc.setFontSize(14);
+            doc.text("SMGFAP Courses", 150, 160, { align: "center" });
+            doc.line(100, 165, 200, 165); // Linha para assinatura
+            doc.setFontSize(12);
+            doc.text("Diretor de Ensino", 150, 175, { align: "center" });
+
+            // Rodapé
+            doc.setFontSize(10);
+            doc.setTextColor(128, 128, 128);
+            doc.text("Certificado emitido eletronicamente", 150, 190, {
+              align: "center",
+            });
+
+            // Download do certificado
+            doc.save(`Certificado_JS_${studentName}.pdf`);
+          });
+        }
+      });
     }
 
     loadVideo(0);

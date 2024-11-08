@@ -332,47 +332,12 @@ app.post('/checkVideo', (req, res) => {
     }
 })
 
-app.get('/gitProgressPercentage', (req, res) => {
+
+app.post('/progressCoursePercentage', (req, res) => {
     try {
-        db.query("select sum(wv.isWatched)*100/c.modulesAmount as percentage from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID and wv.courseID_FK = 1 and userEmail_FK = ? group by courseID;", [req.session.email], function(err, results, fields){
-            if(err) {
-                console.error(err);
-                res.status(500).json({ error: 'Erro ao checar no banco de dados' });
-                return;
-            }
+        const {courseID} = req.body
 
-            console.log(results)
-            res.json(results);
-            
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
-    }
-})
-
-app.get('/htmlcssProgressPercentage', (req, res) => {
-    try {
-        db.query("select sum(wv.isWatched)*100/c.modulesAmount as percentage from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID and wv.courseID_FK = 2 and userEmail_FK = ? group by courseID;", [req.session.email], function(err, results, fields){
-            if(err) {
-                console.error(err);
-                res.status(500).json({ error: 'Erro ao checar no banco de dados' });
-                return;
-            }
-
-            console.log(results)
-            res.json(results);
-            
-        });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Erro interno do servidor' });
-    }
-})
-
-app.get('/jsProgressPercentage', (req, res) => {
-    try {
-        db.query("select sum(wv.isWatched)*100/c.modulesAmount as percentage from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID and wv.courseID_FK = 3 and userEmail_FK = ? group by courseID;", [req.session.email], function(err, results, fields){
+        db.query("select sum(wv.isWatched)*100/c.modulesAmount as percentage from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID and wv.courseID_FK = ? and userEmail_FK = ? group by courseID;", [courseID, req.session.email], function(err, results, fields){
             if(err) {
                 console.error(err);
                 res.status(500).json({ error: 'Erro ao checar no banco de dados' });
