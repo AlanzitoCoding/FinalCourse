@@ -539,7 +539,7 @@
       fetch('/deleteRating', {
         method: 'Delete',
         headers: {
-          'Content-Type' : 'application/json'
+          'Content-Type' : 'application/json', 
         },
         body: JSON.stringify({video: videoSrc, courseID: 1})
       })
@@ -555,12 +555,14 @@
       const videoFrame = document.getElementById('videoFrame');
       const videoSrc = videoFrame.getAttribute('src');
 
+      location.href = location.href;
+
       deleteRating();
       
       fetch('/videoRating', {
         method: 'POST',
         headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify({ video: videoSrc, courseID: 1, rating: rating })
           })
@@ -571,7 +573,6 @@
           .catch((error) => {
             console.error('Erro:', error);
           });
-
       likesNDislikes();
     }
 
@@ -603,6 +604,8 @@
           console.error("Erro ao buscar avaliação do vídeo: " + error); 
         });
     }
+
+
 
     var studentName = '';
 
