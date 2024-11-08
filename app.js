@@ -440,6 +440,28 @@ app.post('/likesNDislikes', (req, res) => {
     })
 })
 
+app.post('/addPfp', (req,res) => {
+    const {imageLink} = req.body
+
+    console.log('Image Link: ' + imageLink)
+
+    db.query('INSERT INTO usersPic (imageLink, userEmail_FK) values (?,LOAD_FILE(?))', [imageLink, req.session.email], (err,results,fields) => {
+
+        if(err) throw err;
+
+
+    }) 
+})
+
+/*app.post('/getPfp', (req,res) => {
+    const {imageLink} = req.body
+
+    console.log('Image Link: ' + imageLink)
+
+    db.query('SELECT ')
+
+
+})*/
 
 
 

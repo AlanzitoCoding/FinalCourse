@@ -109,6 +109,15 @@ create table videoRating(
     Foreign Key (userEmail_FK) references users (userEmail) on delete cascade
 );
 
+create table usersPic(
+idPic int auto_increment primary key,
+imageLink blob not null,
+userEmail_FK varchar(255) not null,
+
+foreign key (userEmail_FK) references users (userEmail) on delete cascade
+
+);
+
 
 select * from users;
 select * from courses;
