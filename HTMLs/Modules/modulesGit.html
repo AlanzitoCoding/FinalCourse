@@ -477,7 +477,7 @@
       }
 
       function updateProgress() {
-        fetch("/gitProgressPercentage")
+        fetch("/progressCoursePercentage")
           .then((response) => response.json())
           .then((data) => {
             const progressBar = document.querySelector(".progress");
