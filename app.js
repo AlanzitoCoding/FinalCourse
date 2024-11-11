@@ -465,7 +465,27 @@ app.post('/addPfp', (req,res) => {
 
 })*/
 
+app.post('/getCourseConclusion', (req,res) => {
+    const {courseID} = req.body
 
+    db.query('SELECT courseConcluded from courseUsers where courseId_FK = ? AND userEmail_FK = ?', [courseID, req.session.email], (err,results,fields) => {
+        if(err) throw err;
+
+        console.log(results);
+        res.json(results);
+    })
+})
+
+app.post('/postCourseConclusion', (req,res) => {
+    const {courseID,courseConcluded} = req.body
+
+    db.query('INSERT INTO courseUsers (userEmail_FK,courseID_FK,courseConcluded)', [req.session.email,courseID, courseConcluded], (err,results,fields) => {
+        if(err) throw err;
+
+        console.log(results);
+        res.json({message: 'Curso concluído com sucesso!'});
+    })
+})
 
 
 app.get('/', (req, res) => {
