@@ -398,6 +398,91 @@
     right: 10px;
     border-radius: 5px 0 0 5px;
 }
+
+
+.section {
+    max-width: 1200px;
+    margin: 4rem auto;
+    padding: 2rem;
+    background: var(--card-bg);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px var(--shadow);
+    backdrop-filter: blur(10px);
+}
+
+.section h2 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+}
+
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.course-card {
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 15px var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.course-card:hover {
+    transform: translateY(-5px);
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+
+.stat-card {
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+
+.stat-number {
+    font-size: 2.5rem;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+.testimonials {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+
+.testimonial-card {
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px var(--shadow);
+}
+
+
+.cta-section {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    color: white;
+    border-radius: 15px;
+    margin: 4rem auto;
+}
+
+
     </style>
 </head>
 <body class="font-sans">
@@ -479,6 +564,73 @@
         <div class="container mx-auto text-center">
             <p>&copy; 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
         </div>
+    </footer>
+
+    <main>
+        
+
+        <section class="section" data-aos="fade-up">
+            <h2>Nossos Cursos em Destaque</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <h3>Curso de GitHub</h3>
+                    <p>Aprenda a utilizar o GitHub de forma profissional para gerenciar seus projetos.</p>
+                    <a href="#" class="cta-button">Saiba mais</a>
+                </div>
+                <div class="course-card">
+                    <h3>Curso de HTML/CSS</h3>
+                    <p>Desenvolva habilidades essenciais para criar websites modernos e responsivos.</p>
+                    <a href="#" class="cta-button">Saiba mais</a>
+                </div>
+                <div class="course-card">
+                    <h3>Curso de JavaScript</h3>
+                    <p>Domine a linguagem de programação mais popular da web.</p>
+                    <a href="#" class="cta-button">Saiba mais</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-aos="fade-up">
+            <h2>Por que Escolher a SMGFAP Courses?</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number">1000+</div>
+                    <p>Alunos Formados</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">20+</div>
+                    <p>Cursos Disponíveis</p>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">95%</div>
+                    <p>Taxa de Satisfação</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section" data-aos="fade-up">
+            <h2>O que Nossos Alunos Dizem</h2>
+            <div class="testimonials">
+                <div class="testimonial-card">
+                    <p>"Os cursos são excelentes! Consegui meu primeiro emprego na área após concluir o curso de JavaScript."</p>
+                    <h4>- Maria Silva</h4>
+                </div>
+                <div class="testimonial-card">
+                    <p>"Professores muito capacitados e material didático de primeira qualidade."</p>
+                    <h4>- João Santos</h4>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section" data-aos="zoom-in">
+            <h2>Comece Sua Jornada de Aprendizado Hoje</h2>
+            <p>Inscreva-se agora e ganhe acesso a conteúdo exclusivo</p>
+            <a href="#" class="cta-button">Começar Agora</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>© 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
     </footer>
 
     <script>
