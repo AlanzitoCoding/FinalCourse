@@ -344,8 +344,10 @@ app.post('/progressCoursePercentage', (req, res) => {
                 return;
             }
 
-            console.log(results)
-            res.json(results);
+            
+            console.log('Porcentagem de progresso: ' + results.length)
+                res.json(results);
+            
             
         });
     } catch (error) {
