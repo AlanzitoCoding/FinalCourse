@@ -490,16 +490,21 @@
     }
 
     function updateProgress() {
-        fetch('/htmlcssProgressPercentage')
-        .then(response => response.json())
-        .then(data => {
-
-          const progressBar = document.querySelector('.progress'); 
-          data.forEach(row => {
-            progressBar.style.width = `${row.percentage}%`;
-          })
+        fetch("/progressCoursePercentage", {
+          method: 'POST',
+          headers: {
+            'Content-Type' : 'application/json'
+          },
+          body: JSON.stringify({courseID: 2})
         })
-    }
+          .then((response) => response.json())
+          .then((data) => {
+            const progressBar = document.querySelector(".progress");
+            data.forEach((row) => {
+              progressBar.style.width = `${row.percentage}%`;
+            });
+          });
+      }
 
     function completeModule() {
       const videoFrame = document.getElementById('videoFrame');

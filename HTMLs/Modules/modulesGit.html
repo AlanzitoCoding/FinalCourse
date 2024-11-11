@@ -477,7 +477,13 @@
       }
 
       function updateProgress() {
-        fetch("/progressCoursePercentage")
+        fetch("/progressCoursePercentage", {
+          method: 'POST',
+          headers: {
+            'Content-Type' : 'application/json'
+          },
+          body: JSON.stringify({courseID: 1})
+        })
           .then((response) => response.json())
           .then((data) => {
             const progressBar = document.querySelector(".progress");
