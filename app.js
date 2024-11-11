@@ -479,7 +479,7 @@ app.post('/getCourseConclusion', (req,res) => {
 app.post('/postCourseConclusion', (req,res) => {
     const {courseID,courseConcluded} = req.body
 
-    db.query('INSERT INTO courseUsers (userEmail_FK,courseID_FK,courseConcluded)', [req.session.email,courseID, courseConcluded], (err,results,fields) => {
+    db.query('INSERT INTO courseUsers (userEmail_FK,courseID_FK,courseConcluded) VALUES (?,?,?)', [req.session.email,courseID, courseConcluded], (err,results,fields) => {
         if(err) throw err;
 
         console.log(results);
