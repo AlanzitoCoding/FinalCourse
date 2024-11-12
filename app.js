@@ -28,62 +28,50 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'HTMLs')));
 
-app.post('/submit', async (req, res) => {
-    const { cpf, nome, email, senha, telefone } = req.body;
+app.post('/submit', (req, res) => {
+    const {email, senha, nome, cpf, telefone} = req.body;
 
-    try {
-        const encryptedSenha = await bcrypt.hash(senha, saltRounds);
+    const query = "insert into users values (?, ?, ?, ?, ?);"
 
-        const query = "INSERT INTO users VALUES (?, ?, ?, ?, ?);";
+    db.query(query, [cpf, nome, email, senha, telefone], function(err, result){
+        if(err){
+           return res.json({message: 'Erro ao cadastrar usuário!'})
+        };
 
-        db.query(query, [cpf, nome, email, encryptedSenha, telefone], function(err, result) {
-            if (err) {
-                return res.json({ message: 'Erro ao cadastrar usuário!' });
-            }
-
-            console.log("1 registro inserido");
-            req.session.loggedin = true;
-            req.session.email = email;
-            res.json({ message: 'Cadastro efetuado!' });
-        });
-    } catch (error) {
-        res.json({ message: 'Erro ao criptografar a senha!' });
-    }
-});
-
-app.post("/auth", (req, res) => {
-    const { email, senha } = req.body;
-
-    db.query("SELECT * FROM users WHERE userEmail = ?;", [email], async function(err, results) {
-        if (err) {
-            console.error("Erro ao consultar o banco:", err);
-            return res.json({ message: 'Erro no servidor.' });
-        }
-
-        if (results.length === 0) {
-            return res.json({ message: 'E-mail e/ou senha incorretos.' });
-        }
-
-        const encryptedSenha = results[0].userPassword;
-
-        try {
-            const isMatch = await bcrypt.compare(senha, encryptedSenha);
-
-            if (isMatch) {
-                req.session.loggedin = true;
-                req.session.email = email;
-                console.log("Usuário autenticado:", email);
-                res.json({ ok: true });
-            } else {
-                res.json({ message: 'E-mail e/ou senha incorretos.' });
-            }
-        } catch (compareError) {
-            console.error("Erro ao comparar senha:", compareError);
-            res.json({ message: 'Erro no servidor.' });
-        }
+        console.log("1 record inserted");
+        req.session.loggedin = true;
+        req.session.email = email;
+        res.json({message: 'Cadastro efetuado!'})
     });
 });
 
+app.post("/auth", (req, res) => {
+    const {email, senha} = req.body
+     
+     db.query("select * from users where userEmail = ? and userPassword = ?;", [email, senha], function(err, results, fields){
+         if(err) throw err;
+         
+         if(email && senha){
+             if(results.length > 0){
+                 req.session.loggedin = true;
+                 req.session.email = email;
+                 
+                 console.log(req.session.email);
+                 res.json({ok:true});
+                 
+             }
+             else{
+                 const msg = "Incorrect email and/or password."
+                 res.json({message: msg});
+                 
+             }
+         }
+         else{
+             const msg = 'Please, insert your email and password!'
+             res.json({message: msg});
+         }
+     })
+ });
 
 app.post("/gitReg", (req, res) => {
     db.query("insert into courseUsers (userEmail_FK, courseID_FK) values (?, 1);", [req.session.email], function(err, results, fields){
@@ -384,35 +372,22 @@ app.delete('/deleteUser', (req, res) => {
     const {userPassword} = req.body
 
 
-    db.query('DELETE FROM users WHERE userEmail = ?', [req.session.email, userPassword], async function(err, results) {
+    db.query('DELETE FROM users WHERE userEmail = ? AND userPassword = ?', [req.session.email, userPassword], async function(err, results) {
         if (!results.affectedRows || err ) {
             console.error('Erro ao deletar usuário:', err);
             return
 
         }
-
-        const encryptedSenha = userPassword;
-
-        try {
-            const isMatch = await bcrypt.compare(userPassword, encryptedSenha);
-
-            if (isMatch) {
-                req.session.destroy((err) => {
-                    if (err) {
-                        console.error('Erro ao destruir sessão:', err);
-                    }
-                });
-            } else {
-                res.json({ message: 'E-mail e/ou senha incorretos.' });
-            }
-        } catch (compareError) {
-            console.error("Erro ao comparar senha:", compareError);
-            res.json({ message: 'Erro no servidor.' });
-        }
-        
         console.log('User deletado')
+
+        req.session.destroy((err) => {
+            if(err){
+                console.err('Erro ao destruir sessão: ', err)
+            }
+        })
+
       
-      
+      res.redirect('/')
 
         
     });
@@ -467,28 +442,6 @@ app.post('/likesNDislikes', (req, res) => {
     })
 })
 
-app.post('/addPfp', (req,res) => {
-    const {imageLink} = req.body
-
-    console.log('Image Link: ' + imageLink)
-
-    db.query('INSERT INTO usersPic (imageLink, userEmail_FK) values (?,LOAD_FILE(?))', [imageLink, req.session.email], (err,results,fields) => {
-
-        if(err) throw err;
-
-
-    }) 
-})
-
-/*app.post('/getPfp', (req,res) => {
-    const {imageLink} = req.body
-
-    console.log('Image Link: ' + imageLink)
-
-    db.query('SELECT ')
-
-
-})*/
 
 app.post('/getCourseConclusion', (req,res) => {
     const {courseID} = req.body

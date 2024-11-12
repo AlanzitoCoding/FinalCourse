@@ -620,7 +620,7 @@ button:hover::before {
             })
             .then(response => {
 
-                window.location.href = '/';
+                window.location.href = response.url;
                 
             }).catch(error => {
                 console.error("Erro ao deletar usuário: " + error);
