@@ -335,6 +335,26 @@
         margin: 0;
         margin-right: 6px;
       }
+
+      .examBtnDiv{
+        display: none;
+      }
+
+      .examBtnDiv button{
+        background-color: #303030;
+        color: white;
+        border: 1px solid #555;
+        padding: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+        align-items: center;
+      }
+
+      .examBtnDiv button:hover{
+        background-color: #888;
+      }
+
     </style>
   </head>
   <body>
@@ -389,6 +409,11 @@
                 <p id="dislikeAmt">1</p>
               </div>
             </div>
+
+            <div class="examBtnDiv" id="examBtnDiv">
+              <button>Realizar Prova</button>
+            </div>
+
             <div>
               <button class="btn-anterior" onclick="previousModule()">
                 <i class="ph ph-arrow-left"></i> Anterior
@@ -406,18 +431,16 @@
           Marcar como Concluída
         </button>
         <div class="comentario-section">
-          <form action="/gitComment" method="post">
             <label for="comentario">Deixe um comentário:</label>
             <textarea
-              id="comentario"
+              id="comment"
               name="comment"
               rows="4"
               placeholder="Escreva aqui seu comentário..."
             ></textarea>
-            <button class="btn-enviar" type="submit">
-              Enviar Comentário<i class="ph ph-chat-text"></i>
+            <button class="btn-enviar" id="sendCommentBtn" onclick="sendComment()">
+              Enviar Comentário <i class="ph ph-chat-text"></i>
             </button>
-          </form>
           <button id="commentsButton">Ver comentários</button>
         </div>
       </aside>
@@ -436,6 +459,17 @@
           modal.style.display = "none";
         }
       };
+
+      function showExamBtn(){
+        fetchPercentage().then((percentage) => {
+          if (!percentage) {
+            console.error("Porcentagem não encontrado!");
+            return;
+          }
+
+          if(percentage == '100.0000') examBtnDiv.style.display = 'flex';
+        })
+      }
 
       const videos = [
         "https://www.youtube.com/embed/vFzRi3wGfI8?si=V4MN8jJKJAjbbzsn",
@@ -512,6 +546,7 @@
               sendVideoData();
               updateProgress();
               generateCertificate();
+              showExamBtn();
             }
           })
           .catch((error) => {
@@ -564,6 +599,8 @@
       function deleteRating() {
         const videoFrame = document.getElementById("videoFrame");
         const videoSrc = videoFrame.getAttribute("src");
+
+        window.location.href = window.location.href;
 
         fetch("/deleteRating", {
           method: "Delete",
@@ -633,6 +670,26 @@
         });
     }
 
+    function sendComment(){
+      var commentField = document.getElementById('comment');
+      var comment = commentField.value;
+
+      fetch('/gitComment', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({comment: comment})
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Comment has been sent')
+      })
+
+      comment = ''
+    }
+
+
     var studentName = '';
 
       function fetchData() {
@@ -651,7 +708,7 @@
         return fetch("/progressCoursePercentage", {
           method: 'POST',
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type" : "application/json"
           },
           body: JSON.stringify({ courseID: 1 })
         })
@@ -733,7 +790,7 @@
       loadVideo(0);
       updateProgress();
       likesNDislikes();
-      
+      showExamBtn();
 
       const container = document.querySelector(".container");
       container.classList.add("floating");
