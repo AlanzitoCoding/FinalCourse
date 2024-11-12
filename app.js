@@ -384,22 +384,37 @@ app.delete('/deleteUser', (req, res) => {
     const {userPassword} = req.body
 
 
-    db.query('DELETE FROM users WHERE userEmail = ? AND userPassword = ?', [req.session.email, userPassword], (err, results) => {
+    db.query('DELETE FROM users WHERE userEmail = ?', [req.session.email, userPassword], async function(err, results) {
         if (!results.affectedRows || err ) {
             console.error('Erro ao deletar usuário:', err);
             return
 
         }
+
+        const encryptedSenha = userPassword;
+
+        try {
+            const isMatch = await bcrypt.compare(userPassword, encryptedSenha);
+
+            if (isMatch) {
+                req.session.destroy((err) => {
+                    if (err) {
+                        console.error('Erro ao destruir sessão:', err);
+                    }
+                });
+            } else {
+                res.json({ message: 'E-mail e/ou senha incorretos.' });
+            }
+        } catch (compareError) {
+            console.error("Erro ao comparar senha:", compareError);
+            res.json({ message: 'Erro no servidor.' });
+        }
         
         console.log('User deletado')
-        // Destruir a sessão'
-        req.session.destroy((err) => {
-            if (err) {
-                console.error('Erro ao destruir sessão:', err);
-            }
-        });
+      
+      
 
-        res.redirect('/')
+        
     });
 });
 
