@@ -12,7 +12,7 @@ const port = 8081;
 const db = mysql.createConnection({
     host: "localhost",
     user: "root",
-    password: "cimatec",
+    password: "2006Pa#*#",
     database: "FinalCourse"
 });
 
