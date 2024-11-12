@@ -204,11 +204,34 @@
                 padding: 1.5rem;
             }
         }
+
+        .header .btn-voltar {
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+
+        .header .btn-voltar:hover {
+            color: #aaa;
+        }
+
+        .header .btn-voltar::before {
+            content: "←";
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header fade-in">
+            <a class="btn-voltar" href="/gitModules"></a>
             <h1><i class="fab fa-github"></i> Prova de GitHub</h1>
             <p>Teste seus conhecimentos sobre o GitHub</p>
         </div>
@@ -337,6 +360,10 @@
     </div>
 
     <script>
+        var score = 0;
+        var qAmt = 5;
+        var index = 0;
+
         document.getElementById('github-quiz').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -348,11 +375,10 @@
                 q5: 'b'
             };
 
-            let score = 0;
             let feedback = '';
 
             // Verificar respostas
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= qAmt; i++) {
                 const question = document.querySelector(`input[name="q${i}"]:checked`);
                 if (question) {
                     if (question.value === correctAnswers[`q${i}`]) {
@@ -370,6 +396,16 @@
             document.getElementById('score').textContent = score;
             document.getElementById('feedback').innerHTML = feedback;
             document.getElementById('result').style.display = 'block';
+
+            index = score*100/qAmt;
+
+            if(index < 70){
+                alert('Burro, pense 🤫')
+            } 
+            else{
+                concludeCourse();
+                alert('Inteligente 🤓')
+            }
 
             // Scroll suave até o resultado
             document.getElementById('result').scrollIntoView({
@@ -393,6 +429,20 @@
         document.querySelectorAll('.question-card').forEach(card => {
             observer.observe(card);
         });
+
+        function concludeCourse(){
+            fetch('/postCourseConclusion', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body: JSON.stringify({courseID: 1})
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Course completely concluded!')
+            })
+        }
     </script>
 </body>
 </html>

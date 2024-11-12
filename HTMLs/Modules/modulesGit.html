@@ -335,12 +335,9 @@
         margin: 0;
         margin-right: 6px;
       }
-
-      .examBtnDiv{
+      
+      .examBtn, .certificateBtn{
         display: none;
-      }
-
-      .examBtnDiv button{
         background-color: #303030;
         color: white;
         border: 1px solid #555;
@@ -351,7 +348,7 @@
         align-items: center;
       }
 
-      .examBtnDiv button:hover{
+      .examBtn:hover, .certificateBtn:hover{
         background-color: #888;
       }
 
@@ -411,7 +408,8 @@
             </div>
 
             <div class="examBtnDiv" id="examBtnDiv">
-              <button>Realizar Prova</button>
+              <a href="prova.html"><button class="examBtn" id="examBtn">Realizar Prova</button></a>
+              <button class="certificateBtn" id="certificateBtn" onclick="generateCertificate()">Gerar Certificado</button>
             </div>
 
             <div>
@@ -467,7 +465,21 @@
             return;
           }
 
-          if(percentage == '100.0000') examBtnDiv.style.display = 'flex';
+          if(percentage == '100.0000') examBtn.style.display = 'flex';
+        })
+      }
+
+      function showCertificateBtn(){
+        fetchCourseConclusion().then((courseConcluded) => {
+          if(!courseConcluded){
+            console.error('Curso não concluído')
+            return;
+          }
+
+          if(courseConcluded == '1'){ 
+            certificateBtn.style.display = 'flex';
+            examBtn.style.display = 'none';
+          }
         })
       }
 
@@ -545,7 +557,6 @@
             } else {
               sendVideoData();
               updateProgress();
-              generateCertificate();
               showExamBtn();
             }
           })
@@ -809,6 +820,7 @@
       updateProgress();
       likesNDislikes();
       showExamBtn();
+      showCertificateBtn();
 
       const container = document.querySelector(".container");
       container.classList.add("floating");

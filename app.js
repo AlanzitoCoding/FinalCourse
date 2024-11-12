@@ -241,9 +241,6 @@ app.get('/getJsComment', (req,res) => {
         console.log('Comment gotten!');
         res.json(results)
     })
-    
-    
-
 })
 
 app.post('/gitWatchedVideo', (req, res) => {
@@ -468,7 +465,7 @@ app.post('/addPfp', (req,res) => {
 app.post('/getCourseConclusion', (req,res) => {
     const {courseID} = req.body
 
-    db.query('SELECT courseConcluded from courseUsers where courseId_FK = ? AND userEmail_FK = ?', [courseID, req.session.email], (err,results,fields) => {
+    db.query('SELECT courseConcluded from courseUsers where courseID_FK = ? AND userEmail_FK = ?', [courseID, req.session.email], (err,results,fields) => {
         if(err) throw err;
 
         console.log(results);
@@ -476,10 +473,10 @@ app.post('/getCourseConclusion', (req,res) => {
     })
 })
 
-app.post('/postCourseConclusion', (req,res) => {
-    const {courseID,courseConcluded} = req.body
+app.put('/postCourseConclusion', (req,res) => {
+    const {courseID} = req.body
 
-    db.query('INSERT INTO courseUsers (userEmail_FK,courseID_FK,courseConcluded) VALUES (?,?,?)', [req.session.email,courseID, courseConcluded], (err,results,fields) => {
+    db.query('update courseUsers set courseConcluded = 1 where userEmail_FK = ? and courseID_FK = ?', [req.session.email, courseID], (err,results,fields) => {
         if(err) throw err;
 
         console.log(results);
