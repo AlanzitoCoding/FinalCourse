@@ -127,6 +127,8 @@ select * from videos order by courseID_FK;
 select * from watchedVideos;
 select * from videoRating;
 
+alter table courseUsers add column courseConcluded boolean default false;
+
 select courseName from courseUsers inner join courses on courseID_FK = courseID and userEmail_FK = "asd@gmail.com";
 select sum(wv.isWatched)*100/c.modulesAmount from watchedVideos wv inner join courses c where wv.courseID_FK = c.courseID  and wv.courseID_FK = 1 and userEmail_FK = "asd@gmail.com" group by courseID;
 

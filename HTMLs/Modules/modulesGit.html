@@ -722,16 +722,34 @@
           });
       }
 
+      function fetchCourseConclusion() {
+        return fetch("/getCourseConclusion", {
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ courseID: 1 })
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            return data[0].courseConcluded;
+          })
+          .catch((error) => {
+            console.error("Erro ao buscar conclusão de curso: " + error);
+            return null;
+          });
+      }
+
       function generateCertificate() {
-        fetchPercentage().then((percentage) => {
-          if (!percentage) {
-            console.error("Porcentagem não encontrado!");
+        fetchCourseConclusion().then((courseConcluded) => {
+          if (!courseConcluded) {
+            console.error("Conclusão não encontrada!");
             return;
           }
 
-          console.log("Porcentagem: " + percentage);
+          console.log("Conclusão " + courseConcluded);
 
-          if (percentage === "100.0000") {
+          if (courseConcluded) {
             fetchData().then((studentName) => {
               if (!studentName) {
                 console.error("Nome do estudante não encontrado!");
