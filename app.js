@@ -5,6 +5,8 @@ const path = require('path');
 const app = express();
 const mysql = require('mysql2');
 const { error } = require('console');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const port = 8081;
 
 const db = mysql.createConnection({
@@ -26,51 +28,62 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'HTMLs')));
 
-app.post('/submit', (req, res) => {
-    const {email, senha, nome, cpf, telefone} = req.body;
+app.post('/submit', async (req, res) => {
+    const { cpf, nome, email, senha, telefone } = req.body;
 
-    const query = "insert into users values (?, ?, ?, ?, ?);"
+    try {
+        const encryptedSenha = await bcrypt.hash(senha, saltRounds);
 
-    db.query(query, [cpf, nome, email, senha, telefone], function(err, result){
-        if(err){
-           return res.json({message: 'Erro ao cadastrar usuário!'})
-        };
+        const query = "INSERT INTO users VALUES (?, ?, ?, ?, ?);";
 
-        console.log("1 record inserted");
-        req.session.loggedin = true;
-        req.session.email = email;
-        res.json({message: 'Cadastro efetuado!'})
+        db.query(query, [cpf, nome, email, encryptedSenha, telefone], function(err, result) {
+            if (err) {
+                return res.json({ message: 'Erro ao cadastrar usuário!' });
+            }
+
+            console.log("1 registro inserido");
+            req.session.loggedin = true;
+            req.session.email = email;
+            res.json({ message: 'Cadastro efetuado!' });
+        });
+    } catch (error) {
+        res.json({ message: 'Erro ao criptografar a senha!' });
+    }
+});
+
+app.post("/auth", (req, res) => {
+    const { email, senha } = req.body;
+
+    db.query("SELECT * FROM users WHERE userEmail = ?;", [email], async function(err, results) {
+        if (err) {
+            console.error("Erro ao consultar o banco:", err);
+            return res.json({ message: 'Erro no servidor.' });
+        }
+
+        if (results.length === 0) {
+            return res.json({ message: 'E-mail e/ou senha incorretos.' });
+        }
+
+        const encryptedSenha = results[0].userPassword;
+
+        try {
+            const isMatch = await bcrypt.compare(senha, encryptedSenha);
+
+            if (isMatch) {
+                req.session.loggedin = true;
+                req.session.email = email;
+                console.log("Usuário autenticado:", email);
+                res.json({ ok: true });
+            } else {
+                res.json({ message: 'E-mail e/ou senha incorretos.' });
+            }
+        } catch (compareError) {
+            console.error("Erro ao comparar senha:", compareError);
+            res.json({ message: 'Erro no servidor.' });
+        }
     });
 });
 
-
-app.post("/auth", (req, res) => {
-   const {email, senha} = req.body
-    
-    db.query("select * from users where userEmail = ? and userPassword = ?;", [email, senha], function(err, results, fields){
-        if(err) throw err;
-        
-        if(email && senha){
-            if(results.length > 0){
-                req.session.loggedin = true;
-                req.session.email = email;
-                
-                console.log(req.session.email);
-                res.json({ok:true});
-                
-            }
-            else{
-                const msg = "Incorrect email and/or password."
-                res.json({message: msg});
-                
-            }
-        }
-        else{
-            const msg = 'Please, insert your email and password!'
-            res.json({message: msg});
-        }
-    })
-});
 
 app.post("/gitReg", (req, res) => {
     db.query("insert into courseUsers (userEmail_FK, courseID_FK) values (?, 1);", [req.session.email], function(err, results, fields){

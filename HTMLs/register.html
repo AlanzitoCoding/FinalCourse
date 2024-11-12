@@ -129,10 +129,16 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
         body: JSON.stringify(data)
     })
     .then(res => res.json())
-    .then(data => {
-        alert(data.message)
-        window.location.href = '/'
+    .then(response => {
+        alert(response.message);
+        if (response.message === 'Cadastro efetuado!') {
+            window.location.href = '/';
+        }
     })
+    .catch(error => {
+        console.error('Erro:', error);
+        alert('Erro ao enviar o formulário.');
+    });
 })
     </script>
 </body>
