@@ -21,6 +21,7 @@
             --text-color: #2c3e50;
             --card-background: rgba(255, 255, 255, 0.9);
             --shadow-color: rgba(0, 0, 0, 0.1);
+            --border-color: rgba(66, 153, 225, 0.1);
         }
 
         .dark-mode {
@@ -30,6 +31,7 @@
             --text-color: #e0e0e0;
             --card-background: rgba(40, 40, 40, 0.9);
             --shadow-color: rgba(0, 0, 0, 0.3);
+            --border-color: rgba(66, 153, 225, 0.2);
         }
 
         body {
@@ -89,395 +91,326 @@
             }
         }
 
-        .about-section {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 20px;
-        }
-
-        .about-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .about-header h2 {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .about-header h2::after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100px;
-            height: 3px;
-            background: var(--secondary-color);
-            border-radius: 2px;
-        }
-
-        .about-content {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .about-card {
+        /* Navbar */
+        .navbar {
             background: var(--card-background);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 8px 8px 15px var(--shadow-color),
-                        -8px -8px 15px rgba(255, 255, 255, 0.5);
+            padding: 15px 0;
+            box-shadow: 0 2px 10px var(--shadow-color);
+            margin-bottom: 30px;
             backdrop-filter: blur(10px);
-            transform: translateY(0);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-color);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .profile-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            cursor: pointer;
             transition: all 0.3s ease;
         }
 
-        .about-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 12px 12px 20px var(--shadow-color),
-                        -12px -12px 20px rgba(255, 255, 255, 0.5);
+        .profile-icon:hover {
+            transform: scale(1.1);
+            border-color: var(--secondary-color);
         }
 
-        .about-card i {
-            font-size: 2.5rem;
-            color: var(--primary-color);
-            margin-bottom: 20px;
-        }
-
-        .about-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-        }
-
-        .about-card p {
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .stats-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 50px;
-        }
-
-        .stat-item {
-            text-align: center;
+        /* Container principal */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 20px;
-            background: var(--card-background);
-            border-radius: 15px;
-            box-shadow: 5px 5px 10px var(--shadow-color),
-                        -5px -5px 10px rgba(255, 255, 255, 0.5);
         }
 
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: bold;
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 15px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
             color: var(--primary-color);
-            margin-bottom: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .stat-label {
+        .back-btn:hover {
+            transform: translateX(-3px);
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+        }
+
+        .user-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .user-name {
+            font-weight: 600;
             font-size: 1.1rem;
             color: var(--text-color);
         }
 
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: var(--card-background);
-            border: none;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            cursor: pointer;
-            box-shadow: 5px 5px 10px var(--shadow-color),
-                        -5px -5px 10px rgba(255, 255, 255, 0.5);
+        .user-role {
+            font-size: 0.9rem;
+            color: var(--secondary-color);
+        }
+
+        /* Abas */
+        .tabs {
             display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 500;
+            color: var(--text-color);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .tab.active {
+            opacity: 1;
+            color: var(--primary-color);
+        }
+
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--primary-color);
+        }
+
+        .tab:hover:not(.active) {
+            opacity: 0.9;
+        }
+
+        /* Conteúdo das abas */
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Grid de cursos */
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Cards de cursos */
+        .course-card {
+            background: var(--card-background);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px var(--shadow-color);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .course-content {
+            padding: 20px;
+        }
+
+        .course-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-color);
+        }
+
+        .course-description {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .progress-container {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .course-stats {
+            display: flex;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        .course-price {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            width: 100%;
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
+        }
+
+        /* Loading states */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            transition: all 0.3s ease;
+            padding: 40px;
+            color: var(--text-color);
+            opacity: 0.7;
         }
 
-        .theme-toggle:hover {
-            transform: scale(1.1);
+        .loading-state i {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            animation: spin 1s linear infinite;
         }
 
-        @media (max-width: 768px) {
-            .about-header h2 {
-                font-size: 2rem;
-            }
-
-            .about-content {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-container {
-                grid-template-columns: 1fr 1fr;
-            }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @media (max-width: 480px) {
-            .stats-container {
-                grid-template-columns: 1fr;
-            }
-
-            .about-header h2 {
-                font-size: 1.8rem;
-            }
-        }
-
-        .neumorphic {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(66, 153, 225, 0.1);
-            box-shadow: 
-                5px 5px 15px rgba(50, 50, 50, 0.5),
-                -5px -5px 15px rgba(66, 153, 225, 0.05);
-            transition: all 0.3s ease;
-            color: #ffffff;
-        }
-
-        .neumorphic:hover {
-            transform: translateY(-5px);
-            box-shadow: 
-                8px 8px 20px rgba(0, 0, 0, 0.6),
-                -8px -8px 20px rgba(66, 153, 225, 0.07);
-            border: 1px solid rgba(66, 153, 225, 0.2);
-        }
-
-        .refs {
+        /* Empty state */
+        .empty-state {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            padding: 40px;
+            text-align: center;
+            color: var(--text-color);
+            opacity: 0.7;
+            grid-column: 1 / -1;
         }
 
-        .refs img {
-            width: 40px;
-            height: 40px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 50px;
-            border: 2px solid var(--primary-color);
-            margin-left: 50px;
-            transition: all 0.3s ease;
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
         }
 
-        .refs img:hover {
-            transform: scale(1.1);
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 15px var(--primary-color);
-        }
-
-.course-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 2rem;
-    padding: 2rem;
-    max-width: 1400px;
-    margin: 0 auto;
-}
-
-.course-card {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(66, 153, 225, 0.1);
-    border-radius: 1rem;
-    overflow: hidden;
-    box-shadow: 
-        5px 5px 15px rgba(0, 0, 0, 0.5),
-        -5px -5px 15px rgba(66, 153, 225, 0.05);
-    transition: all 0.3s ease;
-}
-
-.course-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-        8px 8px 20px rgba(0, 0, 0, 0.6),
-        -8px -8px 20px rgba(66, 153, 225, 0.07);
-    border: 1px solid rgba(66, 153, 225, 0.2);
-}
-
-.course-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-bottom: 2px solid rgba(66, 153, 225, 0.1);
-}
-
-.course-content {
-    padding: 1.5rem;
-}
-
-.course-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-    line-height: 1.4;
-}
-
-.course-description {
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-}
-
-.progress-container {
-    width: 100%;
-    background: rgba(255, 253, 253, 0.3);
-    border-radius: 9999px;
-    height: 8px;
-    overflow: hidden;
-    margin: 1rem 0;
-}
-
-.progress-bar {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
-    border-radius: 9999px;
-    transition: width 0.5s ease-in-out;
-    width: 0%;
-}
-
-.course-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid rgba(66, 153, 225, 0.1);
-}
-
-.course-stats {
-    display: flex;
-    gap: 1rem;
-    color: var(--text-secondary);
-    font-size: 0.875rem;
-}
-
-.course-price {
-    color: var(--primary-color);
-    font-weight: 600;
-    font-size: 1.25rem;
-}
-
-.enroll-button {
-    width: 100%;
-    background: var(--primary-color) !important;
-    border: none !important;
-    color: #ffffff !important;
-    padding: 0.75rem;
-    border-radius: 0.5rem;
-    font-weight: bold !important;
-    text-align: center;
-    transition: all 0.3s ease !important;
-    position: relative;
-    overflow: hidden;
-}
-
-.enroll-button::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        rgba(255, 255, 255, 0.2),
-        transparent
-    );
-    transition: 0.5s;
-}
-
-.enroll-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
-}
-
-.enroll-button:hover::before {
-    left: 100%;
-}
-
-/* Filters section */
-.filters {
-    background: var(--bg-card);
-    backdrop-filter: blur(10px);
-    padding: 1.5rem;
-    border-radius: 1rem;
-    margin: 2rem auto;
-    max-width: 1400px;
-    border: 1px solid rgba(66, 153, 225, 0.1);
-    box-shadow: 
-        5px 5px 15px rgba(0, 0, 0, 0.5),
-        -5px -5px 15px rgba(66, 153, 225, 0.05);
-}
-
-.search-bar {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    background: rgba(15, 15, 15, 0.9);
-    border: none;
-    border-bottom: 2px solid var(--primary-color);
-    border-radius: 0.5rem;
-    color: var(--text-primary);
-    margin-bottom: 1rem;
-    transition: all 0.3s ease;
-}
-
-.search-bar:focus {
-    background: rgba(20, 20, 20, 0.9);
-    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
-    outline: none;
-}
-
-.filter-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-}
-
-.filter-tag {
-    background: rgba(15, 15, 15, 0.9);
-    color: var(--text-secondary);
-    padding: 0.5rem 1rem;
-    border-radius: 9999px;
-    font-size: 0.875rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(66, 153, 225, 0.1);
-}
-
-.filter-tag:hover,
-.filter-tag.active {
-    background: var(--primary-color);
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(66, 153, 225, 0.2);
-}
-
-@media (max-width: 640px) {
-    .course-grid {
-        grid-template-columns: 1fr;
-        padding: 1rem;
-    }
-
-    .course-card {
-        margin-bottom: 1.5rem;
-    }
-}
-
-.modal {
+        /* Modal */
+        .modal {
             display: none;
             position: fixed;
             top: 0;
@@ -492,22 +425,14 @@
         }
 
         .modal-content {
-            background: rgba(10, 10, 10, 0.95);
+            background: var(--card-background);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
-            border: 1px solid rgba(66, 153, 225, 0.1);
-            box-shadow: 
-                5px 5px 15px rgba(50, 50, 50, 0.6),
-                -5px -5px 15px rgba(66, 153, 225, 0.07);
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
             max-width: 400px;
             width: 90%;
-            transform: scale(0.9);
-            transition: transform 0.3s ease;
-        }
-
-        .modal.active .modal-content {
-            transform: scale(1);
+            border: 1px solid var(--border-color);
         }
 
         .modal-content h2 {
@@ -515,32 +440,71 @@
             color: var(--primary-color);
         }
 
-        .modal-content p {
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }
-
         .modal-content button {
-            background: var(--primary-color) !important;
+            background: var(--primary-color);
             color: white;
             padding: 12px 25px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            margin: 5px;
             font-size: 16px;
-            width: 200px; /* Fixed width for buttons */
-            margin: 5px auto; /* Center horizontally */
-            display: block;
+            width: 200px;
         }
 
         .modal-content button:hover {
+            background: var(--secondary-color);
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(66, 153, 225, 0.3);
         }
 
+        /* Footer */
+        .footer {
+            background: var(--card-background);
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 0 -2px 10px var(--shadow-color);
+            border-top: 1px solid var(--border-color);
+            backdrop-filter: blur(10px);
+        }
+
+        .footer p {
+            color: var(--text-color);
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                flex: 1;
+                text-align: center;
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .user-info {
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body class="font-sans">
@@ -548,74 +512,185 @@
         <div class="circle"></div>
         <div class="circle"></div>
     </div>
-    <nav class="neumorphic p-4 mb-8">
-        <div class="container mx-auto flex justify-between items-center">
-            <a href="/" class="text-2xl font-bold">SMGFAP Courses</a>
-            <div class="refs">
-                <a href="/" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
-                <a href="/Cursos" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
-                <a href="/sobre" class="mx-2 hover:text-blue-500 transition duration-300">Sobre</a>
-                <a><img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="" id="profile-icon"></a>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">SMGFAP Courses</div>
+            <div class="nav-links">
+                <a href="/">Início</a>
+                <a href="/Cursos">Cursos</a>
+                <a href="/sobre">Sobre</a>
+                <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="Perfil" class="profile-icon" id="profile-icon">
             </div>
         </div>
     </nav>
 
+    <div class="container">
+        <header class="header">
+            <div class="profile">
+                <button class="back-btn" onclick="window.location='/'">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="Perfil" class="user-avatar">
+                <div class="user-info">
+                    <span class="user-name" id="user-name">Carregando...</span>
+                    <span class="user-role">Aluno</span>
+                </div>
+            </div>
+        </header>
+
+        <div class="tabs">
+            <button class="tab active" data-tab="ongoing">Cursos em Andamento</button>
+            <button class="tab" data-tab="completed">Cursos Concluídos</button>
+            <button class="tab" data-tab="available">Todos os Cursos</button>
+        </div>
+
+        <div id="ongoing-tab" class="tab-content active">
+            <div class="courses-grid" id="ongoing-courses">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando seus cursos em andamento...</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="completed-tab" class="tab-content">
+            <div class="courses-grid" id="completed-courses">
+                <div class="loading-state">
+                    <i class="fas fa-spinner fa-spin"></i>
+                    <p>Carregando seus cursos concluídos...</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="available-tab" class="tab-content">
+            <div class="courses-grid">
+                <!-- GitHub Course -->
+                <div class="course-card">
+                    <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Course" class="course-image">
+                    <div class="course-content">
+                        <h3 class="course-title">Curso de GitHub</h3>
+                        <p class="course-description">Aprenda a utilizar o GitHub para controle de versão e colaboração em projetos.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="github-progress"></div>
+                        </div>
+                        <div class="course-meta">
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 12 aulas</span>
+                                <span><i class="fas fa-clock"></i> 8 horas</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="window.location.href='/CursoGithub'">Continuar Curso</button>
+                    </div>
+                </div>
+
+                <!-- HTML/CSS Course -->
+                <div class="course-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/1200px-HTML5_logo_and_wordmark.svg.png" alt="HTML/CSS Course" class="course-image">
+                    <div class="course-content">
+                        <h3 class="course-title">Curso de HTML/CSS</h3>
+                        <p class="course-description">Domine as linguagens fundamentais para criação de páginas web.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="html-progress"></div>
+                        </div>
+                        <div class="course-meta">
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 15 aulas</span>
+                                <span><i class="fas fa-clock"></i> 10 horas</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="window.location.href='/Cursohtml'">Continuar Curso</button>
+                    </div>
+                </div>
+
+                <!-- JavaScript Course -->
+                <div class="course-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/JavaScript-logo.png" alt="JavaScript Course" class="course-image">
+                    <div class="course-content">
+                        <h3 class="course-title">Curso de JavaScript</h3>
+                        <p class="course-description">Aprenda a programar em JavaScript e crie aplicações web interativas.</p>
+                        <div class="progress-container">
+                            <div class="progress-bar" id="js-progress"></div>
+                        </div>
+                        <div class="course-meta">
+                            <div class="course-stats">
+                                <span><i class="fas fa-book-open"></i> 20 aulas</span>
+                                <span><i class="fas fa-clock"></i> 15 horas</span>
+                            </div>
+                        </div>
+                        <button class="btn-primary" onclick="window.location.href='/CursoJS'">Continuar Curso</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal" id="modal">
         <div class="modal-content">
-            <h2 class="text-xl mb-4">Acesso Rápido</h2>
+            <h2>Acesso Rápido</h2>
             <button onclick="window.location.href='/loginScreen'">Login</button>
             <button onclick="window.location.href='/perfil'">Perfil</button>
         </div>
     </div>
 
-
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold mb-8 text-center fade-in">Nossos Cursos</h1>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="neumorphic p-6 fade-in">
-                <center><img src="data:image/png;base64,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" alt="GitHub Course" class="mb-4 rounded"></center>
-                <h2 class="text-2xl font-bold mb-2">Curso de GitHub</h2>
-                <p class="mb-4">Aprenda a utilizar o GitHub para controle de versão e colaboração em projetos.</p>
-                <div class="progress-container">
-                    <div class="progress-bar bg-blue-500" id="github-progress"></div>
-                </div>
-                <a href="/CursoGithub" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-300">Iniciar Curso</a>
-            </div>
-
-            
-            <div class="neumorphic p-6 fade-in">
-                <center><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBw8PDxAQEA8PDxAPDw8QDw0QDw8PDw8PFREWFhURFRUYHighGBolGxUVITEhJSktLi4uFx8zODMsNygtLisBCgoKDg0OGhAQGi8fHR8tKy0tLS0vLS4tLS0tLjctLS0tLTAyLi0tLS0tKy0tLS0tLS8tLS0tKy0tLS0tLS0tLf/AABEIAKgBLAMBEQACEQEDEQH/xAAcAAEAAgMBAQEAAAAAAAAAAAAAAQIDBgcFBAj/xABIEAABAwICBAgJCQcDBQAAAAABAAIDBBEFEgYTITEHQVFSkZKhwRRCVGFxk8LR0hUWIiMyM1NigSRjZHKio7FEguE1c5Sy8P/EABsBAQACAwEBAAAAAAAAAAAAAAABBQIEBgMH/8QANhEBAAEDAQMJBgYDAQEAAAAAAAECAxEEBSFSEhQxMlFhcZGxEyKBocHRBhUjQVPhM2LwQiT/2gAMAwEAAhEDEQA/AOz5UE5QgICAgFACCbICAgIIQEBAQSgICCEEoCAgWQTZBKCjmoKICAgICAgICAgICAgyIIQEBBKCpQAgugIIQEBBBQEEoCAgIIQSgIJsglAQQgIKuagogICAgICAgICAgILoCAglBBQVQEFmlBZAQLIIQSghAQEBBCAgtZAQLoF0BAQEBBBCCiCEBAQEBAQEBAQXQEEoCCpQQgICDIgIKOKljMgKESll1CYSUSICAgWQEBAQEBBKAgICAgghBjIQEBAQEE2QTlQTlQLICCUBBBQVQEBAQWYUGOrqI425pJGRNvbNI9rG34hc8aDEa2EMEjpomxG1pTIwRm+6zr2KljgkxOlaGl1RTtDxdjjNGA8XtdpJ2i6hOGJmL0pIa2qpiSQABPESSTYAC+0qUPohr4HvMTZoXSAuBibKwyAjeC0G+xQmET10EbxG+aFjza0bpWNebmws0m5uUSllbCZDEJojKL3iEjDILb7tvdB9CAghAKAghzgAbm1htJ2W86D4vlqj8rpf/Ih96DI/E6drWudUQNa++R5mjDXgGxyknbbzIKDGKQmwqqYk7ABPFcnk3oLz4pTRuLH1EDHt+0x80bXDZfaCbjYQgmnxKnkdljngkdYnIyWN7rDebAoPqQEFXEcaDC5TDEzKcJXYolK6gEEoCAgICAgqSghAQQSgrmU4RlYKEuecPn/RSf4qn/w9ByLFNOJ5sGhwx1IGRRaq1Vd93ZCSNlrbb8qDe3aDQ4lgFBVSTyRuosNqHMYxrS15Be/6RP8AKg8Dga0FhxD9tfPJG+irISyNrWlr8mWQXJ279ilEy1vFKuqp8dxCrpQ7WUeIVlQ4jaGxiqLDmHG05w0+ZxUJRHiFTWYzR1tSCHVlbTzR83VCpEbWs/K3IWj+VBvujLwNNK0kgDNV7SQB92EHb2SNd9lzXW32IP8AhBKAglBCD58S+4m/7Mv/AKFB+deCPQCkxllW6pkqWGndAGah0Tbh4eTmzMdf7IQdE084LhPhdNTUT5HTYa2bwdkrmXnZI4OfG4gAB+wZTsGyx33Ac94K8EwqqqPB60VNPiEMuaIaxsbJXMdcxFjm3bI0ja3jAPGEQ97hx0DmMsmLU4dLG8M8Mitd0JYwMEzeWOzRfjaRfcTlJexwKYRhElq2kNQysijMVTTSTMe2PP4wGUEtNthvyg7kHW0EXQY3hTCJRlTKIC1MpwoCpQzhYshBKAglBCAgIKIBKDGXLLCAuUYEKULZlGE5a7p1ox8rUfghn8HvLHLrdVrfs32Zczd9+VJgh8WK6AeEYLDhPheXU6r9q1GbNkcT93nFr35ygevhWjXg+Ftw3XZ7UstP4Rq8t84cM+TMd2bdfiUkvi4N9CPkWCaHwnwnXSiXNqdTlswNy2zuvuUJedgnBpHS4lXV8lSKiOvbWNfRup8rQyolDy0vznMANm4XvxIMOPcGkdXXUNVHUimjw+OmijpW0+sDmQTOkAD84tcOtuO6+1TKIeNpVwNCurair+UdV4RKZNV4JnyX4s2tF+gINs4ONCPkWGeLwnwnXyNkzanU5bNta2d11CW3oBQY8xUscmYoZKmHOx7L2zsc3Na9szSL9qhk47T8Bk0V9XjUkea18lI5l7br2m2oNgxjg4qJ6OgpWYtNC6iZO187YpCakyPDgXASi1rW3nfxIjLwI+A2QTNmOMOc9sjZM5pHZy5pBBza699m9Evc0s4M6nEKyepZi81NHPk/ZWxSPYwCNrCNkrQb5Sd3GiIV0D4KThNa2r+UDOBHJGYRTanMHtttdrDuNja3EiXSyUEIKlqljMIvZCJQ5yYTlVpUjMsUpQEBBKCEBBBQVQCEGIrJiAIlbKoyYYKvNq5Mps7I/KeR2U2KivPJnHYzs49pTyujMZ83MxpLXeUP6sfwrmufajj9Hc/lWj/jj5/df50V/lL+rH8Kc9v8foflWj/jj5/c+dFf5S/qx/CnPb/F6H5Vo/44+f3PnRX+Uv6sfwpz2/xeh+VaP+OPn90nSXED/qJOpH8Kc+v8foj8r0X8cec/dA0jr/KJOpH8Kc+v8foflei/jjzn7o+cdf5RJ1I/hTn1/j9D8r0X8cec/dPzmrx/qHj/AGx/CnPb/H6J/K9H/HHz+7oeBzPfTQPe4ue+JjnONrkkX4vSr/T1TVapmrpmHGa6mmjU100RiImYegXr3w1sqhGLlmlekldBW1EUdS9rGPGVoDCACxrrbR51eaXTWa7VNU071DqtVet3qqaatzyvnjiXlcnVj+Fe3M7HC1+f6jiPnhiXlcnVj+FTzOxwnPr/ABB0wxLyuTqx/CnM7HCc+v8AEs3SzEzuqZSPMxh9lOZ2OFE7QvR01pGlWKeUTerZ8KczscKPzC9x+h868U8pm9Wz4VHM7HCn8xvcfoh2lmJjaamUecsYPZU8zscJG0L09Fbd+DnFKmpjqHzzOlyvjazMGjL9El24DfdvQqzaFq3bqpiiMLfZ165cpqmuc9Dcg5VyyyjIpRhjyqcpZbLFKUEoCAglBCAgqUEIMZKyYoQXasZTCUSh7b/rsQzje4u5uUkchI6Ni5HGNz6VE5jPavFA9/2WPdbeWtc63QpimqeiMsarlFPWmI8ZX8Dm/Bl9W/3LL2dfDPlLH29rjjzg8Cm/Bl9W/wByj2dfDPlJ7e1xx5w+0Ucv4Uvq3+5ePsrnDPlLX9tb4o84PA5fwpfVv9yeyucM+UntrfFHnCslO9ou5j2jddzHNF/1UTRVTvmJj4MqblFU4iqJ+L4qo7f0U09Eti261hkeSCFvNhjb0MAXX2aeTbpjsiHzvU1cu9XV2zPq+herxWaoQ5BwjRZcRlPPZC7+2G+yug0E5sR3Zc5tGnF+e/Ho16mp3yuDI2Okeb2Yxpc42FzYDzBbVVUUxmZw0qaZqnERmX2fINb5HVeol9y8/b2uKPOHpze7wT5SfINb5HVeol9ye3tcUecHN7vBPlL1MOwWrEe2lqBtO+GQdynnFrijzhp39LfmrdRV5S+n5IqvJp/Uye5OcWuKPOHjzTUfx1eUodhNSBc084A2k6qSwHQnt7XFHmTpL8b5t1eUvIxM/V+kj39y9kaePfb7wWR2opHc6pfb0CNg/wA3VHtOf1YjudbsuP0pnvbo3eq5ZwyAqGShQEFggICCUBBCCCgqgIKZVOUYVKlCzSolKyhKpKmES5DirMtRO3knlHQ8rlL0YuVR3z6voulq5Viie2mPRtfB1JsqW8hid0h47grTZM9ePBz/AOI6d9urxj0bln5Tb9VcTOHNRTnohGsHKOkKOVHankT2BeOUdKcqO1HJnsXDxzh0rHlR2suTPY1zTuX9njbe95gd/EGO96qtr1fpUx3/AElc7Do/Xqn/AF+sOfTtu63GbAfqqSiMxh11E4py7C1trDkFl2URufNZnM5Ta6EMrGiyhOHK+FaK1bG7idTM6RJIPcrzZs/pTHe5/asYvR4PF0MqGxYhTve5rGhzwXOIa0B0bm7Sd29bGrpmqzVENbRVRTfpmdzrvyvS+U03r4veqH2Nzhnyl0nOLXHHnCflel8qpvXxe9PY3OGfKTnFrijzhkjxSmI2VEB9E0Z71HsbnDPlKJ1NmOmuPOEisgcQGzROcdzWyMcT6ACns64jM0z5EaizVOKa4mfGGHFn5aad3JBKR6chssrEZuUx3w89ZVydPcn/AFn0ccxU/RaPzd3/ACumcVpo96XTuDiK2GxHnPmd/cLfZXP7Qn9efh6Ox2dH/wA8fFsi024lpRMLOChkgBBZAQEEoCCEFSghBCAURLGskCAgIOW6TMy1tQP3mbrNDu9cvrIxfr8Xf7Mq5Wktz3em57HB4/66ZvOia7qvt7S3NlT+pVHcrfxDT+lRV2T6x/T0+EGMGlYdn0Z2nbyFjx7ls7VjNqJ7JV/4eqxqao7aZ9Yc++j5uxUG52O99oy+bsXhua+9Ozzdibkb0i3FZTGBFEzNUwt508I6XtC2tPGa6Y749S/VydPXPZTPo62uufOFmqJZwyNUJc34XY/rKR3KyZvVcw+0rjZc+7VHgo9rx71M+LnytVOIMoppDtEbyDuORyx5UdrLk1dj1sNppNX92/7R8Vynl09rS1FFXL6GxaJU7vDYiWuAbrCSWkD7t1u2y1NbXHsKsT2era2Vbq53RmOjPo3LSaTLRzn8gb1nBveqnSRm9S6XadfJ0tc92POcOQ4ufsD+Y/4XROR037uv6FxZMOpByxZuu4u9pc3rJzfq8XaaKnk2KXrLXe7IyyhlCXIlCAgICCUBBUoKlBCAgIIyqcowOUEqLJC9lilzPTWPLXSfmbE7+gD2Vzu0IxqJ78O32LVnR090zHzZtA32rLc6GQdrT3LPZk4v/CXlt+nOkz2VR9YdDLb7wug3S4uJmOhGRvNHQFGI7GfLntS4DkHQE5MdiJrntGtHIOgJNMdhFdXa03Ttw1sTRYWjcel1vZVBteY9pTEdkun2FE+zrme36f28DR5matgH73N1QXdy19FGb1Ed622jVydHcnu9dzqS6l8/lLVEsqVg6yhk0ThZjvDTP5ssjeswH2FabLn3qo7lRten3aZ8XNFcqIQdx0ZmzUNIb/6aEb+MMA7lzWopxdq8ZdXpao9jRv8A2h6jHbd/avCYe/KjtTlvxonMS8DTV2WjkHOfG3+oHuW7oIzej4qrbNWNLMdsw5Nix+k3zNv2/wDC6BzOmj3ZdqwKLJSUzObTwA+kRtuuXvTm5VPfLtLEYtUx3Q++y8nrhZgRlELlQlVAQEAIJQEFCUFUBAQEBAQEBBzzhBZarYedAzpD3j3Kh2nGL0T3Ow2BVnTTHZVPpDxMIpnzTxxsfq3PLgH3cLfRJ4tvFZaliiqu5FNM4mf3WWru02rNVyunlRH7fFsFfo3VwxSSmrLhGxzy0PmuQBfZtW/d0V63RNc3M48VRY2rpb1ym3FrHKnHRDW/DZvxpfWv96rvaV8U+crv2Frgjyh9grJfxZfWP968Pa3OKfOWv7C1wx5Q37RMuNJG5xc4uMhu4km2cgbT6F0mzpmdPEzOen1cltWKY1VUUxjGPRrWmz71QHNhYO1x71U7VnN/4R9V3sWnGmz2zP0edoazNXRHmiV39tw71ls+M36e7Po2ts1cnR1d+I+bpS6Rw8pRiZlGGWWo8J7M1C08yojP6Fj294Vhs2cXZ8FbtXfZieyXKleOfb3TcHWsYx4rAA9jXgai+xwB5/nVXVtLkzMcno7/AOlvRsrlUxPL6e7+2l4hS6maWInMYpZI81rZsri29uLcrGivl0xV2qu5TyKpp7Jffhg+r/3Feiu1HXbxwdx/Wzu5Imtv/M6/sqr2pPuUx3rnYFObtdXZHrP9PR4QDamjHOnb2Mf71r7MjN2Z7m5t6cWKY/2+kuV4ntkt+UD/AO6VdqLTx7jvMTMrQ3mgDoFlykzmcu2pjERDO1YvRKCUFEBAQSgICDGghAQEBAQLoF0BBo3COz6yndyslb0OafaVNtWPeonul1P4dq9y5HfH1+zX9HpMtXTn98wdY5e9aGmnF6ie9bbQp5WluR/rPy3upVlOJY5IySBIxzCRvAcCLjpXT3KIrpmmf3jDg7NybVym5HTTMT5NJrNBpRtimY/8rwYz0i4PYqa5squOpVnx3Ons/iG3P+SiY8N/2Z6TQ2Y21srI/M0GR3cP8rxt7IuT16ojw3sLu3LUf46Znx3fdtuH0jYImRNJIYLAm1ztJv2q7s2otW4oj9nPai9N65NyemWhaWvvWTflyDojauc2hOdTV8PR1myqcaWjvz6p0BZercebA/pLmD3ra2ZH62e6fow2/VjSxHbVHpLoK6BxwhhF0RhrvCCy+HT/AJTC7+60d629BOL8fH0aW0I/Qn4erkC6Bzbt+jT81DSn+HhHQwDuXNaiMXavGXV6Wc2aPCHhY3oFFUSSTMnfFJI4vcHNbIzMd9gLEdJW1Z2hVbpimYzENO/s2m5VNUTiZfFhugM7QWyTxBuY2cwPeSPQbW6VsVbUoxupnKuq2HcuV5qqiI8/s23AsEjow/I57jJlzF2Xxb2sANm8qu1Gqqv4zGMLfQ7Po0meTMzM9rxeEeT6NM3ldK7oDR3lbmy431T4Kv8AEFW63T4/RzmBmetibzp4WdLmhWt2cUVT3SrdJTnkR2z9XelyrtRBKAgq5BCAglAQEGJAQEBAQEBAQEGn8I0f1dO7kkkb1mg+yqrase7TPfLovw9V79ynuifn/bSIpC1zXNNnNcHNPI4G4PSqaJmJzH7OoqpiqmaZ6J3Nko9NalmyRkcw5bat/SNnYrG3tO7T1oifl/3kpL2wNPV1Jmn5x9/m9yj00pX7JBJCeUtzt6W7exbtvadmrrZhVXtg6mjfRir5T8/u+mq0spWfZL5T+Rtm9Lrdl1jc2pYp6uavD+3na2Nqa+tinx/p41VpjM7ZHGyMcpvI7uHYtG5ta5PUiI+aytbDtU9eqavk1ysnfIXve7M91y51gLm1uJVlVdVdfKqnMyuLNum3EUUxiIe/wdR3kqHckcY6XOPsq52VHv1T3QqPxFP6dunvn/vm3iyu8uVTZQMdlkh5OlkeagqhyQPd1fpdy99LOL1Pi19XGbFXg4qukcq9rC9Ka2ma1kc1427BE9rXsA5BfaB6CFrXdJauTmY3tq1rL1qIimd3Y2fD+ErcKim9L4Xew74lp17M4KvNv29rcdPk94acUZYHMEryfEyBpaeQkm3Rda8bNvTO/EM7u2rFuOiZnseVV6bTu+6jjiHKbyO7h2Lbt7Mtx1pmfkq723r1X+OmKfnP/fB4FfiM1Q4OmkdIRe17ANvvsBsC3rdmi3GKIwqb+pu35zcqy+DRqPWYnTj+Ka7qOzeysNVOLNXgtNBTm5bjwdwXMuuSgBAQQ9BVAQSgICDEgICAgIICCUAIAQeHpfhclVA1kQaXslD7F2W4yuBAPLtC0tdYqvW4inpicrTZOrt6a9NVzomMfOHPq3CqiD72GRgHjZbs6wuO1Udyxct9amYddZ1li9/jrifXy6XxBeLZSpH0mUDjv6F48mXjyZlR1RyDpWXIZRbZqWiqJ/uopJAeNrTk/V27tXtbsV19SmZeV3UWLPXqiPjv8ulvOhmDzUrZTMGtdKWWaHBxAaHb7bPGV5oNPXZiZr6Zw5bbGttamqmLc5inPzbGrBTBQY8qnKMPnxKlMsE0QteSKSMX3XcwjvWduvk1xV2S87tE126qe2Jcgr9Fa+C+eme4Dx4/rW+n6NyB6bLoKNXZr6KvPc5q5o71vpp+rxSOLjG8ci2WqIPSoahjI/pOsbnZvKlqXrdVVe6CTEh4rSfOdigp00/vLHFLUTOyxNe93MiY5zuy5UVVU0xmqcNi3pomcRGZbdoTonWx1kNRNFqo4y9xzubnJMbgLNFzvI32VbrNXaqtzRTOZlc6HRXabtNdUYiHUFSr5KAglBDkFEEoCAgIMSAgICAgIF0BAQEBB51bgdLNfWQRknx2jI/rNsV4XNLaudamG5Z1+ps9SufDpjyl4VZoLEdsMz4zzXgSN9FxYjtWjc2XRPUqx471rZ/EFyN1yiJ8N33Uo9BGDbNO535Y2hg6Te/QFFvZdP8A7qz4JvfiCud1qiI8d/2e7RaP0cNskDCR4zxrHem7r2/RbtvSWbfRT9VXe2lqrvWrnHZG70emtloiAgFBCCUBB8ldhdPUD66CKXzuYC4eh28L0ou10dWZh5XLFu51qYlrWIcHdHJcxOlgPEA7WM6Hbf6luUbSux1sS0bmyrVXVmY+by6fgzOb6yrGQHZkiOdw/U2b2r3q2pu92nf4tenZE596rc2TDdBsPhsTCZnDxpnF/wDSLN7FqXNfer/fHg3bezrFH7Z8WxU8DI2hsbGxtG5rGhrR+gWpVVNU5mctymimmMUxhlUMhBKAglAKDGglAQEBBiQEBAQEBAQEBBCAgICAgICAgIIKAglBBQAglAQZWhBZAQSgIJQEEhBjIQEBAQEGFBKAgICAgICCEBAQEBAQEBAQEEIJQEEICCUEhBmQEEoCCUBBICCUFH70FUBAQQgxICCUBAQEBAQQgICAgICAgICAghBKCCgIAQSgszegyoJQEEoILhyoI1gQVMpQVLjyoAQTmQWQQgIMSAgICCUBAQQgICAgICAgICAgICAghAQSgILxcaC5cOVBGsQVMhQVLigICAglAQEEgoJuglB//9k=" alt="HTML/CSS Course" class="w-full h-40 object-cover mb-4 rounded" alt="HTML/CSS Course" class="mb-4 rounded"></center>
-                <h2 class="text-2xl font-bold mb-2">Curso de HTML/CSS</h2>
-                <p class="mb-4">Domine as linguagens fundamentais para criação de páginas web.</p>
-                <div class="progress-container">
-                    <div class="progress-bar bg-blue-500" id="html-progress"></div>
-                </div>
-                <a href="/Cursohtml" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition duration-300">Iniciar Curso</a>
-            </div>
-
-            <div class="neumorphic p-6 fade-in">
-                <center><img src="data:image/png;base64,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" alt="JavaScript Course" class="w-full h-40 object-cover mb-4 rounded" alt="JavaScript Course" class="mb-4 rounded"></center>
-                <h2 class="text-2xl font-bold mb-2">Curso de JavaScript</h2>
-                <p class="mb-4">Aprenda a programar em JavaScript e crie aplicações web interativas.</p>
-                <div class="progress-container">
-                    <div class="progress-bar bg-blue-500" id="js-progress"></div>
-                </div>
-                <a href="/CursoJS" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600 transition duration-300">Iniciar Curso</a>
-            </div>
-        </div>
-    </div>
-
-    <footer class="neumorphic p-4 mt-12">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
-        </div>
+    <footer class="footer">
+        <p>&copy; 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
     </footer>
 
-    <script>    
-        updateGitHubProgress()
-        updatehtmlProgress()
-        updatejsProgress()
+    <script>
+        // Atualizar progresso dos cursos
+        function updateGitHubProgress() {
+            fetch("/progressCoursePercentage", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({courseID: 1})
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const progressBar = document.querySelector("#github-progress");
+                data.forEach((row) => {
+                    progressBar.style.width = `${row.percentage}%`;
+                });
+            });
+        }
+
+        function updatehtmlProgress() {
+            fetch("/progressCoursePercentage", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({courseID: 2})
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const progressBar = document.querySelector("#html-progress");
+                data.forEach((row) => {
+                    progressBar.style.width = `${row.percentage}%`;
+                });
+            });
+        }
+
+        function updatejsProgress() {
+            fetch("/progressCoursePercentage", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({courseID: 3})
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const progressBar = document.querySelector("#js-progress");
+                data.forEach((row) => {
+                    progressBar.style.width = `${row.percentage}%`;
+                });
+            });
+        }
+
+        // Modal de perfil
         const modal = document.getElementById("modal");
         const profileIcon = document.getElementById("profile-icon");
 
@@ -629,74 +704,106 @@
             }
         };
 
-        document.body.classList.toggle('dark-mode');
-        AOS.init({
-            duration: 1000,
-            once: true
+        // Alternar entre abas
+        const tabs = document.querySelectorAll(".tab");
+        tabs.forEach(tab => {
+            tab.addEventListener("click", () => {
+                // Remover classe active de todas as abas
+                tabs.forEach(t => t.classList.remove("active"));
+                
+                // Adicionar classe active à aba clicada
+                tab.classList.add("active");
+                
+                // Esconder todos os conteúdos
+                document.querySelectorAll(".tab-content").forEach(content => {
+                    content.classList.remove("active");
+                });
+                
+                // Mostrar o conteúdo correspondente
+                const tabId = tab.getAttribute("data-tab") + "-tab";
+                document.getElementById(tabId).classList.add("active");
+            });
         });
-        
-        const darkModeToggle = document.getElementById('darkModeToggle');
-        const body = document.body;
 
-        darkModeToggle.addEventListener('click', () => {
-            body.classList.toggle('dark-mode');
-            const icon = darkModeToggle.querySelector('i');
-            icon.classList.toggle('fa-moon');
-            icon.classList.toggle('fa-sun');
+        // Carregar nome do usuário
+        function loadUserName() {
+            // Simulação - substitua por chamada real à API
+            setTimeout(() => {
+                document.getElementById("user-name").textContent = "João Silva";
+            }, 1000);
+        }
+
+        // Carregar cursos em andamento
+        function loadOngoingCourses() {
+            // Simulação - substitua por chamada real à API
+            setTimeout(() => {
+                const ongoingCourses = document.getElementById("ongoing-courses");
+                ongoingCourses.innerHTML = `
+                    <div class="course-card">
+                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="GitHub Course" class="course-image">
+                        <div class="course-content">
+                            <h3 class="course-title">Curso de GitHub</h3>
+                            <p class="course-description">Aprenda a utilizar o GitHub para controle de versão e colaboração em projetos.</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 45%"></div>
+                            </div>
+                            <div class="course-meta">
+                                <div class="course-stats">
+                                    <span><i class="fas fa-book-open"></i> 5/12 aulas</span>
+                                    <span><i class="fas fa-clock"></i> 3.5/8 horas</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary" onclick="window.location.href='/CursoGithub'">Continuar Curso</button>
+                        </div>
+                    </div>
+                    <div class="course-card">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/HTML5_logo_and_wordmark.svg/1200px-HTML5_logo_and_wordmark.svg.png" alt="HTML/CSS Course" class="course-image">
+                        <div class="course-content">
+                            <h3 class="course-title">Curso de HTML/CSS</h3>
+                            <p class="course-description">Domine as linguagens fundamentais para criação de páginas web.</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 30%"></div>
+                            </div>
+                            <div class="course-meta">
+                                <div class="course-stats">
+                                    <span><i class="fas fa-book-open"></i> 4/15 aulas</span>
+                                    <span><i class="fas fa-clock"></i> 3/10 horas</span>
+                                </div>
+                            </div>
+                            <button class="btn-primary" onclick="window.location.href='/Cursohtml'">Continuar Curso</button>
+                        </div>
+                    </div>
+                `;
+            }, 1500);
+        }
+
+        // Carregar cursos concluídos
+        function loadCompletedCourses() {
+            // Simulação - substitua por chamada real à API
+            setTimeout(() => {
+                const completedCourses = document.getElementById("completed-courses");
+                completedCourses.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-graduation-cap"></i>
+                        <p>Você ainda não concluiu nenhum curso</p>
+                        <p>Explore nossos cursos disponíveis e comece a aprender!</p>
+                    </div>
+                `;
+            }, 1500);
+        }
+
+        // Inicialização
+        document.addEventListener("DOMContentLoaded", () => {
+            loadUserName();
+            loadOngoingCourses();
+            loadCompletedCourses();
+            updateGitHubProgress();
+            updatehtmlProgress();
+            updatejsProgress();
+            
+            // Ativar dark mode se necessário
+            document.body.classList.toggle('dark-mode');
         });
-
-        
-        function updateGitHubProgress() {
-            fetch("/progressCoursePercentage", {
-                method: 'POST',
-                headers: {
-                  'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify({courseID: 1})
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  const progressBar = document.querySelector("#github-progress");
-                  data.forEach((row) => {
-                    progressBar.style.width = `${row.percentage}%`;
-                  });
-                });
-        }
-        
-        function updatehtmlProgress() {
-            fetch("/progressCoursePercentage", {
-                method: 'POST',
-                headers: {
-                  'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify({courseID: 2})
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  const progressBar = document.querySelector("#html-progress");
-                  data.forEach((row) => {
-                    progressBar.style.width = `${row.percentage}%`;
-                  });
-                });
-        }
-        function updatejsProgress() {
-            fetch("/progressCoursePercentage", {
-                method: 'POST',
-                headers: {
-                  'Content-Type' : 'application/json'
-                },
-                body: JSON.stringify({courseID: 3})
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  const progressBar = document.querySelector("#js-progress");
-                  data.forEach((row) => {
-                    progressBar.style.width = `${row.percentage}%`;
-                  });
-                });
-        }
-        
-        
     </script>
 </body>
 </html>
