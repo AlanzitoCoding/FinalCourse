@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteúdos - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos similares aos anteriores */
+        .conteudo-card {
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .conteudo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .badge-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .badge-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .editor-container {
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            border-radius: 5px;
+            padding: 15px;
+            background: rgba(20, 20, 20, 0.9);
+        }
+
+        .editor-toolbar {
+            margin-bottom: 10px;
+        }
+
+        .editor-content {
+            min-height: 200px;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            padding: 10px;
+            background: rgba(25, 25, 25, 0.9);
+        }
+    </style>
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Professor</a>
+            <div class="flex items-center space-x-4">
+                <a href="../HTMLs/ProfessorPainel.html" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="../HTMLs/ProfessorTurmas.html" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="#" class="nav-link active"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="../HTMLs/ProfessorMensagens.html" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="../HTMLs/ProfessorLogin.html" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Gerenciar Conteúdos</h1>
+            <button class="btn-primary" onclick="openModal('novoConteudoModal')">
+                <i class="fas fa-plus mr-2"></i>Novo Conteúdo
+            </button>
+        </div>
+
+        <div class="mb-8">
+            <div class="flex space-x-2 mb-4">
+                <button class="btn-primary">Todos</button>
+                <button class="btn-primary bg-gray-600">Desenvolvimento Web</button>
+                <button class="btn-primary bg-gray-600">GitHub</button>
+                <button class="btn-primary bg-gray-600">JavaScript</button>
+            </div>
+            
+            <input type="text" placeholder="Pesquisar conteúdos..." class="w-full p-3 rounded bg-gray-800 text-white">
+        </div>
+
+        <div class="grid grid-cols-1 gap-6">
+            <!-- Conteúdo 1 -->
+            <div class="conteudo-card">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold">Introdução ao HTML5</h3>
+                    <span class="badge badge-primary">Desenvolvimento Web</span>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Aula introdutória sobre os conceitos básicos de HTML5 e estrutura de documentos web.</p>
+                
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-sm text-gray-400 mr-4"><i class="fas fa-calendar-alt mr-1"></i> 05/05/2024</span>
+                        <span class="text-sm text-gray-400"><i class="fas fa-users mr-1"></i> 3 turmas</span>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button class="btn-primary">
+                            <i class="fas fa-edit mr-2"></i>Editar
+                        </button>
+                        <button class="btn-primary bg-red-600">
+                            <i class="fas fa-trash mr-2"></i>Remover
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Conteúdo 2 -->
+            <div class="conteudo-card">
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold">Git Branching Strategies</h3>
+                    <span class="badge badge-secondary">GitHub</span>
+                </div>
+                
+                <p class="text-gray-400 mb-4">Estratégias avançadas de branching com Git para projetos em equipe.</p>
+                
+                <div class="flex items-center justify-between">
+                    <div>
+                        <span class="text-sm text-gray-400 mr-4"><i class="fas fa-calendar-alt mr-1"></i> 12/05/2024</span>
+                        <span class="text-sm text-gray-400"><i class="fas fa-users mr-1"></i> 2 turmas</span>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button class="btn-primary">
+                            <i class="fas fa-edit mr-2"></i>Editar
+                        </button>
+                        <button class="btn-primary bg-red-600">
+                            <i class="fas fa-trash mr-2"></i>Remover
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Novo Conteúdo -->
+        <div id="novoConteudoModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div class="neumorphic p-6 rounded-lg w-full max-w-2xl">
+                <h2 class="text-2xl font-bold mb-4">Adicionar Novo Conteúdo</h2>
+                <form id="novoConteudoForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block mb-2">Título</label>
+                            <input type="text" class="w-full p-2 rounded bg-gray-800 text-white" required>
+                        </div>
+                        <div>
+                            <label class="block mb-2">Curso</label>
+                            <select class="w-full p-2 rounded bg-gray-800 text-white" required>
+                                <option value="">Selecione um curso</option>
+                                <option value="1">Desenvolvimento Web</option>
+                                <option value="2">GitHub Avançado</option>
+                                <option value="3">JavaScript Moderno</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block mb-2">Descrição</label>
+                        <textarea class="w-full p-2 rounded bg-gray-800 text-white" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block mb-2">Conteúdo</label>
+                        <div class="editor-container">
+                            <div class="editor-toolbar">
+                                <button type="button" class="p-1 mr-1"><i class="fas fa-bold"></i></button>
+                                <button type="button" class="p-1 mr-1"><i class="fas fa-italic"></i></button>
+                                <button type="button" class="p-1 mr-1"><i class="fas fa-list-ul"></i></button>
+                                <button type="button" class="p-1 mr-1"><i class="fas fa-link"></i></button>
+                                <button type="button" class="p-1 mr-1"><i class="fas fa-image"></i></button>
+                                <button type="button" class="p-1 mr-1"><i class="fas fa-code"></i></button>
+                            </div>
+                            <div class="editor-content" contenteditable="true"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block mb-2">Anexos</label>
+                        <div class="border-2 border-dashed border-gray-700 p-4 rounded text-center">
+                            <p>Arraste arquivos aqui ou clique para selecionar</p>
+                            <input type="file" class="hidden" multiple>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeModal('novoConteudoModal')" class="btn-primary bg-gray-600">Cancelar</button>
+                        <button type="submit" class="btn-primary">Salvar Conteúdo</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Professor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Funções similares às do arquivo anterior
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.add('hidden');
+            }
+        };
+
+        // Formulário de novo conteúdo
+        document.getElementById('novoConteudoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aqui você pode adicionar lógica para salvar o conteúdo
+            alert('Conteúdo salvo com sucesso!');
+            closeModal('novoConteudoModal');
+        });
+    </script>
+</body>
+</html>
