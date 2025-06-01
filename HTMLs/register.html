@@ -4,123 +4,147 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
-    <style>
-        :root {
-            --primary-color: #3a7bd5;
-            --secondary-color: #00d2ff;
-            --background-color: #f0f2f5;
-            --text-color: #333;
-            --shadow-color: #d1d9e6;
-            --highlight-color: #ffffff;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            background-image: url('https://picsum.photos/id/20/3000/2000');
-            background-size: cover;
-            background-position: center;
-        }
-
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
-        }
-
-        .loginField {
-            background-color: var(--highlight-color);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 0px 10px 10px rgb(0, 0, 0, 0.3);
-            width: 300px;
-            text-align: center;
-            align-items: center;
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        input {
-            width: 95%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: var(--background-color);
-            box-shadow: inset 5px 5px 10px var(--shadow-color),
-                        inset -5px -5px 10px var(--highlight-color);
-        }
-
-        input:focus {
-            outline: none;
-            box-shadow: inset 5px 5px 10px #444,
-                        inset -5px -5px 10px #777;
-            background-color: #999;
-            color: white;
-        }
-
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: linear-gradient(145deg, #888, #555);
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 10px;
-        }
-
-        button:hover {
-            opacity: 0.9;
-        }
-
-        .back-button {
-            background: var(--background-color);
-            color: #333;
-            box-shadow: 5px 5px 10px var(--shadow-color),
-                        -5px -5px 10px var(--highlight-color);
-        }
-
-        .back-button:hover {
-            box-shadow: 3px 3px 5px var(--shadow-color),
-                        -3px -3px 5px var(--highlight-color);
-        }
-    </style>
+    <link rel="stylesheet" href="/CSS/register.Css">
 </head>
 <body>
     <div class="overlay"></div>
     
     <form class="loginField" method="POST" id="registerForm" >
         <h2>Realize seu cadastro</h2>
-        <input type="email" placeholder="E-mail" name="email" required>
-        <input type="password" placeholder="Password" name="senha" required>
-        <input type="text" placeholder="Nome" name="nome" required>
-        <input type="number" placeholder="CPF" name="cpf" required>
-        <input type="tel" placeholder="Telefone" name="telefone" required>
-        <br>
-        <button type="submit">Cadastrar</button>
+        <div id="tipoUsuarioContainer" style="margin-bottom: 20px;">
+            <div style="display: flex; gap: 18px; justify-content: center; margin-bottom: 10px;">
+                <button type="button" id="btnAluno" class="tipo-btn" style="flex:1; background:#232526; color:#b2ff59; border:2px solid #b2ff59;">
+                    <b>Aluno</b><br>
+                    <span style="font-size:13px; color:#ccc; font-weight:400;">Acesse cursos, escolha um plano e aproveite todos os recursos da plataforma.</span>
+                </button>
+                <button type="button" id="btnProfessor" class="tipo-btn" style="flex:1; background:#232526; color:#00bfff; border:2px solid #00bfff;">
+                    <b>Professor</b><br>
+                    <span style="font-size:13px; color:#ccc; font-weight:400;">Crie e gerencie cursos, acompanhe alunos e publique conteúdos.</span>
+                </button>
+            </div>
+        </div>
+        <input type="hidden" name="tipoUsuario" id="tipoUsuario" required>
+        <div id="dadosContainer" style="display:none;">
+            <input type="email" placeholder="E-mail" name="email" id="email" required>
+            <input type="password" placeholder="Password" name="senha" required>
+            <input type="text" placeholder="Nome" name="nome" required>
+            <input type="text" placeholder="CPF" name="cpf" id="cpf" maxlength="14" required>
+            <input type="text" placeholder="Telefone" name="telefone" id="telefone" maxlength="15" required>
+            <br>
+            <button type="button" id="escolherPlanoBtn" style="display:none;">Escolher um plano</button>
+            <button type="submit" id="cadastrarBtn" style="display:none;">Cadastrar</button>
+        </div>
+        <div id="modalPlano" class="modal-plano">
+            <div class="modal-content">
+                <span class="close-modal" id="closeModal">&times;</span>
+                <h3>Escolha um plano</h3>
+                <div class="planos-flex">
+                    <div class="plano-card-modal" data-plano="basico">
+                        <h4>Básico</h4>
+                        <div class="plano-preco">R$19,90/mês</div>
+                        <ul>
+                            <li>Acesso a cursos gratuitos</li>
+                            <li>Suporte básico</li>
+                            <li>Comunidade de alunos</li>
+                        </ul>
+                        <button type="button" class="selecionar-plano">Selecionar</button>
+                    </div>
+                    <div class="plano-card-modal" data-plano="intermediario">
+                        <h4>Empreendedor</h4>
+                        <div class="plano-preco">R$39,90/mês</div>
+                        <ul>
+                            <li>Acesso a todos os cursos</li>
+                            <li>Suporte prioritário</li>
+                            <li>Materiais extras exclusivos</li>
+                        </ul>
+                        <button type="button" class="selecionar-plano">Selecionar</button>
+                    </div>
+                    <div class="plano-card-modal" data-plano="avancado">
+                        <h4>Startup</h4>
+                        <div class="plano-preco">R$59,90/mês</div>
+                        <ul>
+                            <li>Todos os benefícios do Empreendedor</li>
+                            <li>Mentorias exclusivas</li>
+                            <li>Certificado premium</li>
+                        </ul>
+                        <button type="button" class="selecionar-plano">Selecionar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <button type="button" class="back-button" onclick="window.location.href='/loginScreen'">Voltar para Login</button>
     </form>
     <script>
+const btnAluno = document.getElementById('btnAluno');
+const btnProfessor = document.getElementById('btnProfessor');
+const tipoUsuario = document.getElementById('tipoUsuario');
+const dadosContainer = document.getElementById('dadosContainer');
+const escolherPlanoBtn = document.getElementById('escolherPlanoBtn');
+const cadastrarBtn = document.getElementById('cadastrarBtn');
+const modalPlano = document.getElementById('modalPlano');
+const closeModal = document.getElementById('closeModal');
+let planoEscolhido = null;
+
+btnAluno.addEventListener('click', function() {
+    tipoUsuario.value = 'aluno';
+    btnAluno.classList.add('selected-tipo');
+    btnProfessor.classList.remove('selected-tipo');
+    dadosContainer.style.display = 'block';
+    escolherPlanoBtn.style.display = 'block';
+    cadastrarBtn.style.display = 'none';
+});
+
+btnProfessor.addEventListener('click', function() {
+    tipoUsuario.value = 'professor';
+    btnProfessor.classList.add('selected-tipo');
+    btnAluno.classList.remove('selected-tipo');
+    dadosContainer.style.display = 'block';
+    escolherPlanoBtn.style.display = 'none';
+    cadastrarBtn.style.display = 'block';
+});
+
+// Modal plano
+escolherPlanoBtn.addEventListener('click', function() {
+    modalPlano.classList.add('active');
+    document.body.style.overflow = 'hidden';
+});
+closeModal.addEventListener('click', function() {
+    modalPlano.classList.remove('active');
+    document.body.style.overflow = '';
+});
+window.addEventListener('click', function(e) {
+    if(e.target === modalPlano) {
+        modalPlano.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+});
+
+// Seleção de plano
+modalPlano.querySelectorAll('.plano-card-modal').forEach(card => {
+    card.querySelector('button').addEventListener('click', function(e) {
+        e.stopPropagation();
+        modalPlano.querySelectorAll('.plano-card-modal').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        planoEscolhido = card.getAttribute('data-plano');
+        modalPlano.classList.remove('active');
+        document.body.style.overflow = '';
+        cadastrarBtn.style.display = 'block';
+        escolherPlanoBtn.style.display = 'block';
+        escolherPlanoBtn.textContent = 'Trocar plano';
+    });
+});
 
 document.getElementById('registerForm').addEventListener('submit', function(e){
-    e.preventDefault()
-    const formData = new FormData(e.target)
-    const data = Object.fromEntries(formData.entries())
+    e.preventDefault();
+    const formData = new FormData(e.target);
+    const data = Object.fromEntries(formData.entries());
+    if(data.tipoUsuario === 'aluno'){
+        if(!planoEscolhido){
+            alert('Escolha um plano para finalizar o cadastro!');
+            return;
+        }
+        data.plano = planoEscolhido;
+    }
     fetch('/submit', {
         method: 'POST',
         headers: {
@@ -140,6 +164,35 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
         alert('Erro ao enviar o formulário.');
     });
 })
+
+// Máscara para CPF
+const cpfInput = document.getElementById('cpf');
+cpfInput.addEventListener('input', function(e) {
+    let v = this.value.replace(/\D/g, '');
+    if (v.length > 3) v = v.replace(/(\d{3})(\d)/, '$1.$2');
+    if (v.length > 7) v = v.replace(/(\d{3})\.(\d{3})(\d)/, '$1.$2.$3');
+    if (v.length > 11) v = v.replace(/(\d{3})\.(\d{3})\.(\d{3})(\d)/, '$1.$2.$3-$4');
+    this.value = v;
+});
+// Máscara para telefone
+const telInput = document.getElementById('telefone');
+telInput.addEventListener('input', function(e) {
+    let v = this.value.replace(/\D/g, '');
+    if (v.length > 2) v = v.replace(/(\d{2})(\d)/, '($1) $2');
+    if (v.length > 7) v = v.replace(/(\(\d{2}\) \d{5})(\d)/, '$1-$2');
+    else if (v.length > 6) v = v.replace(/(\(\d{2}\) \d{4})(\d)/, '$1-$2');
+    this.value = v;
+});
+// Máscara para email (validação visual simples)
+const emailInput = document.getElementById('email');
+emailInput.addEventListener('blur', function() {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (this.value && !re.test(this.value)) {
+        this.style.border = '2px solid #ff5252';
+    } else {
+        this.style.border = '';
+    }
+});
     </script>
 </body>
 </html>

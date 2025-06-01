@@ -34,11 +34,26 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'HTMLs')));
 
 app.post('/submit', (req, res) => {
-    const {email, senha, nome, cpf, telefone} = req.body;
+    const {email, senha, nome, cpf, telefone, tipoUsuario, plano} = req.body;
 
-    const query = "insert into users values (?, ?, ?, ?, ?);"
+    // Verifica se tipoUsuario foi enviado
+    if (!tipoUsuario) {
+        return res.json({message: 'Selecione o tipo de usuário!'});
+    }
 
-    db.query(query, [cpf, nome, email, senha, telefone], function(err, result){
+    // Adapta o insert para incluir tipoUsuario e plano (se aluno)
+    let query, params;
+    if (tipoUsuario === 'aluno') {
+        // Supondo que a tabela users tem as colunas: userCPF, userName, userEmail, userPassword, userPhone, tipoUsuario, plano
+        query = "INSERT INTO users (userCPF, userName, userEmail, userPassword, userPhone, tipoUsuario, plano) VALUES (?, ?, ?, ?, ?, ?, ?);";
+        params = [cpf, nome, email, senha, telefone, tipoUsuario, plano];
+    } else {
+        // Professor não precisa de plano
+        query = "INSERT INTO users (userCPF, userName, userEmail, userPassword, userPhone, tipoUsuario) VALUES (?, ?, ?, ?, ?, ?);";
+        params = [cpf, nome, email, senha, telefone, tipoUsuario];
+    }
+
+    db.query(query, params, function(err, result){
         if(err){
            return res.json({message: 'Erro ao cadastrar usuário!'})
         };
