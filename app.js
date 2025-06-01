@@ -20,7 +20,7 @@ const db = mysql.createConnection({
 db.connect((err) => {
     if(err) throw err;
 
-    console.log('Conctado ao banco de dados!')
+    console.log('Conectado ao banco de dados!')
 })
 
 app.use(session({
@@ -45,22 +45,34 @@ app.post('/submit', (req, res) => {
     let query, params;
     if (tipoUsuario === 'aluno') {
         // Supondo que a tabela users tem as colunas: userCPF, userName, userEmail, userPassword, userPhone, tipoUsuario, plano
-        query = "INSERT INTO users (userCPF, userName, userEmail, userPassword, userPhone, tipoUsuario, plano) VALUES (?, ?, ?, ?, ?, ?, ?);";
-        params = [cpf, nome, email, senha, telefone, tipoUsuario, plano];
-    } else {
+        query = "INSERT INTO alunos (alCPF, alNome, alEmail, alSenha, alTelefone, alPlano) VALUES (?, ?, ?, ?, ?, ?);";
+        params = [cpf, nome, email, senha, telefone, plano];
+    } 
+    else if(tipoUsuario === 'professor') {
         // Professor não precisa de plano
-        query = "INSERT INTO users (userCPF, userName, userEmail, userPassword, userPhone, tipoUsuario) VALUES (?, ?, ?, ?, ?, ?);";
-        params = [cpf, nome, email, senha, telefone, tipoUsuario];
+        query = "INSERT INTO professores (prCPF, prNome, prEmail, prSenha, prTelefone) VALUES (?, ?, ?, ?, ?);";
+        params = [cpf, nome, email, senha, telefone];
     }
 
     db.query(query, params, function(err, result){
         if(err){
-           return res.json({message: 'Erro ao cadastrar usuário!'})
+            console.log(err)
+            return res.json({message: 'Erro ao cadastrar usuário: ', err})
         };
 
-        console.log("1 record inserted");
+        console.log(`${tipoUsuario} cadastrado!`);
         req.session.loggedin = true;
         req.session.email = email;
+
+        if(tipoUsuario === 'aluno'){
+            req.session.plan = plano;
+            console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}`)
+        }
+        else{
+            console.log(`Email do usuário: ${req.session.email}\n`)
+        }
+
+
         res.json({message: 'Cadastro efetuado!'})
     });
 });
