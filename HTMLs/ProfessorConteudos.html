@@ -7,7 +7,100 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Estilos similares aos anteriores */
+        /* Estilos do ProfessorPainel.html */
+        :root {
+            --primary-color: #2a6f97;
+            --secondary-color: #61a5c2;
+            --dark-bg: #0a0a0a;
+            --light-shadow: rgba(255, 255, 255, 0.7);
+            --dark-shadow: rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: #ffffff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .neumorphic {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            box-shadow: 
+                5px 5px 15px rgba(50, 50, 50, 0.5),
+                -5px -5px 15px rgba(66, 153, 225, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card {
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .dashboard-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-link {
+            color: #ffffff;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            background: rgba(66, 153, 225, 0.1);
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            background: rgba(66, 153, 225, 0.2);
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid rgba(66, 153, 225, 0.1);
+        }
+
+        th {
+            background: rgba(66, 153, 225, 0.1);
+            color: var(--primary-color);
+        }
+
+        tr:hover {
+            background: rgba(66, 153, 225, 0.05);
+        }
+
+        /* Estilos específicos para Conteúdos */
         .conteudo-card {
             background: rgba(15, 15, 15, 0.9);
             border-radius: 10px;
@@ -40,22 +133,205 @@
             color: white;
         }
 
-        .editor-container {
-            border: 1px solid rgba(66, 153, 225, 0.2);
+        .badge-github {
+            background: #333;
+            color: white;
+        }
+
+        .badge-html {
+            background: #e34c26;
+            color: white;
+        }
+
+        .badge-js {
+            background: #f0db4f;
+            color: #333;
+        }
+
+        .video-thumbnail {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
             border-radius: 5px;
-            padding: 15px;
-            background: rgba(20, 20, 20, 0.9);
+            background-color: rgba(66, 153, 225, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 40px;
         }
 
-        .editor-toolbar {
-            margin-bottom: 10px;
+        .video-duration {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 12px;
         }
 
-        .editor-content {
-            min-height: 200px;
-            border: 1px solid rgba(66, 153, 225, 0.1);
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(15, 15, 15, 0.95);
+            border-radius: 10px;
+            padding: 25px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(66, 153, 225, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
             padding: 10px;
+            border-radius: 5px;
+            border: 1px solid rgba(66, 153, 225, 0.2);
             background: rgba(25, 25, 25, 0.9);
+            color: white;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn-danger {
+            background: #dc2626;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #4b5563;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: #374151;
+            transform: translateY(-2px);
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 5px;
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            background: rgba(25, 25, 25, 0.9);
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            background: rgba(66, 153, 225, 0.1);
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn.active {
+            background: var(--primary-color);
+        }
+
+        .filter-btn:hover {
+            background: rgba(66, 153, 225, 0.2);
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .video-item {
+            background: rgba(20, 20, 20, 0.9);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+        }
+
+        .video-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state i {
+            font-size: 50px;
+            color: rgba(255, 255, 255, 0.2);
+            margin-bottom: 20px;
+        }
+
+        .empty-state p {
+            color: rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
@@ -64,11 +340,11 @@
         <div class="container mx-auto flex justify-between items-center">
             <a href="#" class="text-2xl font-bold">SMGFAP Courses - Professor</a>
             <div class="flex items-center space-x-4">
-                <a href="../HTMLs/ProfessorPainel.html" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
-                <a href="../HTMLs/ProfessorTurmas.html" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="/homeProfessor" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="/turmasProfessor" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
                 <a href="#" class="nav-link active"><i class="fas fa-book mr-2"></i>Conteúdos</a>
-                <a href="../HTMLs/ProfessorMensagens.html" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
-                <a href="../HTMLs/ProfessorLogin.html" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+                <a href="/mensagensProfessor" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="/loginScreen" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
             </div>
         </div>
     </nav>
@@ -76,130 +352,93 @@
     <div class="container mx-auto px-4">
         <div class="flex justify-between items-center mb-8">
             <h1 class="text-3xl font-bold">Gerenciar Conteúdos</h1>
-            <button class="btn-primary" onclick="openModal('novoConteudoModal')">
-                <i class="fas fa-plus mr-2"></i>Novo Conteúdo
+            <button class="btn-primary" onclick="openAddVideoModal()">
+                <i class="fas fa-plus mr-2"></i>Adicionar Vídeo
             </button>
         </div>
 
-        <div class="mb-8">
-            <div class="flex space-x-2 mb-4">
-                <button class="btn-primary">Todos</button>
-                <button class="btn-primary bg-gray-600">Desenvolvimento Web</button>
-                <button class="btn-primary bg-gray-600">GitHub</button>
-                <button class="btn-primary bg-gray-600">JavaScript</button>
+        <div class="neumorphic p-6 mb-8">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-course="all" onclick="filterVideos('all')">Todos</button>
+                <button class="filter-btn" data-course="github" onclick="filterVideos('github')"><i class="fab fa-github mr-2"></i>GitHub</button>
+                <button class="filter-btn" data-course="html" onclick="filterVideos('html')"><i class="fab fa-html5 mr-2"></i>HTML/CSS</button>
+                <button class="filter-btn" data-course="js" onclick="filterVideos('js')"><i class="fab fa-js mr-2"></i>JavaScript</button>
             </div>
             
-            <input type="text" placeholder="Pesquisar conteúdos..." class="w-full p-3 rounded bg-gray-800 text-white">
-        </div>
-
-        <div class="grid grid-cols-1 gap-6">
-            <!-- Conteúdo 1 -->
-            <div class="conteudo-card">
-                <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-xl font-bold">Introdução ao HTML5</h3>
-                    <span class="badge badge-primary">Desenvolvimento Web</span>
-                </div>
-                
-                <p class="text-gray-400 mb-4">Aula introdutória sobre os conceitos básicos de HTML5 e estrutura de documentos web.</p>
-                
-                <div class="flex items-center justify-between">
-                    <div>
-                        <span class="text-sm text-gray-400 mr-4"><i class="fas fa-calendar-alt mr-1"></i> 05/05/2024</span>
-                        <span class="text-sm text-gray-400"><i class="fas fa-users mr-1"></i> 3 turmas</span>
-                    </div>
-                    
-                    <div class="flex space-x-2">
-                        <button class="btn-primary">
-                            <i class="fas fa-edit mr-2"></i>Editar
-                        </button>
-                        <button class="btn-primary bg-red-600">
-                            <i class="fas fa-trash mr-2"></i>Remover
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <input type="text" id="searchInput" placeholder="Pesquisar vídeos..." class="search-input" oninput="searchVideos()">
             
-            <!-- Conteúdo 2 -->
-            <div class="conteudo-card">
-                <div class="flex justify-between items-start mb-4">
-                    <h3 class="text-xl font-bold">Git Branching Strategies</h3>
-                    <span class="badge badge-secondary">GitHub</span>
-                </div>
-                
-                <p class="text-gray-400 mb-4">Estratégias avançadas de branching com Git para projetos em equipe.</p>
-                
-                <div class="flex items-center justify-between">
-                    <div>
-                        <span class="text-sm text-gray-400 mr-4"><i class="fas fa-calendar-alt mr-1"></i> 12/05/2024</span>
-                        <span class="text-sm text-gray-400"><i class="fas fa-users mr-1"></i> 2 turmas</span>
-                    </div>
-                    
-                    <div class="flex space-x-2">
-                        <button class="btn-primary">
-                            <i class="fas fa-edit mr-2"></i>Editar
-                        </button>
-                        <button class="btn-primary bg-red-600">
-                            <i class="fas fa-trash mr-2"></i>Remover
-                        </button>
-                    </div>
+            <div class="video-grid" id="videosContainer">
+                <!-- Vídeos serão carregados aqui via JavaScript -->
+                <div class="empty-state">
+                    <i class="fas fa-video-slash"></i>
+                    <p>Nenhum vídeo encontrado</p>
+                    <p>Adicione seu primeiro vídeo clicando no botão acima</p>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Modal Novo Conteúdo -->
-        <div id="novoConteudoModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-            <div class="neumorphic p-6 rounded-lg w-full max-w-2xl">
-                <h2 class="text-2xl font-bold mb-4">Adicionar Novo Conteúdo</h2>
-                <form id="novoConteudoForm">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                        <div>
-                            <label class="block mb-2">Título</label>
-                            <input type="text" class="w-full p-2 rounded bg-gray-800 text-white" required>
-                        </div>
-                        <div>
-                            <label class="block mb-2">Curso</label>
-                            <select class="w-full p-2 rounded bg-gray-800 text-white" required>
-                                <option value="">Selecione um curso</option>
-                                <option value="1">Desenvolvimento Web</option>
-                                <option value="2">GitHub Avançado</option>
-                                <option value="3">JavaScript Moderno</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="block mb-2">Descrição</label>
-                        <textarea class="w-full p-2 rounded bg-gray-800 text-white" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="block mb-2">Conteúdo</label>
-                        <div class="editor-container">
-                            <div class="editor-toolbar">
-                                <button type="button" class="p-1 mr-1"><i class="fas fa-bold"></i></button>
-                                <button type="button" class="p-1 mr-1"><i class="fas fa-italic"></i></button>
-                                <button type="button" class="p-1 mr-1"><i class="fas fa-list-ul"></i></button>
-                                <button type="button" class="p-1 mr-1"><i class="fas fa-link"></i></button>
-                                <button type="button" class="p-1 mr-1"><i class="fas fa-image"></i></button>
-                                <button type="button" class="p-1 mr-1"><i class="fas fa-code"></i></button>
-                            </div>
-                            <div class="editor-content" contenteditable="true"></div>
-                        </div>
-                    </div>
-                    
-                    <div class="mb-4">
-                        <label class="block mb-2">Anexos</label>
-                        <div class="border-2 border-dashed border-gray-700 p-4 rounded text-center">
-                            <p>Arraste arquivos aqui ou clique para selecionar</p>
-                            <input type="file" class="hidden" multiple>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-end space-x-2">
-                        <button type="button" onclick="closeModal('novoConteudoModal')" class="btn-primary bg-gray-600">Cancelar</button>
-                        <button type="submit" class="btn-primary">Salvar Conteúdo</button>
-                    </div>
-                </form>
+    <!-- Modal para adicionar/editar vídeo -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4" id="modalTitle">Adicionar Novo Vídeo</h2>
+            <form id="videoForm">
+                <input type="hidden" id="videoId">
+                
+                <div class="form-group">
+                    <label for="videoTitle">Título do Vídeo</label>
+                    <input type="text" id="videoTitle" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoCourse">Curso</label>
+                    <select id="videoCourse" class="form-control" required>
+                        <option value="">Selecione um curso</option>
+                        <option value="github">GitHub</option>
+                        <option value="html">HTML/CSS</option>
+                        <option value="js">JavaScript</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoUrl">URL do Vídeo (YouTube/Vimeo)</label>
+                    <input type="url" id="videoUrl" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoDescription">Descrição</label>
+                    <textarea id="videoDescription" class="form-control" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoDuration">Duração (minutos)</label>
+                    <input type="number" id="videoDuration" class="form-control" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoThumbnail">Thumbnail (URL da imagem)</label>
+                    <input type="url" id="videoThumbnail" class="form-control">
+                    <small class="text-gray-400">Opcional - será gerada automaticamente se deixado em branco</small>
+                </div>
+                
+                <div class="flex justify-end space-x-2 mt-4">
+                    <button type="button" onclick="closeModal('videoModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Vídeo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <h2 class="text-2xl font-bold mb-4">Confirmar Exclusão</h2>
+            <p>Tem certeza que deseja excluir este vídeo?</p>
+            <p class="text-sm text-gray-400 mt-2">Esta ação não pode ser desfeita.</p>
+            
+            <div class="flex justify-end space-x-2 mt-6">
+                <button type="button" onclick="closeModal('confirmModal')" class="btn-secondary">Cancelar</button>
+                <button type="button" onclick="confirmDelete()" class="btn-danger">Excluir</button>
             </div>
         </div>
     </div>
@@ -211,29 +450,275 @@
     </footer>
 
     <script>
-        // Funções similares às do arquivo anterior
-        function openModal(id) {
-            document.getElementById(id).classList.remove('hidden');
+        // Banco de dados simulado (substituir por chamadas à API real)
+        let videosDB = [
+            {
+                id: 1,
+                title: "Introdução ao GitHub",
+                course: "github",
+                url: "https://www.youtube.com/watch?v=ABC123",
+                description: "Aprenda os conceitos básicos do GitHub e como criar seu primeiro repositório.",
+                duration: 15,
+                thumbnail: "https://i.ytimg.com/vi/ABC123/hqdefault.jpg",
+                createdAt: "2024-05-10"
+            },
+            {
+                id: 2,
+                title: "Git Branching Strategies",
+                course: "github",
+                url: "https://www.youtube.com/watch?v=DEF456",
+                description: "Estratégias avançadas de branching com Git para projetos em equipe.",
+                duration: 25,
+                thumbnail: "https://i.ytimg.com/vi/DEF456/hqdefault.jpg",
+                createdAt: "2024-05-12"
+            },
+            {
+                id: 3,
+                title: "HTML5 Semântico",
+                course: "html",
+                url: "https://www.youtube.com/watch?v=GHI789",
+                description: "Entenda a importância da semântica no HTML5 e como estruturar seu documento.",
+                duration: 18,
+                thumbnail: "https://i.ytimg.com/vi/GHI789/hqdefault.jpg",
+                createdAt: "2024-05-15"
+            },
+            {
+                id: 4,
+                title: "Fundamentos de JavaScript",
+                course: "js",
+                url: "https://www.youtube.com/watch?v=JKL012",
+                description: "Introdução aos conceitos básicos de JavaScript e sintaxe.",
+                duration: 30,
+                thumbnail: "https://i.ytimg.com/vi/JKL012/hqdefault.jpg",
+                createdAt: "2024-05-18"
+            }
+        ];
+
+        // Variáveis globais
+        let currentFilter = 'all';
+        let videoToDelete = null;
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            renderVideos();
+            setupFormSubmit();
+        });
+
+        // Configurar submit do formulário
+        function setupFormSubmit() {
+            document.getElementById('videoForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveVideo();
+            });
         }
 
+        // Função para renderizar os vídeos
+        function renderVideos(filter = currentFilter, searchTerm = '') {
+            const container = document.getElementById('videosContainer');
+            
+            // Filtrar vídeos
+            let filteredVideos = videosDB;
+            
+            if (filter !== 'all') {
+                filteredVideos = filteredVideos.filter(video => video.course === filter);
+            }
+            
+            if (searchTerm) {
+                const term = searchTerm.toLowerCase();
+                filteredVideos = filteredVideos.filter(video => 
+                    video.title.toLowerCase().includes(term) || 
+                    video.description.toLowerCase().includes(term)
+                );
+            }
+            
+            // Se não houver vídeos, mostrar estado vazio
+            if (filteredVideos.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-video-slash"></i>
+                        <p>Nenhum vídeo encontrado</p>
+                        <p>Tente alterar os filtros ou adicionar um novo vídeo</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Renderizar vídeos
+            container.innerHTML = filteredVideos.map(video => `
+                <div class="video-item" data-id="${video.id}">
+                    <div class="relative">
+                        ${video.thumbnail ? 
+                            `<img src="${video.thumbnail}" alt="${video.title}" class="video-thumbnail">` : 
+                            `<div class="video-thumbnail"><i class="fas fa-play"></i></div>`
+                        }
+                        <span class="video-duration">${formatDuration(video.duration)}</span>
+                    </div>
+                    <div class="video-info">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold">${video.title}</h3>
+                            <span class="badge ${getBadgeClass(video.course)}">${getCourseName(video.course)}</span>
+                        </div>
+                        <p class="text-sm text-gray-400 mb-3">${video.description}</p>
+                        <div class="video-actions">
+                            <button class="action-btn btn-primary" onclick="editVideo(${video.id})">
+                                <i class="fas fa-edit mr-1"></i> Editar
+                            </button>
+                            <button class="action-btn btn-danger" onclick="showDeleteConfirm(${video.id})">
+                                <i class="fas fa-trash mr-1"></i> Remover
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Função para formatar duração
+        function formatDuration(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+        }
+
+        // Função para obter classe do badge
+        function getBadgeClass(course) {
+            switch(course) {
+                case 'github': return 'badge-github';
+                case 'html': return 'badge-html';
+                case 'js': return 'badge-js';
+                default: return 'badge-primary';
+            }
+        }
+
+        // Função para obter nome do curso
+        function getCourseName(course) {
+            switch(course) {
+                case 'github': return 'GitHub';
+                case 'html': return 'HTML/CSS';
+                case 'js': return 'JavaScript';
+                default: return course;
+            }
+        }
+
+        // Filtrar vídeos por curso
+        function filterVideos(course) {
+            currentFilter = course;
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.course === course) {
+                    btn.classList.add('active');
+                }
+            });
+            renderVideos();
+        }
+
+        // Pesquisar vídeos
+        function searchVideos() {
+            const searchTerm = document.getElementById('searchInput').value;
+            renderVideos(currentFilter, searchTerm);
+        }
+
+        // Abrir modal para adicionar vídeo
+        function openAddVideoModal() {
+            document.getElementById('modalTitle').textContent = 'Adicionar Novo Vídeo';
+            document.getElementById('videoId').value = '';
+            document.getElementById('videoForm').reset();
+            openModal('videoModal');
+        }
+
+        // Abrir modal
+        function openModal(id) {
+            document.getElementById(id).style.display = 'flex';
+        }
+
+        // Fechar modal
         function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).style.display = 'none';
+        }
+
+        // Mostrar confirmação de exclusão
+        function showDeleteConfirm(id) {
+            videoToDelete = id;
+            openModal('confirmModal');
+        }
+
+        // Confirmar exclusão
+        function confirmDelete() {
+            if (videoToDelete) {
+                videosDB = videosDB.filter(video => video.id !== videoToDelete);
+                renderVideos();
+                closeModal('confirmModal');
+                videoToDelete = null;
+                showToast('Vídeo excluído com sucesso!');
+            }
+        }
+
+        // Editar vídeo
+        function editVideo(id) {
+            const video = videosDB.find(v => v.id === id);
+            if (video) {
+                document.getElementById('modalTitle').textContent = 'Editar Vídeo';
+                document.getElementById('videoId').value = video.id;
+                document.getElementById('videoTitle').value = video.title;
+                document.getElementById('videoCourse').value = video.course;
+                document.getElementById('videoUrl').value = video.url;
+                document.getElementById('videoDescription').value = video.description;
+                document.getElementById('videoDuration').value = video.duration;
+                document.getElementById('videoThumbnail').value = video.thumbnail || '';
+                openModal('videoModal');
+            }
+        }
+
+        // Salvar vídeo (criar ou atualizar)
+        function saveVideo() {
+            const id = document.getElementById('videoId').value;
+            const videoData = {
+                title: document.getElementById('videoTitle').value,
+                course: document.getElementById('videoCourse').value,
+                url: document.getElementById('videoUrl').value,
+                description: document.getElementById('videoDescription').value,
+                duration: parseInt(document.getElementById('videoDuration').value),
+                thumbnail: document.getElementById('videoThumbnail').value || null,
+                createdAt: new Date().toISOString().split('T')[0]
+            };
+            
+            if (id) {
+                // Atualizar vídeo existente
+                const index = videosDB.findIndex(v => v.id === parseInt(id));
+                if (index !== -1) {
+                    videosDB[index] = { ...videosDB[index], ...videoData };
+                    showToast('Vídeo atualizado com sucesso!');
+                }
+            } else {
+                // Criar novo vídeo
+                const newId = videosDB.length > 0 ? Math.max(...videosDB.map(v => v.id)) + 1 : 1;
+                videosDB.push({ id: newId, ...videoData });
+                showToast('Vídeo adicionado com sucesso!');
+            }
+            
+            closeModal('videoModal');
+            renderVideos();
+            document.getElementById('videoForm').reset();
+        }
+
+        // Mostrar notificação
+        function showToast(message) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-4 right-4 bg-green-600 text-white px-4 py-2 rounded shadow-lg';
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
         }
 
         // Fechar modal ao clicar fora
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
-                event.target.classList.add('hidden');
+                event.target.style.display = 'none';
             }
         };
-
-        // Formulário de novo conteúdo
-        document.getElementById('novoConteudoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            // Aqui você pode adicionar lógica para salvar o conteúdo
-            alert('Conteúdo salvo com sucesso!');
-            closeModal('novoConteudoModal');
-        });
     </script>
 </body>
 </html>
