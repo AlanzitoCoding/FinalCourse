@@ -173,15 +173,15 @@
             <h2>Bem-vindo de volta!</h2>
             
             <div class="user-type-selector">
-                <select id="tipo" required>
-                <option value="">Selecione...</option>
-                <option value="aluno">Aluno</option>
-                <option value="professor">Professor</option>
-                <option value="admin">Administrador</option>
+                <select id="tipo" name="tipo" required>
+                    <option value="">Selecione...</option>
+                    <option value="alunos">Aluno</option>
+                    <option value="professores">Professor</option>
+                    <option value="admins">Administrador</option>
+                    <input type="hidden" id="userType" name="userType" value="aluno">
+                    <input type="hidden" id="userType" name="userType" value="professor">
+                    <input type="hidden" id="userType" name="userType" value="admin">
                 </select>
-                <input type="hidden" id="userType" name="userType" value="aluno">]
-                <input type="hidden" id="userType" name="userType" value="professor">
-                <input type="hidden" id="userType" name="userType" value="admin">
             </div>
             
             <input type="email" placeholder="E-mail" id="email" name="email" required>
@@ -219,7 +219,7 @@
             }).then(res => res.json())
             .then(data => {
                 if(data.ok){
-                    window.location.href = '/'
+                    window.location.href = data.rota
                 } else {
                     const message = data.message;
                     alert(message);

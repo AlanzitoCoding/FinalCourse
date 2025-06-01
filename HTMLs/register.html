@@ -195,7 +195,7 @@ document.getElementById('registerForm').addEventListener('submit', function(e){
     .then(response => {
         alert(response.message);
         if (response.message === 'Cadastro efetuado!') {
-            window.location.href = '/';
+            window.location.href = response.rota
         }
     })
     .catch(error => {

@@ -64,46 +64,80 @@ app.post('/submit', (req, res) => {
         req.session.loggedin = true;
         req.session.email = email;
 
-        if(tipoUsuario === 'aluno'){
-            req.session.plan = plano;
-            console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}`)
-        }
-        else{
-            console.log(`Email do usuário: ${req.session.email}\n`)
+        let endpoint; 
+
+        switch (tipoUsuario) {
+            case 'aluno':
+                endpoint = '/';
+                req.session.plan = plano;
+                console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}`)
+                break;
+
+            case 'professor':
+                endpoint = '/homeProfessor';
+                console.log(`Email do usuário: ${req.session.email}\n`)
+                break;
         }
 
-
-        res.json({message: 'Cadastro efetuado!'})
+        res.json({message: 'Cadastro efetuado!', rota: endpoint})
     });
 });
 
 app.post("/auth", (req, res) => {
-    const {email, senha} = req.body
-     
-     db.query("select * from users where userEmail = ? and userPassword = ?;", [email, senha], function(err, results, fields){
-         if(err) throw err;
-         
-         if(email && senha){
-             if(results.length > 0){
-                 req.session.loggedin = true;
-                 req.session.email = email;
-                 
-                 console.log(req.session.email);
-                 res.json({ok:true});
-                 
-             }
-             else{
-                 const msg = "Incorrect email and/or password."
-                 res.json({message: msg});
-                 
-             }
-         }
-         else{
-             const msg = 'Please, insert your email and password!'
-             res.json({message: msg});
-         }
-     })
- });
+    const {tipo, email, senha} = req.body
+    
+    let query, values;
+    if(tipo === 'aluno'){
+        query = 'select * from alunos where alEmail = ? and alSenha = ?;'
+        values = [email, senha]
+    }
+    else if(tipo === 'professores'){
+        query = 'select * from professores where prEmail = ? and prSenha = ?;'
+        values = [email, senha]
+    }
+    db.query(query, values, function(err, results, fields){
+        if(err){
+            console.log(err)
+            throw err;  
+        }
+        
+        if(email && senha){
+            if(results.length > 0){
+                req.session.loggedin = true;
+                req.session.email = email;
+
+                if(tipo === 'aluno'){
+                    req.session.plan = results.plano;
+                }
+                
+                let endpoint;
+                switch (tipo) {
+                    case 'alunos':
+                        endpoint = '/';
+                        req.session.plan = plano;
+                        console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}`)
+                        break;
+
+                    case 'professores':
+                        endpoint = '/homeProfessor';
+                        console.log(`Email do usuário: ${req.session.email}\n`)
+                        break;
+                }
+
+                console.log(req.session.email);
+                res.json({ok:true, rota: endpoint});
+            }
+            else{
+                const msg = "E-mail e/ou senha incorreto(s)."
+                res.json({message: msg});   
+            }
+        }
+        else{
+            const msg = 'Insira seu dados para login!'
+            res.json({message: msg});
+        }
+    })
+});
 
 app.post("/gitReg", (req, res) => {
     db.query("insert into courseUsers (userEmail_FK, courseID_FK) values (?, 1);", [req.session.email], function(err, results, fields){
@@ -513,12 +547,11 @@ app.get('/registerScreen', (req, res) => {
 app.get('/perfil', (req, res) => {
     if(req.session.loggedin){
         res.sendFile(__dirname + '/HTMLs/perfil.html')
-
-    }else{
-        
+    }else{    
         res.sendFile(path.join(__dirname, 'HTMLs', 'login.html'))
     }
 })
+
 app.get('/sobre', (req, res) => {
     res.sendFile(__dirname + '/HTMLs/sobre.html')
 })
@@ -567,6 +600,9 @@ app.get('/Certificado', function(req, res){
     res.sendFile(__dirname + '/HTMLs/Certificado.html');
 });
 
+app.get('/homeProfessor', (req, res) => {
+    res.sendFile(__dirname + '/HTMLs/ProfessorPainel.html')
+})
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
