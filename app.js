@@ -10,13 +10,18 @@ const saltRounds = 10;
 const port = 8081;
 
 const db = mysql.createConnection({
-    host: "localhost",
+    host: "interchange.proxy.rlwy.net",
     user: "root",
-    password: "cimatec",
-    database: "FinalCourse"
+    password: "XQrNPTjyDkNqEaxGDRNQhqOUSHsdMnWa",
+    database: "railway",
+    port: "12775"
 });
 
+db.connect((err) => {
+    if(err) throw err;
 
+    console.log('Conctado ao banco de dados!')
+})
 
 app.use(session({
     secret: 'secret',
