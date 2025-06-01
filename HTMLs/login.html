@@ -59,6 +59,25 @@
             margin-bottom: 20px;
         }
 
+        .user-type-selector {
+            margin-bottom: 15px;
+        }
+
+        .user-type-btn {
+            padding: 8px 15px;
+            margin: 0 5px;
+            border: none;
+            border-radius: 5px;
+            background: #ddd;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .user-type-btn.active {
+            background: var(--primary-color);
+            color: white;
+        }
+
         input {
             width: 95%;
             padding: 10px;
@@ -141,9 +160,7 @@
             0% { transform: translate(0, 0) rotate(0deg); }
             100% { transform: translate(1000px, -1000px) rotate(360deg); }
         }
-
     </style>
-
 </head>
 <body>
     <div class="overlay"></div>
@@ -154,46 +171,64 @@
     <div class="loginField">
         <form id="login">
             <h2>Bem-vindo de volta!</h2>
+            
+            <div class="user-type-selector">
+                <select id="tipo" required>
+                <option value="">Selecione...</option>
+                <option value="aluno">Aluno</option>
+                <option value="professor">Professor</option>
+                <option value="admin">Administrador</option>
+                </select>
+                <input type="hidden" id="userType" name="userType" value="aluno">]
+                <input type="hidden" id="userType" name="userType" value="professor">
+                <input type="hidden" id="userType" name="userType" value="admin">
+            </div>
+            
             <input type="email" placeholder="E-mail" id="email" name="email" required>
             <input type="password" placeholder="Senha" id="senha" name="senha" required>
             <button type="submit">Entrar</button>          
         </form>
 
         <p>Não possui uma conta? <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button></p>
-        
-        
     </div>
-</body>
-</html>
 
-<script>
+    <script>
+        // Selecionar tipo de usuário
+        const userTypeBtns = document.querySelectorAll('.user-type-btn');
+        const userTypeInput = document.getElementById('userType');
+        
+        userTypeBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                userTypeBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                userTypeInput.value = btn.dataset.type;
+            });
+        });
 
-document.getElementById('login').addEventListener('submit', function(e) {
+        document.getElementById('login').addEventListener('submit', function(e) {
             e.preventDefault();
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData.entries());
-   fetch('/auth', {
-            method: 'POST', 
-            headers: {
+            
+            fetch('/auth', {
+                method: 'POST', 
+                headers: {
                     'Content-Type': 'application/json'
                 },
-            body: JSON.stringify(data)
-        }).then(res => res.json())
-        .then(data => {
-            if(data.ok){
-            window.location.href = '/'
-
-            }else{
-                const message = data.message
-
-                alert(message)
-            }
-        }).catch(err =>{
-            console.log(err)
-
-        })
-    })
-
-       
-    
-</script>
+                body: JSON.stringify(data)
+            }).then(res => res.json())
+            .then(data => {
+                if(data.ok){
+                    window.location.href = '/'
+                } else {
+                    const message = data.message;
+                    alert(message);
+                }
+            }).catch(err => {
+                console.log(err);
+                alert('Erro ao fazer login. Tente novamente.');
+            });
+        });
+    </script>
+</body>
+</html>

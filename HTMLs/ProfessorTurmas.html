@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Turmas - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Estilos similares aos do dashboard */
+        :root {
+            --primary-color: #2a6f97;
+            --secondary-color: #61a5c2;
+            --dark-bg: #0a0a0a;
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: #ffffff;
+        }
+
+        .turma-card {
+            background: rgba(15, 15, 15, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .turma-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .aluno-item {
+            padding: 10px;
+            border-bottom: 1px solid rgba(66, 153, 225, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .aluno-item:hover {
+            background: rgba(66, 153, 225, 0.05);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(66, 153, 225, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary-color);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Professor</a>
+            <div class="flex items-center space-x-4">
+                <a href="../HTMLs/ProfessorPainel.html" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="#" class="nav-link active"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="../HTMLs/ProfessorConteudos.html" class="nav-link"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="../HTMLs/ProfessorMensagens.html" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="../HTMLs/ProfessorLogin.html" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Minhas Turmas</h1>
+            <button class="btn-primary" onclick="openModal('novaTurmaModal')">
+                <i class="fas fa-plus mr-2"></i>Nova Turma
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Turma 1 -->
+            <div class="turma-card">
+                <h3 class="text-xl font-bold mb-2">Desenvolvimento Web - Turma A</h3>
+                <p class="text-gray-400 mb-4">Segundas e Quartas, 19:00-21:00</p>
+                
+                <div class="flex items-center mb-4">
+                    <div class="w-full mr-4">
+                        <p class="text-sm mb-1">Progresso médio: 75%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <span class="text-green-500">25 alunos</span>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <a href="/professor_turma/1" class="btn-primary flex-1 text-center">
+                        <i class="fas fa-eye mr-2"></i>Ver
+                    </a>
+                    <button class="btn-primary flex-1">
+                        <i class="fas fa-envelope mr-2"></i>Mensagem
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Turma 2 -->
+            <div class="turma-card">
+                <h3 class="text-xl font-bold mb-2">GitHub Avançado - Turma B</h3>
+                <p class="text-gray-400 mb-4">Terças e Quintas, 14:00-16:00</p>
+                
+                <div class="flex items-center mb-4">
+                    <div class="w-full mr-4">
+                        <p class="text-sm mb-1">Progresso médio: 62%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 62%"></div>
+                        </div>
+                    </div>
+                    <span class="text-green-500">18 alunos</span>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <a href="/professor_turma/2" class="btn-primary flex-1 text-center">
+                        <i class="fas fa-eye mr-2"></i>Ver
+                    </a>
+                    <button class="btn-primary flex-1">
+                        <i class="fas fa-envelope mr-2"></i>Mensagem
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Turma 3 -->
+            <div class="turma-card">
+                <h3 class="text-xl font-bold mb-2">JavaScript Moderno - Turma C</h3>
+                <p class="text-gray-400 mb-4">Sábados, 9:00-13:00</p>
+                
+                <div class="flex items-center mb-4">
+                    <div class="w-full mr-4">
+                        <p class="text-sm mb-1">Progresso médio: 45%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <span class="text-green-500">30 alunos</span>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <a href="/professor_turma/3" class="btn-primary flex-1 text-center">
+                        <i class="fas fa-eye mr-2"></i>Ver
+                    </a>
+                    <button class="btn-primary flex-1">
+                        <i class="fas fa-envelope mr-2"></i>Mensagem
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Nova Turma -->
+        <div id="novaTurmaModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+            <div class="neumorphic p-6 rounded-lg w-full max-w-md">
+                <h2 class="text-2xl font-bold mb-4">Criar Nova Turma</h2>
+                <form id="novaTurmaForm">
+                    <div class="mb-4">
+                        <label class="block mb-2">Nome da Turma</label>
+                        <input type="text" class="w-full p-2 rounded bg-gray-800 text-white" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2">Curso Associado</label>
+                        <select class="w-full p-2 rounded bg-gray-800 text-white" required>
+                            <option value="">Selecione um curso</option>
+                            <option value="1">Desenvolvimento Web</option>
+                            <option value="2">GitHub Avançado</option>
+                            <option value="3">JavaScript Moderno</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2">Horário</label>
+                        <input type="text" class="w-full p-2 rounded bg-gray-800 text-white" placeholder="Ex: Segundas e Quartas, 19:00-21:00" required>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeModal('novaTurmaModal')" class="btn-primary bg-gray-600">Cancelar</button>
+                        <button type="submit" class="btn-primary">Criar Turma</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Professor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.add('hidden');
+            }
+        }
+
+        // Formulário de nova turma
+        document.getElementById('novaTurmaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aqui você pode adicionar lógica para criar a turma
+            alert('Turma criada com sucesso!');
+            closeModal('novaTurmaModal');
+        });
+    </script>
+</body>
+</html>

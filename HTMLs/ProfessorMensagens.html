@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #2a6f97;
+            --secondary-color: #61a5c2;
+            --dark-bg: #0a0a0a;
+            --card-bg: rgba(15, 15, 15, 0.9);
+            --hover-bg: rgba(66, 153, 225, 0.05);
+            --active-bg: rgba(66, 153, 225, 0.1);
+        }
+
+        body {
+            background: var(--dark-bg);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .neumorphic {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            box-shadow: 
+                5px 5px 15px rgba(50, 50, 50, 0.5),
+                -5px -5px 15px rgba(66, 153, 225, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .nav-link {
+            color: #ffffff;
+            transition: all 0.3s ease;
+            padding: 10px 15px;
+            border-radius: 5px;
+        }
+
+        .nav-link:hover {
+            background: var(--hover-bg);
+            color: var(--primary-color);
+        }
+
+        .nav-link.active {
+            background: var(--active-bg);
+            color: var(--primary-color);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .btn-primary:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Cards de mensagem */
+        .mensagem-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-color);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .mensagem-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .mensagem-nao-lida {
+            border-left-color: var(--secondary-color);
+            background: rgba(25, 25, 25, 0.95);
+        }
+
+        /* Lista de conversas */
+        .conversa-item {
+            padding: 15px;
+            border-bottom: 1px solid rgba(66, 153, 225, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            background: var(--card-bg);
+        }
+
+        .conversa-item:hover {
+            background: var(--hover-bg);
+        }
+
+        .conversa-ativa {
+            background: var(--active-bg);
+            border-left: 3px solid var(--primary-color);
+        }
+
+        /* Editor de mensagens */
+        .editor-container {
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            background: var(--card-bg);
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+        }
+
+        .editor-mensagem {
+            min-height: 120px;
+            border: 1px solid rgba(66, 153, 225, 0.1);
+            padding: 12px;
+            background: rgba(25, 25, 25, 0.9);
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .editor-mensagem:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(42, 111, 151, 0.2);
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 500px;
+            padding: 25px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Inputs e textareas */
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 6px;
+            background: rgba(25, 25, 25, 0.9);
+            border: 1px solid rgba(66, 153, 225, 0.2);
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(42, 111, 151, 0.2);
+        }
+
+        /* Cores de texto */
+        .text-gray-400 {
+            color: rgba(156, 163, 175);
+        }
+
+        .text-green-500 {
+            color: #10B981;
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 15, 15, 0.5);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary-color);
+        }
+
+        /* Container de mensagens com scroll */
+        .mensagens-container {
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 8px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Professor</a>
+            <div class="flex items-center space-x-4">
+                <a href="../HTMLs/ProfessorPainel.html" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="../HTMLs/ProfessorTurmas.html" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="../HTMLs/ProfessorConteudos.html" class="nav-link"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="#" class="nav-link active"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="../HTMLs/ProfessorLogin.html" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Mensagens</h1>
+            <div class="flex space-x-2">
+                <button class="btn-primary" onclick="openModal('novaMensagemModal')">
+                    <i class="fas fa-plus mr-2"></i>Nova Mensagem
+                </button>
+                <button class="btn-primary bg-gray-600">
+                    <i class="fas fa-filter mr-2"></i>Filtrar
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Lista de conversas -->
+            <div class="lg:col-span-1">
+                <div class="neumorphic p-4 mb-4">
+                    <input type="text" placeholder="Pesquisar conversas..." class="w-full p-3 rounded bg-gray-800 text-white">
+                </div>
+                
+                <div class="neumorphic">
+                    <div class="conversa-item conversa-ativa">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold">João Silva - Turma A</h4>
+                            <span class="text-xs text-gray-400">10:30</span>
+                        </div>
+                        <p class="text-sm text-gray-400 truncate">Professor, tive uma dúvida sobre o exercício de HTML...</p>
+                    </div>
+                    
+                    <div class="conversa-item">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold">Maria Oliveira - Turma B</h4>
+                            <span class="text-xs text-gray-400">Ontem</span>
+                        </div>
+                        <p class="text-sm text-gray-400 truncate">Obrigada pelo feedback no meu projeto!</p>
+                    </div>
+                    
+                    <div class="conversa-item mensagem-nao-lida">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold">Grupo - Turma C</h4>
+                            <span class="text-xs text-green-500">05/05</span>
+                        </div>
+                        <p class="text-sm text-gray-400 truncate">Carlos: Alguém pode me ajudar com o GitHub?</p>
+                    </div>
+                    
+                    <div class="conversa-item">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold">Pedro Santos - Turma A</h4>
+                            <span class="text-xs text-gray-400">03/05</span>
+                        </div>
+                        <p class="text-sm text-gray-400 truncate">Enviei o trabalho atrasado, por favor confira.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Área de mensagens -->
+            <div class="lg:col-span-2">
+                <div class="neumorphic p-4">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="text-xl font-bold">João Silva - Turma A</h3>
+                        <div class="flex space-x-2">
+                            <button class="btn-primary bg-gray-600">
+                                <i class="fas fa-archive mr-2"></i>Arquivar
+                            </button>
+                            <button class="btn-primary bg-red-600">
+                                <i class="fas fa-trash mr-2"></i>Excluir
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Histórico de mensagens -->
+                    <div class="mensagens-container mb-6" style="max-height: 400px; overflow-y: auto;">
+                        <!-- Mensagem do aluno -->
+                        <div class="mensagem-card mb-4">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold">João Silva</span>
+                                <span class="text-xs text-gray-400">10:30 AM</span>
+                            </div>
+                            <p>Professor, tive uma dúvida sobre o exercício de HTML que passou na última aula. Na parte de formulários, não consegui fazer a validação funcionar corretamente. Poderia me explicar novamente?</p>
+                        </div>
+                        
+                        <!-- Resposta do professor -->
+                        <div class="mensagem-card mb-4" style="border-left-color: var(--secondary-color);">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold">Você</span>
+                                <span class="text-xs text-gray-400">10:45 AM</span>
+                            </div>
+                            <p>Claro, João. O problema provavelmente está no atributo "required" dos campos. Você adicionou ele em todos os inputs obrigatórios? Além disso, verifique se o type de cada input está correto (email, password, etc).</p>
+                        </div>
+                        
+                        <!-- Mensagem do aluno -->
+                        <div class="mensagem-card mensagem-nao-lida">
+                            <div class="flex justify-between items-center mb-2">
+                                <span class="font-bold">João Silva</span>
+                                <span class="text-xs text-gray-400">11:02 AM</span>
+                            </div>
+                            <p>Ah, verdade! Esqueci do "required". Agora funcionou, obrigado! Só mais uma coisa: como faço para personalizar a mensagem de erro?</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Editor de resposta -->
+                    <div class="editor-container">
+                        <div class="editor-mensagem" contenteditable="true" placeholder="Digite sua mensagem..."></div>
+                        <div class="flex justify-between items-center mt-3">
+                            <div class="flex space-x-2">
+                                <button class="p-2 text-gray-400 hover:text-white">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button class="p-2 text-gray-400 hover:text-white">
+                                    <i class="fas fa-code"></i>
+                                </button>
+                            </div>
+                            <button class="btn-primary">
+                                <i class="fas fa-paper-plane mr-2"></i>Enviar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova Mensagem -->
+    <div id="novaMensagemModal" class="modal hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
+        <div class="neumorphic p-6 rounded-lg w-full max-w-md">
+            <h2 class="text-2xl font-bold mb-4">Nova Mensagem</h2>
+            <form id="novaMensagemForm">
+                <div class="mb-4">
+                    <label class="block mb-2">Para</label>
+                    <select class="w-full p-2 rounded bg-gray-800 text-white" required>
+                        <option value="">Selecione um destinatário</option>
+                        <optgroup label="Turma A - Desenvolvimento Web">
+                            <option value="1">João Silva</option>
+                            <option value="2">Ana Oliveira</option>
+                            <option value="3">Pedro Santos</option>
+                        </optgroup>
+                        <optgroup label="Turma B - GitHub Avançado">
+                            <option value="4">Maria Fernandes</option>
+                            <option value="5">Carlos Pereira</option>
+                        </optgroup>
+                        <option value="all">Todos os alunos (Turma completa)</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block mb-2">Assunto</label>
+                    <input type="text" class="w-full p-2 rounded bg-gray-800 text-white" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block mb-2">Mensagem</label>
+                    <textarea class="w-full p-2 rounded bg-gray-800 text-white" rows="5" required></textarea>
+                </div>
+                
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('novaMensagemModal')" class="btn-primary bg-gray-600">Cancelar</button>
+                    <button type="submit" class="btn-primary">Enviar Mensagem</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Professor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        // Fechar modal ao clicar fora
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.add('hidden');
+            }
+        }
+
+        // Formulário de nova mensagem
+        document.getElementById('novaMensagemForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Aqui você pode adicionar lógica para enviar a mensagem
+            alert('Mensagem enviada com sucesso!');
+            closeModal('novaMensagemModal');
+        });
+
+        // Selecionar conversa
+        document.querySelectorAll('.conversa-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.conversa-item').forEach(i => i.classList.remove('conversa-ativa'));
+                this.classList.add('conversa-ativa');
+                // Aqui você pode carregar as mensagens da conversa selecionada
+            });
+        });
+    </script>
+</body>
+</html>

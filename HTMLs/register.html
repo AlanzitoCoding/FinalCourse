@@ -5,11 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register</title>
     <link rel="stylesheet" href="/CSS/register.Css">
+    <style>
+        .tipo-btn {
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        
+        .tipo-btn.selected-tipo {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        
+        #btnAdmin {
+            background: #232526;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            margin-top: 10px;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
     <div class="overlay"></div>
     
-    <form class="loginField" method="POST" id="registerForm" >
+    <form class="loginField" method="POST" id="registerForm">
         <h2>Realize seu cadastro</h2>
         <div id="tipoUsuarioContainer" style="margin-bottom: 20px;">
             <div style="display: flex; gap: 18px; justify-content: center; margin-bottom: 10px;">
@@ -22,6 +44,10 @@
                     <span style="font-size:13px; color:#ccc; font-weight:400;">Crie e gerencie cursos, acompanhe alunos e publique conteúdos.</span>
                 </button>
             </div>
+            <button type="button" id="btnAdmin" class="tipo-btn">
+                <b>Administrador</b><br>
+                <span style="font-size:13px; color:#ccc; font-weight:400;">Gerencie toda a plataforma, usuários, cursos e configurações.</span>
+            </button>
         </div>
         <input type="hidden" name="tipoUsuario" id="tipoUsuario" required>
         <div id="dadosContainer" style="display:none;">
@@ -77,6 +103,7 @@
     <script>
 const btnAluno = document.getElementById('btnAluno');
 const btnProfessor = document.getElementById('btnProfessor');
+const btnAdmin = document.getElementById('btnAdmin');
 const tipoUsuario = document.getElementById('tipoUsuario');
 const dadosContainer = document.getElementById('dadosContainer');
 const escolherPlanoBtn = document.getElementById('escolherPlanoBtn');
@@ -89,6 +116,7 @@ btnAluno.addEventListener('click', function() {
     tipoUsuario.value = 'aluno';
     btnAluno.classList.add('selected-tipo');
     btnProfessor.classList.remove('selected-tipo');
+    btnAdmin.classList.remove('selected-tipo');
     dadosContainer.style.display = 'block';
     escolherPlanoBtn.style.display = 'block';
     cadastrarBtn.style.display = 'none';
@@ -98,6 +126,17 @@ btnProfessor.addEventListener('click', function() {
     tipoUsuario.value = 'professor';
     btnProfessor.classList.add('selected-tipo');
     btnAluno.classList.remove('selected-tipo');
+    btnAdmin.classList.remove('selected-tipo');
+    dadosContainer.style.display = 'block';
+    escolherPlanoBtn.style.display = 'none';
+    cadastrarBtn.style.display = 'block';
+});
+
+btnAdmin.addEventListener('click', function() {
+    tipoUsuario.value = 'admin';
+    btnAdmin.classList.add('selected-tipo');
+    btnAluno.classList.remove('selected-tipo');
+    btnProfessor.classList.remove('selected-tipo');
     dadosContainer.style.display = 'block';
     escolherPlanoBtn.style.display = 'none';
     cadastrarBtn.style.display = 'block';
