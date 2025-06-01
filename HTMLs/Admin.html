@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Administrativo - SMGFAP Courses</title>
+    <!-- Incluir os mesmos estilos do sistema atual -->
+    <style>
+        /* Estilos específicos para o painel admin */
+        .admin-container {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
+        }
+        
+        .admin-sidebar {
+            background: #1a1a1a;
+            padding: 20px;
+        }
+        
+        .admin-content {
+            padding: 20px;
+        }
+        
+        .admin-card {
+            background: rgba(40, 40, 40, 0.9);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <h2>Painel Admin</h2>
+            <ul>
+                <li><a href="#dashboard">Dashboard</a></li>
+                <li><a href="#cursos">Gerenciar Cursos</a></li>
+                <li><a href="#modulos">Gerenciar Módulos</a></li>
+                <li><a href="#usuarios">Gerenciar Usuários</a></li>
+                <li><a href="#relatorios">Relatórios</a></li>
+                <li><a href="#config">Configurações</a></li>
+            </ul>
+        </div>
+        
+        <!-- Conteúdo Principal -->
+        <div class="admin-content">
+            <div id="dashboard" class="admin-card">
+                <h3>Visão Geral</h3>
+                <!-- Estatísticas rápidas -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-cursos">0</div>
+                        <p>Cursos Ativos</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-usuarios">0</div>
+                        <p>Usuários</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number" id="total-conclusoes">0</div>
+                        <p>Conclusões</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="cursos" class="admin-card">
+                <h3>Gerenciar Cursos</h3>
+                <button id="novo-curso">+ Novo Curso</button>
+                <div id="lista-cursos">
+                    <!-- Lista de cursos será preenchida via JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Outras seções seriam implementadas de forma similar -->
+        </div>
+    </div>
+
+    <script>
+        // Lógica para carregar dados e interações
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar estatísticas
+            fetchAdminData();
+            
+            // Configurar eventos
+            document.getElementById('novo-curso').addEventListener('click', showCursoForm);
+        });
+        
+        function fetchAdminData() {
+            // Chamadas AJAX para buscar dados do servidor
+            fetch('/admin/stats')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('total-cursos').textContent = data.totalCursos;
+                    document.getElementById('total-usuarios').textContent = data.totalUsuarios;
+                    document.getElementById('total-conclusoes').textContent = data.totalConclusoes;
+                });
+                
+            fetch('/admin/cursos')
+                .then(response => response.json())
+                .then(data => {
+                    const lista = document.getElementById('lista-cursos');
+                    lista.innerHTML = '';
+                    data.cursos.forEach(curso => {
+                        lista.innerHTML += `
+                            <div class="curso-item">
+                                <h4>${curso.nome}</h4>
+                                <p>${curso.descricao}</p>
+                                <button onclick="editarCurso(${curso.id})">Editar</button>
+                                <button onclick="removerCurso(${curso.id})">Remover</button>
+                            </div>
+                        `;
+                    });
+                });
+        }
+        
+        function showCursoForm() {
+            // Mostrar formulário para criar novo curso
+        }
+        
+        function editarCurso(id) {
+            // Lógica para editar curso
+        }
+        
+        function removerCurso(id) {
+            // Lógica para remover curso
+        }
+    </script>
+</body>
+</html>
