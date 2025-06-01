@@ -604,6 +604,18 @@ app.get('/homeProfessor', (req, res) => {
     res.sendFile(__dirname + '/HTMLs/ProfessorPainel.html')
 })
 
+app.get('/mensagensProfessor', (req, res) => {
+    res.sendFile(__dirname + '/HTMLs/ProfessorMensagens.html')
+})
+
+app.get('/conteudosProfessor', (req, res) => {
+    res.sendFile(__dirname + '/HTMLs/ProfessorConteudos.html')
+})
+
+app.get('/turmasProfessor', (req, res) => {
+    res.sendFile(__dirname + '/HTMLs/ProfessorTurmas.html')
+})
+
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);
 });
