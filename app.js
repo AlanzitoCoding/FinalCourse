@@ -31,7 +31,8 @@ app.use(session({
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'HTMLs')));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.json());
 
 app.post('/submit', (req, res) => {
     const {email, senha, nome, cpf, telefone, tipoUsuario, plano} = req.body;
@@ -533,87 +534,87 @@ app.put('/postCourseConclusion', (req,res) => {
 
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTMLs', 'home.html'));
+    res.sendFile(path.join(__dirname, 'public', 'HTML', 'home.html'));
 });
 
 app.get('/loginScreen', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTMLs', 'login.html'));
+    res.sendFile(path.join(__dirname, 'public', 'HTML', 'login.html'));
 });
 
 app.get('/registerScreen', (req, res) => {
-    res.sendFile(path.join(__dirname, 'HTMLs', 'register.html'));
+    res.sendFile(path.join(__dirname, 'public', 'HTML', 'register.html'));
 });
 
 app.get('/perfil', (req, res) => {
     if(req.session.loggedin){
-        res.sendFile(__dirname + '/HTMLs/perfil.html')
+        res.sendFile(__dirname + '/public/HTML/perfil.html')
     }else{    
-        res.sendFile(path.join(__dirname, 'HTMLs', 'login.html'))
+        res.sendFile(path.join(__dirname, 'HTML', 'login.html'))
     }
 })
 
 app.get('/sobre', (req, res) => {
-    res.sendFile(__dirname + '/HTMLs/sobre.html')
+    res.sendFile(__dirname + '/public/HTML/sobre.html')
 })
 
 app.get('/gitModules', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Modules/modulesGit.html');
+    res.sendFile(__dirname + '/public/HTML/Modules/modulesGit.html');
 });
 
 app.get('/htmlModules', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Modules/modulesHtml.html');
+    res.sendFile(__dirname + '/public/HTML/Modules/modulesHtml.html');
 });
 
 app.get('/javaModules', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Modules/modulesJava.html');
+    res.sendFile(__dirname + '/public/HTML/Modules/modulesJava.html');
 });
 
 app.get('/Cursos', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Cursos.html');
+    res.sendFile(__dirname + '/public/HTML/Cursos.html');
 });
 
 app.get('/CursoGithub', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/CursoGithub.html');
+    res.sendFile(__dirname + '/public/HTML/CursoGithub.html');
 });
 
 app.get('/Cursohtml', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/CursoHTML.html');
+    res.sendFile(__dirname + '/public/HTML/CursoHTML.html');
 });
 
 app.get('/CursoJS', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/CursoJavaScript.html');
+    res.sendFile(__dirname + '/public/HTML/CursoJavaScript.html');
 });
 
 app.get('/QGitHub', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Question/CourseGit.html');
+    res.sendFile(__dirname + '/public/HTML/Question/CourseGit.html');
 });
 
 app.get('/QHTML', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Question/CourseHtmlCss.html');
+    res.sendFile(__dirname + '/public/HTML/Question/CourseHtmlCss.html');
 });
 
 app.get('/QJS', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Question/Coursejs.html');
+    res.sendFile(__dirname + '/public/HTML/Question/Coursejs.html');
 });
 
 app.get('/Certificado', function(req, res){
-    res.sendFile(__dirname + '/HTMLs/Certificado.html');
+    res.sendFile(__dirname + '/public/HTML/Certificado.html');
 });
 
 app.get('/homeProfessor', (req, res) => {
-    res.sendFile(__dirname + '/HTMLs/ProfessorPainel.html')
+    res.sendFile(__dirname + '/public/HTML/ProfessorPainel.html')
 })
 
 app.get('/mensagensProfessor', (req, res) => {
-    res.sendFile(__dirname + '/HTMLs/ProfessorMensagens.html')
+    res.sendFile(__dirname + '/public/HTML/ProfessorMensagens.html')
 })
 
 app.get('/conteudosProfessor', (req, res) => {
-    res.sendFile(__dirname + '/HTMLs/ProfessorConteudos.html')
+    res.sendFile(__dirname + '/public/HTML/ProfessorConteudos.html')
 })
 
 app.get('/turmasProfessor', (req, res) => {
-    res.sendFile(__dirname + '/HTMLs/ProfessorTurmas.html')
+    res.sendFile(__dirname + '/public/HTML/ProfessorTurmas.html')
 })
 
 app.listen(port, () => {

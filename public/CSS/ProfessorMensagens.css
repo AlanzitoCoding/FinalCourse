@@ -1,0 +1,165 @@
+/* Estilos padronizados com o ProfessorPainel.html */
+:root {
+    --primary-color: #2a6f97;
+    --secondary-color: #61a5c2;
+    --dark-bg: #0a0a0a;
+    --light-shadow: rgba(255, 255, 255, 0.7);
+    --dark-shadow: rgba(0, 0, 0, 0.2);
+}
+
+body {
+    background: var(--dark-bg);
+    color: #ffffff;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.neumorphic {
+    background: rgba(10, 10, 10, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(66, 153, 225, 0.1);
+    box-shadow: 
+        5px 5px 15px rgba(50, 50, 50, 0.5),
+        -5px -5px 15px rgba(66, 153, 225, 0.05);
+    transition: all 0.3s ease;
+}
+
+.dashboard-card {
+    background: rgba(15, 15, 15, 0.9);
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.dashboard-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.nav-link {
+    color: #ffffff;
+    transition: all 0.3s ease;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.nav-link:hover {
+    background: rgba(66, 153, 225, 0.1);
+    color: var(--primary-color);
+}
+
+.nav-link.active {
+    background: rgba(66, 153, 225, 0.2);
+    color: var(--primary-color);
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+/* Estilos específicos para mensagens */
+.mensagem-card {
+    background: rgba(20, 20, 20, 0.9);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.mensagem-nao-lida {
+    border-left-color: var(--secondary-color);
+    background: rgba(25, 25, 25, 0.95);
+}
+
+.conversa-item {
+    padding: 12px;
+    border-bottom: 1px solid rgba(66, 153, 225, 0.1);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.conversa-item:hover {
+    background: rgba(66, 153, 225, 0.05);
+}
+
+.conversa-ativa {
+    background: rgba(66, 153, 225, 0.1);
+    border-left: 3px solid var(--primary-color);
+}
+
+.editor-mensagem {
+    min-height: 120px;
+    background: rgba(25, 25, 25, 0.9);
+    border: 1px solid rgba(66, 153, 225, 0.2);
+    border-radius: 6px;
+    padding: 12px;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.editor-mensagem:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(42, 111, 151, 0.2);
+}
+
+.mensagens-container {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(15, 15, 15, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary-color);
+}
+
+/* Nova seção de mensagens globais */
+.secao-mensagens {
+    display: none;
+}
+
+.secao-mensagens.ativa {
+    display: block;
+}
+
+.filtro-mensagens {
+    background: rgba(15, 15, 15, 0.9);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Indicador de mensagem não lida */
+.notificacao-nao-lida {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--secondary-color);
+    border-radius: 50%;
+    margin-left: 5px;
+}

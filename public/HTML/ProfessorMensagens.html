@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/ProfessorMensagens.css">
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Professor</a>
+            <div class="flex items-center space-x-4">
+                <a href="/homeProfessor" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="/turmasProfessor" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="/conteudosProfessor" class="nav-link"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="#" class="nav-link active"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="/loginScreen" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Mensagens</h1>
+            <div class="flex space-x-2">
+                <button id="btnMensagensGlobais" class="btn-primary">
+                    <i class="fas fa-globe mr-2"></i>Mensagens Globais
+                </button>
+                <button id="btnConversas" class="btn-primary bg-gray-600">
+                    <i class="fas fa-comments mr-2"></i>Minhas Conversas
+                </button>
+            </div>
+        </div>
+
+        <!-- Seção de Mensagens Globais -->
+        <div id="mensagensGlobais" class="secao-mensagens ativa">
+            <div class="filtro-mensagens neumorphic mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block mb-2">Filtrar por Turma</label>
+                        <select id="filtroTurma" class="w-full p-2 rounded bg-gray-800 text-white">
+                            <option value="todas">Todas as Turmas</option>
+                            <option value="1">Desenvolvimento Web - Turma A</option>
+                            <option value="2">GitHub Avançado - Turma B</option>
+                            <option value="3">JavaScript Moderno - Turma C</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2">Filtrar por Status</label>
+                        <select id="filtroStatus" class="w-full p-2 rounded bg-gray-800 text-white">
+                            <option value="todas">Todas as Mensagens</option>
+                            <option value="nao-lidas">Não lidas</option>
+                            <option value="respondidas">Respondidas</option>
+                            <option value="pendentes">Pendentes</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2">Ordenar por</label>
+                        <select id="ordenarPor" class="w-full p-2 rounded bg-gray-800 text-white">
+                            <option value="recentes">Mais recentes</option>
+                            <option value="antigas">Mais antigas</option>
+                            <option value="turma">Por turma</option>
+                            <option value="aluno">Por aluno</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-6">
+                <!-- Mensagem 1 -->
+                <div class="mensagem-card mensagem-nao-lida" data-turma="1" data-status="pendente">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg">João Silva <span class="text-gray-400 text-sm">(Desenvolvimento Web - Turma A)</span></h3>
+                            <p class="text-gray-400 text-sm">10/05/2024 10:30</p>
+                        </div>
+                        <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded">NOVA</span>
+                    </div>
+                    <p class="mb-3">Professor, tive uma dúvida sobre o exercício de HTML que passou na última aula. Na parte de formulários, não consegui fazer a validação funcionar corretamente. Poderia me explicar novamente?</p>
+                    <div class="flex justify-end space-x-2">
+                        <button class="btn-primary bg-gray-600 text-sm" onclick="marcarComoLida(1)">Marcar como Lida</button>
+                        <button class="btn-primary text-sm" onclick="responderMensagem(1, 'João Silva')">Responder</button>
+                    </div>
+                </div>
+
+                <!-- Mensagem 2 -->
+                <div class="mensagem-card" data-turma="2" data-status="respondida">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg">Maria Oliveira <span class="text-gray-400 text-sm">(GitHub Avançado - Turma B)</span></h3>
+                            <p class="text-gray-400 text-sm">09/05/2024 15:20</p>
+                        </div>
+                        <span class="bg-green-500 text-white text-xs px-2 py-1 rounded">RESPONDIDA</span>
+                    </div>
+                    <p class="mb-3">Obrigada pelo feedback no meu projeto! Suas observações foram muito úteis para melhorar meu entendimento sobre branches no GitHub.</p>
+                    <div class="flex justify-end space-x-2">
+                        <button class="btn-primary text-sm" onclick="responderMensagem(2, 'Maria Oliveira')">Responder Novamente</button>
+                    </div>
+                </div>
+
+                <!-- Mensagem 3 -->
+                <div class="mensagem-card mensagem-nao-lida" data-turma="3" data-status="pendente">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg">Grupo - Turma C <span class="text-gray-400 text-sm">(JavaScript Moderno - Turma C)</span></h3>
+                            <p class="text-gray-400 text-sm">05/05/2024 18:45</p>
+                        </div>
+                        <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded">NOVA</span>
+                    </div>
+                    <p class="mb-3">Carlos: Alguém pode me ajudar com o GitHub? Estou com problemas para fazer push do meu projeto.</p>
+                    <div class="flex justify-end space-x-2">
+                        <button class="btn-primary bg-gray-600 text-sm" onclick="marcarComoLida(3)">Marcar como Lida</button>
+                        <button class="btn-primary text-sm" onclick="responderMensagem(3, 'Grupo - Turma C')">Responder</button>
+                    </div>
+                </div>
+
+                <!-- Mensagem 4 -->
+                <div class="mensagem-card" data-turma="1" data-status="pendente">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <h3 class="font-bold text-lg">Pedro Santos <span class="text-gray-400 text-sm">(Desenvolvimento Web - Turma A)</span></h3>
+                            <p class="text-gray-400 text-sm">03/05/2024 22:10</p>
+                        </div>
+                        <span class="bg-yellow-500 text-white text-xs px-2 py-1 rounded">PENDENTE</span>
+                    </div>
+                    <p class="mb-3">Enviei o trabalho atrasado, por favor confira. Tive alguns problemas pessoais que me impediram de entregar no prazo.</p>
+                    <div class="flex justify-end space-x-2">
+                        <button class="btn-primary text-sm" onclick="responderMensagem(4, 'Pedro Santos')">Responder</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Conversas -->
+        <div id="conversas" class="secao-mensagens">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Lista de conversas -->
+                <div class="lg:col-span-1">
+                    <div class="neumorphic p-4 mb-4">
+                        <input type="text" id="pesquisarConversas" placeholder="Pesquisar conversas..." class="w-full p-3 rounded bg-gray-800 text-white">
+                    </div>
+                    
+                    <div class="neumorphic">
+                        <!-- Conversa 1 -->
+                        <div class="conversa-item conversa-ativa" data-conversa="1" onclick="selecionarConversa(1)">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <h4 class="font-bold">João Silva - Turma A</h4>
+                                    <span class="notificacao-nao-lida"></span>
+                                </div>
+                                <span class="text-xs text-gray-400">10:30</span>
+                            </div>
+                            <p class="text-sm text-gray-400 truncate">Professor, tive uma dúvida sobre o exercício de HTML...</p>
+                        </div>
+                        
+                        <!-- Conversa 2 -->
+                        <div class="conversa-item" data-conversa="2" onclick="selecionarConversa(2)">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold">Maria Oliveira - Turma B</h4>
+                                <span class="text-xs text-gray-400">Ontem</span>
+                            </div>
+                            <p class="text-sm text-gray-400 truncate">Obrigada pelo feedback no meu projeto!</p>
+                        </div>
+                        
+                        <!-- Conversa 3 -->
+                        <div class="conversa-item" data-conversa="3" onclick="selecionarConversa(3)">
+                            <div class="flex justify-between items-center">
+                                <div class="flex items-center">
+                                    <h4 class="font-bold">Grupo - Turma C</h4>
+                                    <span class="notificacao-nao-lida"></span>
+                                </div>
+                                <span class="text-xs text-gray-400">05/05</span>
+                            </div>
+                            <p class="text-sm text-gray-400 truncate">Carlos: Alguém pode me ajudar com o GitHub?</p>
+                        </div>
+                        
+                        <!-- Conversa 4 -->
+                        <div class="conversa-item" data-conversa="4" onclick="selecionarConversa(4)">
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-bold">Pedro Santos - Turma A</h4>
+                                <span class="text-xs text-gray-400">03/05</span>
+                            </div>
+                            <p class="text-sm text-gray-400 truncate">Enviei o trabalho atrasado, por favor confira.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Área de mensagens -->
+                <div class="lg:col-span-2">
+                    <div class="neumorphic p-4">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 id="tituloConversa" class="text-xl font-bold">João Silva - Turma A</h3>
+                            <div class="flex space-x-2">
+                                <button class="btn-primary bg-gray-600">
+                                    <i class="fas fa-archive mr-2"></i>Arquivar
+                                </button>
+                                <button class="btn-primary bg-red-600">
+                                    <i class="fas fa-trash mr-2"></i>Excluir
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Histórico de mensagens -->
+                        <div class="mensagens-container mb-6">
+                            <!-- Mensagem do aluno -->
+                            <div class="mensagem-card mb-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold">João Silva</span>
+                                    <span class="text-xs text-gray-400">10:30 AM</span>
+                                </div>
+                                <p>Professor, tive uma dúvida sobre o exercício de HTML que passou na última aula. Na parte de formulários, não consegui fazer a validação funcionar corretamente. Poderia me explicar novamente?</p>
+                            </div>
+                            
+                            <!-- Resposta do professor -->
+                            <div class="mensagem-card mb-4" style="border-left-color: var(--secondary-color);">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold">Você</span>
+                                    <span class="text-xs text-gray-400">10:45 AM</span>
+                                </div>
+                                <p>Claro, João. O problema provavelmente está no atributo "required" dos campos. Você adicionou ele em todos os inputs obrigatórios? Além disso, verifique se o type de cada input está correto (email, password, etc).</p>
+                            </div>
+                            
+                            <!-- Mensagem do aluno -->
+                            <div class="mensagem-card mensagem-nao-lida">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="font-bold">João Silva</span>
+                                    <span class="text-xs text-gray-400">11:02 AM</span>
+                                </div>
+                                <p>Ah, verdade! Esqueci do "required". Agora funcionou, obrigado! Só mais uma coisa: como faço para personalizar a mensagem de erro?</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Editor de resposta -->
+                        <div class="neumorphic p-4">
+                            <div id="editorMensagem" class="editor-mensagem" contenteditable="true" placeholder="Digite sua mensagem..."></div>
+                            <div class="flex justify-between items-center mt-3">
+                                <div class="flex space-x-2">
+                                    <button class="p-2 text-gray-400 hover:text-white">
+                                        <i class="fas fa-paperclip"></i>
+                                    </button>
+                                    <button class="p-2 text-gray-400 hover:text-white">
+                                        <i class="fas fa-code"></i>
+                                    </button>
+                                </div>
+                                <button class="btn-primary" onclick="enviarResposta()">
+                                    <i class="fas fa-paper-plane mr-2"></i>Enviar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Professor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../JS/ProfessorMensagens.js"></script>
+</body>
+</html>

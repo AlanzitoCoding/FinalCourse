@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteúdos por Turma - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/ProfessorConteudos.css">
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Professor</a>
+            <div class="flex items-center space-x-4">
+                <a href="/homeProfessor" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="/turmasProfessor" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="#" class="nav-link active"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="/mensagensProfessor" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="/loginScreen" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Conteúdos por Turma</h1>
+            <button class="btn-primary" id="addVideoBtn" disabled>
+                <i class="fas fa-plus mr-2"></i>Adicionar Vídeo
+            </button>
+        </div>
+
+        <div class="neumorphic p-6 conteudo-container">
+            <!-- Lista de turmas -->
+            <div class="turmas-list">
+                <h2 class="text-xl font-bold mb-4">Minhas Turmas</h2>
+                <input type="text" id="searchTurmas" placeholder="Pesquisar turmas..." class="search-input">
+                
+                <div id="turmasContainer">
+                    <!-- Turmas serão carregadas aqui via JavaScript -->
+                    <div class="empty-state">
+                        <i class="fas fa-users-slash"></i>
+                        <p>Nenhuma turma encontrada</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Área de conteúdo -->
+            <div class="conteudo-area">
+                <div id="turmaHeader" class="mb-6 hidden">
+                    <h2 class="text-2xl font-bold" id="turmaNome"></h2>
+                    <p class="text-gray-400" id="turmaInfo"></p>
+                    
+                    <!-- Abas -->
+                    <div class="tabs-header">
+                        <button class="tab-button active" data-tab="videos">Vídeos</button>
+                        <button class="tab-button" data-tab="alunos">Alunos</button>
+                    </div>
+                </div>
+                
+                <!-- Conteúdo das abas -->
+                <div id="videosTab" class="tab-content active">
+                    <div id="videosContainer">
+                        <div class="empty-state">
+                            <i class="fas fa-video-slash"></i>
+                            <p>Selecione uma turma para ver os vídeos</p>
+                            <p>Ou adicione novos vídeos à turma selecionada</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="alunosTab" class="tab-content">
+                    <div id="alunosContainer">
+                        <div class="empty-state">
+                            <i class="fas fa-users-slash"></i>
+                            <p>Selecione uma turma para ver os alunos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para adicionar/editar vídeo -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <h2 class="text-2xl font-bold mb-4" id="modalTitle">Adicionar Novo Vídeo</h2>
+            <form id="videoForm">
+                <input type="hidden" id="videoId">
+                <input type="hidden" id="turmaId">
+                
+                <div class="form-group">
+                    <label for="videoTitle">Título do Vídeo</label>
+                    <input type="text" id="videoTitle" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoUrl">URL do Vídeo (YouTube/Vimeo)</label>
+                    <input type="url" id="videoUrl" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoDescription">Descrição</label>
+                    <textarea id="videoDescription" class="form-control" rows="3"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoDuration">Duração (minutos)</label>
+                    <input type="number" id="videoDuration" class="form-control" min="1" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="videoThumbnail">Thumbnail (URL da imagem)</label>
+                    <input type="url" id="videoThumbnail" class="form-control">
+                    <small class="text-gray-400">Opcional - será gerada automaticamente se deixado em branco</small>
+                </div>
+                
+                <div class="flex justify-end space-x-2 mt-4">
+                    <button type="button" onclick="closeModal('videoModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Vídeo</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de confirmação -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <h2 class="text-2xl font-bold mb-4">Confirmar Exclusão</h2>
+            <p>Tem certeza que deseja excluir este vídeo?</p>
+            <p class="text-sm text-gray-400 mt-2">Esta ação não pode ser desfeita.</p>
+            
+            <div class="flex justify-end space-x-2 mt-6">
+                <button type="button" onclick="closeModal('confirmModal')" class="btn-secondary">Cancelar</button>
+                <button type="button" onclick="confirmDelete()" class="btn-danger">Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Professor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../JS/ProfessorConteudos.js"></script>
+</body>
+</html>

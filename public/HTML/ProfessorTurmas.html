@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minhas Turmas - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../CSS/ProfessorTurmas.css">
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Professor</a>
+            <div class="flex items-center space-x-4">
+                <a href="/homeProfessor" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="#" class="nav-link active"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="/conteudosProfessor" class="nav-link"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="/mensagensProfessor" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="/loginScreen" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Minhas Turmas</h1>
+            <button class="btn-primary" onclick="openModal('novaTurmaModal')">
+                <i class="fas fa-plus mr-2"></i>Nova Turma
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            <!-- Turma 1 -->
+            <div class="turma-card">
+                <h3 class="text-xl font-bold mb-2">Desenvolvimento Web - Turma A</h3>
+                <p class="text-gray-400 mb-4">Segundas e Quartas, 19:00-21:00</p>
+                
+                <div class="flex items-center mb-4">
+                    <div class="w-full mr-4">
+                        <p class="text-sm mb-1">Progresso médio: 75%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    <span class="text-green-500">25 alunos</span>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <button class="btn-primary flex-1 text-center" onclick="openTurmaDetail(1, 'alunos')">
+                        <i class="fas fa-eye mr-2"></i>Ver
+                    </button>
+                    <button class="btn-primary flex-1" onclick="openTurmaDetail(1, 'mensagens')">
+                        <i class="fas fa-envelope mr-2"></i>Mensagem
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Turma 2 -->
+            <div class="turma-card">
+                <h3 class="text-xl font-bold mb-2">GitHub Avançado - Turma B</h3>
+                <p class="text-gray-400 mb-4">Terças e Quintas, 14:00-16:00</p>
+                
+                <div class="flex items-center mb-4">
+                    <div class="w-full mr-4">
+                        <p class="text-sm mb-1">Progresso médio: 62%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 62%"></div>
+                        </div>
+                    </div>
+                    <span class="text-green-500">18 alunos</span>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <button class="btn-primary flex-1 text-center" onclick="openTurmaDetail(2, 'alunos')">
+                        <i class="fas fa-eye mr-2"></i>Ver
+                    </button>
+                    <button class="btn-primary flex-1" onclick="openTurmaDetail(2, 'mensagens')">
+                        <i class="fas fa-envelope mr-2"></i>Mensagem
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Turma 3 -->
+            <div class="turma-card">
+                <h3 class="text-xl font-bold mb-2">JavaScript Moderno - Turma C</h3>
+                <p class="text-gray-400 mb-4">Sábados, 9:00-13:00</p>
+                
+                <div class="flex items-center mb-4">
+                    <div class="w-full mr-4">
+                        <p class="text-sm mb-1">Progresso médio: 45%</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%"></div>
+                        </div>
+                    </div>
+                    <span class="text-green-500">30 alunos</span>
+                </div>
+                
+                <div class="flex space-x-2">
+                    <button class="btn-primary flex-1 text-center" onclick="openTurmaDetail(3, 'alunos')">
+                        <i class="fas fa-eye mr-2"></i>Ver
+                    </button>
+                    <button class="btn-primary flex-1" onclick="openTurmaDetail(3, 'mensagens')">
+                        <i class="fas fa-envelope mr-2"></i>Mensagem
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Nova Turma -->
+        <div id="novaTurmaModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('novaTurmaModal')">&times;</span>
+                <h2 class="text-2xl font-bold mb-4">Criar Nova Turma</h2>
+                <form id="novaTurmaForm">
+                    <div class="mb-4">
+                        <label class="block mb-2">Nome da Turma</label>
+                        <input type="text" class="w-full p-2 rounded bg-gray-800 text-white" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2">Curso Associado</label>
+                        <select class="w-full p-2 rounded bg-gray-800 text-white" required>
+                            <option value="">Selecione um curso</option>
+                            <option value="1">Desenvolvimento Web</option>
+                            <option value="2">GitHub Avançado</option>
+                            <option value="3">JavaScript Moderno</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block mb-2">Horário</label>
+                        <input type="text" class="w-full p-2 rounded bg-gray-800 text-white" placeholder="Ex: Segundas e Quartas, 19:00-21:00" required>
+                    </div>
+                    <div class="flex justify-end space-x-2">
+                        <button type="button" onclick="closeModal('novaTurmaModal')" class="btn-primary bg-gray-600">Cancelar</button>
+                        <button type="submit" class="btn-primary">Criar Turma</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Detalhes da Turma -->
+        <div id="turmaDetailModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('turmaDetailModal')">&times;</span>
+                <h2 id="turmaDetailTitle" class="text-2xl font-bold mb-4"></h2>
+                
+                <div class="flex mb-4 border-b border-gray-700">
+                    <button class="tab-button active" onclick="changeTab('alunos')">Alunos</button>
+                    <button class="tab-button" onclick="changeTab('mensagens')">Mensagens</button>
+                    <button class="tab-button" onclick="changeTab('detalhes')">Detalhes</button>
+                </div>
+                
+                <!-- Conteúdo da aba Alunos -->
+                <div id="alunos" class="tab active">
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Aluno</th>
+                                    <th>Progresso</th>
+                                    <th>Último Acesso</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="alunosList">
+                                <!-- Dinamicamente preenchido -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <!-- Conteúdo da aba Mensagens -->
+                <div id="mensagens" class="tab">
+                    <div class="mb-4">
+                        <textarea id="novaMensagem" class="w-full p-2 rounded bg-gray-800 text-white mb-2" placeholder="Digite sua mensagem..."></textarea>
+                        <button class="btn-primary" onclick="enviarMensagem()">Enviar Mensagem</button>
+                    </div>
+                    <div id="mensagensList" class="space-y-4">
+                        <!-- Dinamicamente preenchido -->
+                    </div>
+                </div>
+                
+                <!-- Conteúdo da aba Detalhes -->
+                <div id="detalhes" class="tab">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <h3 class="text-lg font-bold mb-2">Informações da Turma</h3>
+                            <p id="turmaHorario" class="mb-2"></p>
+                            <p id="turmaCurso" class="mb-2"></p>
+                            <p id="turmaAlunos" class="mb-2"></p>
+                            <p id="turmaProgresso" class="mb-2"></p>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-bold mb-2">Estatísticas</h3>
+                            <div class="mb-2">
+                                <p class="mb-1">Taxa de conclusão: <span id="taxaConclusao">0%</span></p>
+                                <div class="progress-bar">
+                                    <div id="progressoConclusao" class="progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div class="mb-2">
+                                <p class="mb-1">Atividade recente: <span id="atividadeRecente">0%</span></p>
+                                <div class="progress-bar">
+                                    <div id="progressoAtividade" class="progress-fill" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button class="btn-primary bg-red-600" onclick="confirmarExclusao()">Excluir Turma</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Professor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../JS/ProfessorTurmas.js"></script>
+</body>
+</html>
