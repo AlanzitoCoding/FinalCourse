@@ -29,10 +29,15 @@ app.use(session({
     saveUninitialized: true
 }));
 
+app.use(express.static(path.join(__dirname, 'public'), { extensions: ['html', 'ejs'] }));
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
+
+app.use('/HTML/professores', verifyTokenAndEntity('professores'))
+app.use('/HTML/alunos', verifyTokenAndEntity('alunos'))
 
 app.post('/submit', (req, res) => {
     const {email, senha, nome, cpf, telefone, tipoUsuario, plano} = req.body;
