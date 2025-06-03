@@ -211,3 +211,23 @@ body {
     .plano-card-modal { width: 95vw; max-width: 320px; }
     .tipo-btn { font-size: 1rem; min-height: 70px; }
 }
+.tipo-btn {
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        
+        .tipo-btn.selected-tipo {
+            transform: scale(1.02);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+        }
+        
+        #btnAdmin {
+            background: #232526;
+            color: #ff5252;
+            border: 2px solid #ff5252;
+            margin-top: 10px;
+            width: 100%;
+        }

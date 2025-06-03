@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plano Startup - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../CSS/AlunoStartup.css">
+</head>
+<body class="font-sans">
+    <div class="background-animation">
+        <div class="circle"></div>
+        <div class="circle"></div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-container">
+            <div class="logo">SMGFAP Courses</div>
+            <div class="nav-links">
+                <a href="../home" class="mx-2 hover:text-blue-500 transition duration-300">Início</a>
+                <a href="../alunos/Cursos" class="mx-2 hover:text-blue-500 transition duration-300">Cursos</a>
+                <a href="../sobre" class="mx-2 hover:text-blue-500 transition duration-300">Sobre</a>
+                <a href="../alunos/AlunoEmpreendedor">Benefícios</a>
+                <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="Perfil" class="profile-icon" id="profile-icon">
+            </div>
+        </div>
+    </nav>
+    <div class="modal" id="profile-modal">
+    <div class="modal-content">
+        <h2>Acesso Rápido</h2>
+        <button onclick="window.location.href='/loginScreen'">Login</button>
+        <button onclick="window.location.href='../alunos/perfil'">Perfil</button>
+        <button onclick="toggleDarkMode()">Alternar Modo Escuro</button>
+    </div>
+</div>
+    <div class="container">
+        <header class="header">
+            <div class="profile">
+                <button class="back-btn" onclick="window.location='/'">
+                    <i class="fas fa-arrow-left"></i>
+                </button>
+                <img src="https://static-00.iconduck.com/assets.00/profile-circle-icon-256x256-cm91gqm2.png" alt="Perfil" class="user-avatar">
+                <div class="user-info">
+                    <span class="user-name" id="user-name">Carregando...</span>
+                    <span class="user-role">Plano Startup</span>
+                </div>
+            </div>
+        </header>
+
+        <h1 class="section-title">Benefícios Exclusivos do Plano Startup</h1>
+        
+        <div class="benefits-grid">
+            <!-- Benefício 1 -->
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 class="benefit-title">Todos os Benefícios do Plano Empreendedor</h3>
+                <p class="benefit-description">
+                    Acesso completo a todos os cursos, mentorias exclusivas, eventos e materiais disponíveis no Plano Empreendedor.
+                </p>
+            </div>
+            
+            <!-- Benefício 2 -->
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="benefit-title">Oficinas Práticas e Modelagem de Negócios</h3>
+                <p class="benefit-description">
+                    Participação ativa em oficinas práticas e sessões exclusivas de modelagem de negócios com especialistas em startups.
+                </p>
+                <button class="btn-primary" onclick="window.location.href='#oficinas'">Ver Oficinas</button>
+            </div>
+            
+            <!-- Benefício 3 -->
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3 class="benefit-title">Processo de Incubação e Aceleração</h3>
+                <p class="benefit-description">
+                    Processo estruturado de incubação e aceleração com acompanhamento detalhado de mentores especializados em startups.
+                </p>
+                <button class="btn-primary" onclick="window.location.href='#incubacao'">Saiba Mais</button>
+            </div>
+            
+            <!-- Benefício 4 -->
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 class="benefit-title">Parceria Estratégica</h3>
+                <p class="benefit-description">
+                    Possibilidade de parceria estratégica com a plataforma através da aquisição de até 25% da sua startup, formalizada digitalmente.
+                </p>
+                <button class="btn-primary" onclick="window.location.href='#parceria'">Entenda Como</button>
+            </div>
+            
+            <!-- Benefício 5 -->
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-comments"></i>
+                </div>
+                <h3 class="benefit-title">Feedback Constante</h3>
+                <p class="benefit-description">
+                    Feedback detalhado sobre desempenho, oportunidades e direcionamentos estratégicos vindos dos mentores especialistas.
+                </p>
+            </div>
+            
+            <!-- Benefício 6 -->
+            <div class="benefit-card">
+                <div class="benefit-icon">
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <h3 class="benefit-title">Rede de Contatos</h3>
+                <p class="benefit-description">
+                    Acesso exclusivo a uma rede de contatos com investidores, outros empreendedores e parceiros estratégicos.
+                </p>
+                <button class="btn-primary" onclick="window.location.href='#rede'">Explorar Rede</button>
+            </div>
+        </div>
+
+        <!-- Seção de Oficinas -->
+        <div class="mentorship-section" id="oficinas">
+            <h2 class="section-title">Próximas Oficinas Práticas</h2>
+            
+            <div class="mentor-card">
+                <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f" alt="Oficina" class="mentor-image">
+                <div class="mentor-info">
+                    <h3 class="mentor-name">Validação de Problema e Solução</h3>
+                    <p class="mentor-company">Com Eduardo Lima - Especialista em Startups</p>
+                    <p class="mentor-bio">
+                        Oficina prática para validar o problema que sua startup resolve e a eficácia da sua solução proposta. Traga seu modelo de negócios para trabalharmos juntos.
+                    </p>
+                    <div class="mentor-schedule">
+                        <div class="schedule-slot">18/06 - 14:00 às 18:00</div>
+                        <div class="schedule-slot">25/06 - 09:00 às 13:00</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mentor-card">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71" alt="Oficina" class="mentor-image">
+                <div class="mentor-info">
+                    <h3 class="mentor-name">Construção de MVP Eficiente</h3>
+                    <p class="mentor-company">Com Ana Beatriz - Product Manager</p>
+                    <p class="mentor-bio">
+                        Aprenda a construir um Mínimo Produto Viável (MVP) com o mínimo de recursos e o máximo de validação. Traga seu projeto para desenvolvimento durante a oficina.
+                    </p>
+                    <div class="mentor-schedule">
+                        <div class="schedule-slot">20/06 - 10:00 às 14:00</div>
+                        <div class="schedule-slot">27/06 - 15:00 às 19:00</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Incubação -->
+        <div class="mentorship-section" id="incubacao">
+            <h2 class="section-title">Processo de Incubação e Aceleração</h2>
+            
+            <div class="mentor-card">
+                <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216" alt="Incubação" class="mentor-image">
+                <div class="mentor-info">
+                    <h3 class="mentor-name">Programa de Incubação SMGFAP</h3>
+                    <p class="mentor-company">6 meses de acompanhamento intensivo</p>
+                    <p class="mentor-bio">
+                        Nosso programa de incubação oferece 6 meses de acompanhamento detalhado com mentores especializados, cobrindo desde validação do problema até a primeira rodada de investimento.
+                    </p>
+                    <div class="mentor-schedule">
+                        <div class="schedule-slot">Início: 01/07 - Vagas limitadas</div>
+                    </div>
+                    <button class="btn-primary" style="margin-top: 15px;">Inscrever-se no Programa</button>
+                </div>
+            </div>
+            
+            <div class="mentor-card">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f" alt="Aceleração" class="mentor-image">
+                <div class="mentor-info">
+                    <h3 class="mentor-name">Programa de Aceleração</h3>
+                    <p class="mentor-company">3 meses para escalar seu negócio</p>
+                    <p class="mentor-bio">
+                        Para startups já validadas, nosso programa de aceleração foca em crescimento, captação de investimento e escalabilidade. Inclui conexão direta com investidores.
+                    </p>
+                    <div class="mentor-schedule">
+                        <div class="schedule-slot">Próxima turma: 15/08</div>
+                    </div>
+                    <button class="btn-primary" style="margin-top: 15px;">Saiba Mais</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção de Parceria -->
+        <div class="mentorship-section" id="parceria">
+            <h2 class="section-title">Parceria Estratégica</h2>
+            
+            <div class="benefit-card" style="max-width: 800px; margin: 0 auto 30px;">
+                <div class="benefit-icon">
+                    <i class="fas fa-file-contract"></i>
+                </div>
+                <h3 class="benefit-title">Modelo de Parceria</h3>
+                <p class="benefit-description">
+                    A SMGFAP Courses pode se tornar sócia da sua startup, adquirindo até 25% do negócio. Essa parceria inclui:
+                </p>
+                <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                    <li style="margin-bottom: 8px;">• Acesso a todos os recursos da plataforma</li>
+                    <li style="margin-bottom: 8px;">• Mentoria contínua da equipe especializada</li>
+                    <li style="margin-bottom: 8px;">• Conexão com nossa rede de investidores</li>
+                    <li style="margin-bottom: 8px;">• Suporte jurídico e contábil</li>
+                    <li>• Espaço físico em nosso hub de inovação (opcional)</li>
+                </ul>
+                <p class="benefit-description">
+                    O contrato é totalmente digital, com assinatura eletrônica na plataforma, garantindo agilidade e transparência.
+                </p>
+                <button class="btn-primary">Simular Parceria</button>
+            </div>
+        </div>
+
+        <!-- Seção de Feedback -->
+        <div class="mentorship-section">
+            <h2 class="section-title">Feedback e Acompanhamento</h2>
+            
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-calendar-check"></i>
+                    </div>
+                    <h3 class="benefit-title">Revisões Mensais</h3>
+                    <p class="benefit-description">
+                        Reuniões mensais estruturadas com seu mentor principal para avaliar métricas, progresso e definir próximos passos.
+                    </p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-tachometer-alt"></i>
+                    </div>
+                    <h3 class="benefit-title">Dashboard de Métricas</h3>
+                    <p class="benefit-description">
+                        Acesso a um dashboard exclusivo para monitorar todas as métricas relevantes do seu negócio, com alertas e sugestões automatizadas.
+                    </p>
+                    <button class="btn-primary">Acessar Dashboard</button>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3 class="benefit-title">Comitê de Especialistas</h3>
+                    <p class="benefit-description">
+                        Apresentações trimestrais para nosso comitê de especialistas, que fornecerão feedback detalhado e sugestões estratégicas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <h2>Acesso Rápido</h2>
+            <button onclick="window.location.href='/loginScreen'">Login</button>
+            <button onclick="window.location.href='/perfil'">Perfil</button>
+        </div>
+    </div>
+    
+    <div class="enrollment-modal" id="enrollment-modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-title">Confirmação de Inscrição</h2>
+            <p id="modal-message">Você está prestes a se inscrever no evento.</p>
+            <div class="modal-actions">
+                <button class="btn-confirm" id="confirm-enrollment">Confirmar</button>
+                <button class="btn-cancel" id="cancel-enrollment">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification-toast" id="notification-toast">
+        <p id="notification-message"></p>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 Cursos Da SMGFA. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="../../JS/AlunoStartup.js"></script>
+    <script>
+    // Função para alternar modo escuro
+    function toggleDarkMode() {
+        document.body.classList.toggle('dark-mode');
+        const isDarkMode = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDarkMode ? 'enabled' : 'disabled');
+        closeModal(document.getElementById('profile-modal'));
+    }
+</script>
+</body>
+</html>
