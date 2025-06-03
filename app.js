@@ -36,8 +36,12 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-app.use('/HTML/professores', verifyTokenAndEntity('professores'))
-app.use('/HTML/alunos', verifyTokenAndEntity('alunos'))
+// Removido o middleware global para arquivos estáticos
+// app.use('/HTML/professores', verifyTokenAndEntity('professores'))
+// app.use('/HTML/alunos', verifyTokenAndEntity('alunos'))
+
+// Exemplo de proteção de rota dinâmica (adicione conforme necessário):
+// app.get('/alguma-rota-protegida', verifyTokenAndEntity('professores'), (req, res) => { ... })
 
 app.post('/submit', (req, res) => {
     const {email, senha, nome, cpf, telefone, tipoUsuario, plano} = req.body;
@@ -93,13 +97,17 @@ app.post("/auth", (req, res) => {
     const {tipo, email, senha} = req.body
     
     let query, values;
-    if(tipo === 'aluno'){
+    if(tipo === 'alunos'){
         query = 'select * from alunos where alEmail = ? and alSenha = ?;'
         values = [email, senha]
     }
     else if(tipo === 'professores'){
         query = 'select * from professores where prEmail = ? and prSenha = ?;'
         values = [email, senha]
+    }
+    else {
+        // tipo inválido
+        return res.json({message: 'Tipo de usuário inválido!'});
     }
     db.query(query, values, function(err, results, fields){
         if(err){
@@ -112,7 +120,7 @@ app.post("/auth", (req, res) => {
                 req.session.loggedin = true;
                 req.session.email = email;
 
-                if(tipo === 'aluno'){
+                if(tipo === 'alunos'){
                     req.session.plan = results.plano;
                 }
                 
@@ -120,7 +128,7 @@ app.post("/auth", (req, res) => {
                 switch (tipo) {
                     case 'alunos':
                         endpoint = '/';
-                        req.session.plan = plano;
+                        req.session.plan = results.plano;
                         console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}`)
                         break;
 
@@ -227,22 +235,30 @@ app.post('/jsAuth', (req, res) => {
 
 app.get('/userInfo', (req, res) => {
     if (!req.session.loggedin) {
-
-        res.redirect('/loginScreen');
+        return res.redirect('/loginScreen');
     }
 
-    db.query("select * from users where userEmail = ?", [req.session.email], function(err, results, fields){
-        if(err) throw err;
-        
+    // Busca o tipo de usuário na sessão (ajuste conforme sua lógica de sessão)
+    // Aqui, tentamos buscar primeiro em alunos, depois em professores
+    db.query("select * from alunos where alEmail = ?", [req.session.email], function(err, results, fields){
+        if(err) return res.status(500).json({error: 'Erro ao buscar aluno'});
         if(results.length > 0){
-            res.json(results);
+            return res.json(results);
+        } else {
+            // Se não for aluno, tenta buscar como professor
+            db.query("select * from professores where prEmail = ?", [req.session.email], function(err2, results2, fields2){
+                if(err2) return res.status(500).json({error: 'Erro ao buscar professor'});
+                if(results2.length > 0){
+                    return res.json(results2);
+                } else {
+                    // (Opcional) Buscar em admins
+                    // db.query("select * from admins where adminEmail = ?", [req.session.email], function(err3, results3, fields3){ ... })
+                    return res.status(404).json({error: 'Usuário não encontrado'});
+                }
+            });
         }
-        else{
-            console.log("Couldn't find user.")
-        }
-    })
-    
-})
+    });
+});
 
 app.get('/logout', (req, res) => {
     req.session.loggedin = false;
@@ -621,6 +637,49 @@ app.get('/conteudosProfessor', (req, res) => {
 app.get('/turmasProfessor', (req, res) => {
     res.sendFile(__dirname + '/public/HTML/ProfessorTurmas.html')
 })
+
+// Middleware para proteger rotas de professores e alunos
+function verifyTokenAndEntity(entity) {
+    return function(req, res, next) {
+        if (!req.session.loggedin || !req.session.email) {
+            return res.redirect('/loginScreen');
+        }
+        // Verifica o tipo de usuário na sessão
+        if (entity === 'professores') {
+            // Checa se o email está na tabela professores
+            const query = 'SELECT * FROM professores WHERE prEmail = ?';
+            db.query(query, [req.session.email], function(err, results) {
+                if (err || results.length === 0) {
+                    return res.redirect('/loginScreen');
+                }
+                next();
+            });
+        } else if (entity === 'alunos') {
+            // Checa se o email está na tabela alunos
+            const query = 'SELECT * FROM alunos WHERE alEmail = ?';
+            db.query(query, [req.session.email], function(err, results) {
+                if (err || results.length === 0) {
+                    return res.redirect('/loginScreen');
+                }
+                next();
+            });
+        } else {
+            return res.redirect('/loginScreen');
+        }
+    }
+}
+
+const alunoRoutes = require('./routes/aluno');
+const professorRoutes = require('./routes/professor');
+const adminRoutes = require('./routes/admin');
+
+// Disponibiliza a conexão do banco para middlewares
+app.set('db', db);
+
+// Usa as rotas organizadas
+app.use('/aluno', alunoRoutes);
+app.use('/professor', professorRoutes);
+app.use('/admin', adminRoutes);
 
 app.listen(port, () => {
     console.log(`Servidor rodando na porta ${port}`);

@@ -7,12 +7,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Carregar nome do usuário
 function loadUserName() {
-    // Simulação - substitua por chamada real à API
-    setTimeout(() => {
-        document.getElementById("user-name").textContent = "João Silva";
-        // Carrega inscrições do usuário
-        loadUserEnrollments();
-    }, 1000);
+    // Busca informações do usuário via API
+    fetch('/userInfo')
+        .then(response => response.json())
+        .then(data => {
+            // data pode ser um array de resultados
+            if (Array.isArray(data) && data.length > 0) {
+                const user = data[0];
+                // Verifica se o plano do aluno é 'empreendedor'
+                if (user.alPlano && user.alPlano.toLowerCase() === 'empreendedor') {
+                    document.getElementById("user-name").textContent = user.alNome || user.userName || 'Aluno';
+                    // Carrega inscrições do usuário
+                    loadUserEnrollments();
+                } else {
+                    document.getElementById("user-name").textContent = 'Apenas para plano Empreendedor';
+                }
+            } else {
+                document.getElementById("user-name").textContent = 'Usuário não encontrado';
+            }
+        })
+        .catch(() => {
+            document.getElementById("user-name").textContent = 'Erro ao carregar usuário';
+        });
 }
 
 // Configurar listeners de eventos
