@@ -133,7 +133,7 @@ app.post("/auth", (req, res) => {
                         break;
 
                     case 'professores':
-                        endpoint = '/homeProfessor';
+                        endpoint = '../HTML/professores/ProfessorPainel';
                         console.log(`Email do usuário: ${req.session.email}\n`)
                         break;
                 }
