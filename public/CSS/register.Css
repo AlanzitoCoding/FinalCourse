@@ -241,11 +241,14 @@ body {
     z-index: 1000;
     left: 0;
     top: 0;
-    width: 100vw;
-    height: 100vh;
-    background: rgba(0, 0, 0, 0.65);
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
     justify-content: center;
     align-items: center;
+    overflow-y: auto;
+    padding: 20px;
 }
 
 .modal-plano.active {
@@ -257,12 +260,14 @@ body {
     border-radius: var(--border-radius);
     padding: 2rem;
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
-    min-width: 320px;
-    max-width: 95vw;
+    width: auto;
+    max-width: 900px;
     position: relative;
     animation: modalShow 0.3s;
     color: var(--text-color);
     border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 @keyframes modalShow {
@@ -283,9 +288,10 @@ body {
 .planos-flex {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
+    gap: 1.5rem;
     justify-content: center;
     margin-top: 1.5rem;
+    width: 100%;
 }
 
 .plano-card-modal {
@@ -293,7 +299,9 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--input-radius);
     padding: 1.5rem;
-    width: 220px;
+    flex: 1;
+    min-width: 220px;
+    max-width: 280px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
     transition: var(--transition);
     text-align: left;
@@ -343,6 +351,37 @@ body {
     transform: scale(1.04);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
 }
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 1.5rem;
+        width: 95%;
+    }
+    
+    .planos-flex {
+        flex-direction: row;
+        gap: 1rem;
+    }
+    
+    .plano-card-modal {
+        min-width: 200px;
+    }
+}
+
+@media (max-width: 576px) {
+    .modal-content {
+        padding: 1rem;
+    }
+    
+    .planos-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .plano-card-modal {
+        width: 100%;
+        max-width: 100%;
+    }
+}
 
 /* ===== ANIMATIONS ===== */
 @keyframes fadeIn {
@@ -369,18 +408,7 @@ body {
     
     .loginField h2 {
         font-size: 1.6rem;
-    }
-    
-    .planos-flex {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .plano-card-modal {
-        width: 95%;
-        max-width: 320px;
-    }
-    
+    }   
     .tipo-btn {
         font-size: 0.9rem;
         min-height: 70px;
