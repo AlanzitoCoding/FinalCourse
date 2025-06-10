@@ -21,31 +21,22 @@ fetch('/userInfo')
                         
         data.forEach(row => {
 
-            uName.innerHTML += `${row.userName}`
-            uCPF.innerHTML += `${row.userCPF}`
-            uEmail.innerHTML += `${row.userEmail}`
-            uPhone.innerHTML += `${row.userPhone}`
-            
-            
-
+            uName.innerHTML += `${row.alNome}`
+            uCPF.innerHTML += `${row.alCPF}`
+            uEmail.innerHTML += `${row.alEmail}`
+            uPhone.innerHTML += `${row.alTelefone}`
         })
 
         data.forEach(row => {
 
-            userName.value = `${row.userName}`
-            userCPF.value = `${row.userCPF}`
-            userPhone.value = `${row.userPhone}`
-            userPassword.value = `${row.userPassword}`
-            
-            
-
+            userName.value = `${row.alNome}`
+            userCPF.value = `${row.alCPF}`
+            userPhone.value = `${row.alTelefone}`
+            userPassword.value = `${row.alSenha}`
         })
-        
-
     })
     .catch(error => {
         console.error("Erro ao buscar dados do usuário: " + error);
-        
     });
 }
 
@@ -104,25 +95,6 @@ fetch('/updateUser', {
 
 }
 
-function listCourses(){
-    fetch('/listCourses')
-    .then(response => response.json())
-    .then(data => {
-        const enrolledCourses = document.getElementById('enrolledCourses');
-        
-        enrolledCourses.innerHTML = '<ul>';
-        
-        data.forEach(row => {
-            enrolledCourses.innerHTML += `<li>${row.courseName}</li>`                
-        });
-
-        enrolledCourses.innerHTML += '</ul>';
-    })
-    .catch(error => {
-        console.error("Erro ao buscar dados do usuário: " + error);
-    });
-}
-
     function deleteUser(){
 
     const userPassword = document.querySelector('#passwordConfirm').value
@@ -173,5 +145,3 @@ window.onclick = (event) => {
 document.getElementById('modalNao').addEventListener('click', function() {
     document.getElementById('modal').style.display = 'none';
 });
-
-document.addEventListener("DOMContentLoaded", listCourses());
