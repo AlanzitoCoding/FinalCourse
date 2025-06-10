@@ -3,57 +3,96 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Administrativo - SMGFAP Courses</title>
-    <link rel="stylesheet" href="../CSS/Admin.css">
+    <title>Painel do Administrador - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../CSS/Admin.css">
 </head>
 <body>
-    <div class="admin-container">
-        <!-- Sidebar -->
-        <div class="admin-sidebar">
-            <h2>Painel Admin</h2>
-            <ul>
-                <li><a href="#dashboard">Dashboard</a></li>
-                <li><a href="#cursos">Gerenciar Cursos</a></li>
-                <li><a href="#modulos">Gerenciar Módulos</a></li>
-                <li><a href="#usuarios">Gerenciar Usuários</a></li>
-                <li><a href="#relatorios">Relatórios</a></li>
-                <li><a href="#config">Configurações</a></li>
-            </ul>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Administrador</a>
+            <div class="flex items-center space-x-4">
+                <a href="#" class="nav-link active"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="../admins/AdminTurmas" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="../admins/AdminConteudos" class="nav-link"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="../admins/AdminMensagens" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="../admins/AdminGestao" class="nav-link"><i class="fas fa-users"></i>Gestão de Usuários</a>
+                <a href="../admins/AdminRelatorios" class="nav-link"><i class="fas fa-file-alt"></i>Relatórios</a>
+                <a href="/loginScreen" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
         </div>
-        
-        <!-- Conteúdo Principal -->
-        <div class="admin-content">
-            <div id="dashboard" class="admin-card">
-                <h3>Visão Geral</h3>
-                <!-- Estatísticas rápidas -->
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number" id="total-cursos">0</div>
-                        <p>Cursos Ativos</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="total-usuarios">0</div>
-                        <p>Usuários</p>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="total-conclusoes">0</div>
-                        <p>Conclusões</p>
-                    </div>
-                </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <h1 class="text-3xl font-bold mb-8">Painel do Administrador</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="dashboard-card">
+                <h3 class="text-xl font-bold mb-4"><i class="fas fa-users mr-2"></i>Minhas Turmas</h3>
+                <p class="text-4xl font-bold mb-2">5</p>
+                <p class="text-gray-400">Turmas ativas</p>
+                <a href="../admins/AdminTurmas" class="btn-primary mt-4 inline-block">Gerenciar Turmas</a>
             </div>
             
-            <div id="cursos" class="admin-card">
-                <h3>Gerenciar Cursos</h3>
-                <button id="novo-curso">+ Novo Curso</button>
-                <div id="lista-cursos">
-                    <!-- Lista de cursos será preenchida via JavaScript -->
-                </div>
+            <div class="dashboard-card">
+                <h3 class="text-xl font-bold mb-4"><i class="fas fa-book mr-2"></i>Conteúdos</h3>
+                <p class="text-4xl font-bold mb-2">12</p>
+                <p class="text-gray-400">Materiais disponíveis</p>
+                <a href="../admins/AdminConteudos" class="btn-primary mt-4 inline-block">Gerenciar Conteúdos</a>
             </div>
             
-            <!-- Outras seções seriam implementadas de forma similar -->
+            <div class="dashboard-card">
+                <h3 class="text-xl font-bold mb-4"><i class="fas fa-comments mr-2"></i>Interações</h3>
+                <p class="text-4xl font-bold mb-2">23</p>
+                <p class="text-gray-400">Mensagens não lidas</p>
+                <a href="../admins/AdminMensagens" class="btn-primary mt-4 inline-block">Ver Mensagens</a>
+            </div>
+        </div>
+
+        <div class="neumorphic p-6 mb-8">
+            <h2 class="text-2xl font-bold mb-4">Atividades Recentes</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Turma</th>
+                            <th>Atividade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>10/05/2024</td>
+                            <td>Desenvolvimento Web - Turma A</td>
+                            <td>Novo material adicionado</td>
+                            <td><span class="text-green-500">Publicado</span></td>
+                        </tr>
+                        <tr>
+                            <td>09/05/2024</td>
+                            <td>GitHub Avançado - Turma B</td>
+                            <td>Exercício corrigido</td>
+                            <td><span class="text-blue-500">Concluído</span></td>
+                        </tr>
+                        <tr>
+                            <td>08/05/2024</td>
+                            <td>JavaScript Moderno - Turma C</td>
+                            <td>Nova mensagem de aluno</td>
+                            <td><span class="text-yellow-500">Pendente</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
-    <script src="../JS/Admin.js"></script>
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Professor. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../JS/Admin.js"></script>
 </body>
 </html>

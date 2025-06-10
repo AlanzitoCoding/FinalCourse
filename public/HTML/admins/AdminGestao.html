@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Usuários - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../CSS/AdminGestao.css">
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Administrador</a>
+            <div class="flex items-center space-x-4">
+                <a href="../admins/Admin" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="../admins/AdminTurmas" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="../admins/AdminConteudos" class="nav-link"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="../admins/AdminMensagens" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="#" class="nav-link active"><i class="fas fa-users"></i>Gestão de Usuários</a>
+                <a href="../admins/AdminRelatorios" class="nav-link"><i class="fas fa-file-alt"></i>Relatórios</a>
+                <a href="/loginScreen" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Gestão de Usuários</h1>
+            <div class="flex space-x-2">
+                <button class="btn-primary" onclick="openModal('novoUsuarioModal')">
+                    <i class="fas fa-plus mr-2"></i>Novo Usuário
+                </button>
+                <button class="btn-primary bg-gray-600" onclick="exportarDados()">
+                    <i class="fas fa-file-export mr-2"></i>Exportar
+                </button>
+            </div>
+        </div>
+
+        <div class="neumorphic p-4 mb-8">
+            <div class="tabs-header mb-6">
+                <button class="tab-button active" data-tab="usuarios">Todos os Usuários</button>
+                <button class="tab-button" data-tab="professores">Professores</button>
+                <button class="tab-button" data-tab="turmas">Atribuição de Turmas</button>
+            </div>
+
+            <!-- Tab Usuários -->
+            <div id="usuarios" class="tab-content active">
+                <div class="mb-4 flex justify-between">
+                    <div class="flex items-center space-x-2">
+                        <input type="text" id="searchUsuarios" placeholder="Pesquisar usuários..." class="search-input">
+                        <select id="filterRole" class="search-input">
+                            <option value="all">Todos os perfis</option>
+                            <option value="admin">Administradores</option>
+                            <option value="professor">Professores</option>
+                            <option value="aluno">Alunos</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class="text-gray-400">Total: <span id="totalUsuarios">0</span> usuários</span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Perfil</th>
+                                <th>Status</th>
+                                <th>Último Acesso</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosList">
+                            <!-- Dinamicamente preenchido -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-between items-center mt-4">
+                    <div class="text-gray-400 text-sm">
+                        Mostrando <span id="usuariosInicio">1</span>-<span id="usuariosFim">10</span> de <span id="usuariosTotal">0</span>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="btn-pagination" onclick="previousPage('usuarios')" disabled id="prevUsuarios">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn-pagination" onclick="nextPage('usuarios')" disabled id="nextUsuarios">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Professores -->
+            <div id="professores" class="tab-content">
+                <div class="mb-4 flex justify-between">
+                    <input type="text" id="searchProfessores" placeholder="Pesquisar professores..." class="search-input">
+                    <div>
+                        <span class="text-gray-400">Total: <span id="totalProfessores">0</span> professores</span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Turmas</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="professoresList">
+                            <!-- Dinamicamente preenchido -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-between items-center mt-4">
+                    <div class="text-gray-400 text-sm">
+                        Mostrando <span id="professoresInicio">1</span>-<span id="professoresFim">10</span> de <span id="professoresTotal">0</span>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="btn-pagination" onclick="previousPage('professores')" disabled id="prevProfessores">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn-pagination" onclick="nextPage('professores')" disabled id="nextProfessores">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab Turmas -->
+            <div id="turmas" class="tab-content">
+                <div class="mb-4 flex justify-between">
+                    <div class="flex items-center space-x-2">
+                        <select id="filterProfessorTurmas" class="search-input">
+                            <option value="all">Todos os professores</option>
+                            <!-- Dinamicamente preenchido -->
+                        </select>
+                        <select id="filterStatusTurmas" class="search-input">
+                            <option value="all">Todas as turmas</option>
+                            <option value="active">Ativas</option>
+                            <option value="inactive">Inativas</option>
+                        </select>
+                    </div>
+                    <div>
+                        <span class="text-gray-400">Total: <span id="totalTurmas">0</span> atribuições</span>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="w-full">
+                        <thead>
+                            <tr>
+                                <th>Professor</th>
+                                <th>Turma</th>
+                                <th>Curso</th>
+                                <th>Status</th>
+                                <th>Alunos</th>
+                                <th>Atribuído em</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="turmasList">
+                            <!-- Dinamicamente preenchido -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="flex justify-between items-center mt-4">
+                    <div class="text-gray-400 text-sm">
+                        Mostrando <span id="turmasInicio">1</span>-<span id="turmasFim">10</span> de <span id="turmasTotal">0</span>
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="btn-pagination" onclick="previousPage('turmas')" disabled id="prevTurmas">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="btn-pagination" onclick="nextPage('turmas')" disabled id="nextTurmas">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Usuário -->
+    <div id="novoUsuarioModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('novoUsuarioModal')">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Adicionar Novo Usuário</h2>
+            <form id="novoUsuarioForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="form-group">
+                        <label for="usuarioNome">Nome Completo</label>
+                        <input type="text" id="usuarioNome" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuarioEmail">Email</label>
+                        <input type="email" id="usuarioEmail" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="form-group">
+                        <label for="usuarioPerfil">Perfil</label>
+                        <select id="usuarioPerfil" class="form-control" required>
+                            <option value="aluno">Aluno</option>
+                            <option value="professor">Professor</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="usuarioStatus">Status</label>
+                        <select id="usuarioStatus" class="form-control" required>
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                            <option value="pending">Pendente</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label for="usuarioSenha">Senha Temporária</label>
+                    <div class="flex items-center">
+                        <input type="text" id="usuarioSenha" class="form-control flex-1" readonly>
+                        <button type="button" onclick="gerarSenha()" class="btn-primary ml-2">
+                            <i class="fas fa-sync-alt mr-2"></i>Gerar
+                        </button>
+                    </div>
+                    <small class="text-gray-400">O usuário deverá alterar esta senha no primeiro acesso</small>
+                </div>
+                
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('novoUsuarioModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Usuário</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Editar Usuário -->
+    <div id="editarUsuarioModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('editarUsuarioModal')">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Editar Usuário</h2>
+            <form id="editarUsuarioForm">
+                <input type="hidden" id="editarUsuarioId">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="form-group">
+                        <label for="editarUsuarioNome">Nome Completo</label>
+                        <input type="text" id="editarUsuarioNome" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarUsuarioEmail">Email</label>
+                        <input type="email" id="editarUsuarioEmail" class="form-control" required>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                    <div class="form-group">
+                        <label for="editarUsuarioPerfil">Perfil</label>
+                        <select id="editarUsuarioPerfil" class="form-control" required>
+                            <option value="aluno">Aluno</option>
+                            <option value="professor">Professor</option>
+                            <option value="admin">Administrador</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="editarUsuarioStatus">Status</label>
+                        <select id="editarUsuarioStatus" class="form-control" required>
+                            <option value="active">Ativo</option>
+                            <option value="inactive">Inativo</option>
+                            <option value="pending">Pendente</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label>Redefinir Senha</label>
+                    <div class="flex items-center">
+                        <input type="text" id="editarUsuarioSenha" class="form-control flex-1" placeholder="Deixe em branco para manter a atual">
+                        <button type="button" onclick="gerarSenha('editarUsuarioSenha')" class="btn-primary ml-2">
+                            <i class="fas fa-sync-alt mr-2"></i>Gerar
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('editarUsuarioModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Salvar Alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Atribuir Turma -->
+    <div id="atribuirTurmaModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('atribuirTurmaModal')">&times;</span>
+            <h2 class="text-2xl font-bold mb-4">Atribuir Turma a Professor</h2>
+            <form id="atribuirTurmaForm">
+                <input type="hidden" id="atribuirTurmaProfessorId">
+                
+                <div class="form-group mb-4">
+                    <label for="atribuirTurmaProfessor">Professor</label>
+                    <input type="text" id="atribuirTurmaProfessor" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label for="atribuirTurmaSelecionada">Selecionar Turma</label>
+                    <select id="atribuirTurmaSelecionada" class="form-control" required>
+                        <option value="">Selecione uma turma</option>
+                        <!-- Dinamicamente preenchido -->
+                    </select>
+                </div>
+                
+                <div class="form-group mb-4">
+                    <label for="atribuirTurmaData">Data de Atribuição</label>
+                    <input type="date" id="atribuirTurmaData" class="form-control" required>
+                </div>
+                
+                <div class="flex justify-end space-x-2">
+                    <button type="button" onclick="closeModal('atribuirTurmaModal')" class="btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn-primary">Atribuir Turma</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Confirmação -->
+    <div id="confirmModal" class="modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <h2 class="text-2xl font-bold mb-4" id="confirmModalTitle">Confirmar Ação</h2>
+            <p id="confirmModalMessage">Tem certeza que deseja realizar esta ação?</p>
+            
+            <div class="flex justify-end space-x-2 mt-6">
+                <button type="button" onclick="closeModal('confirmModal')" class="btn-secondary">Cancelar</button>
+                <button type="button" onclick="confirmAction()" class="btn-danger" id="confirmModalButton">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-gray-800 p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Administrador. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="../../JS/AdminGestao.js"></script>
+</body>
+</html>

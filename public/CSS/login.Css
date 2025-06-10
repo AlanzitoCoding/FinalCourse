@@ -1,154 +1,225 @@
+/* ===== BASE STYLES ===== */
 :root {
-            --primary-color: #3a7bd5;
-            --secondary-color: #00d2ff;
-            --background-color: #f0f2f5;
-            --text-color: #333;
-            --shadow-color: #d1d9e6;
-            --highlight-color: #ffffff;
-        }
+    --primary-color: #61a5c2;
+    --secondary-color: #2a6f97;
+    --background: #121212;
+    --text-color: #f0f0f0;
+    --card-background: rgba(30, 30, 30, 0.95);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --accent-color: #89c2d9;
+    --border-radius: 12px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+/* ===== LOGIN STYLES ===== */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--background);
+    color: var(--text-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    background-image: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+}
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+}
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--background-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
-            background-image: url('https://picsum.photos/id/20/3000/2000');
-            background-size: cover;
-            background-position: center;
-        }
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    padding: 0 1.5rem;
+}
 
-        .overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: -1;
-        }
+.login-card {
+    background: var(--card-background);
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px var(--shadow-color),
+                0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeIn 0.5s ease forwards;
+}
 
-        .loginField {
-            background-color: var(--highlight-color);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 0px 10px 10px rgb(0, 0, 0, 0.3);
-            width: 350px;
-            text-align: center;
-            align-items: center;
-        }
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px var(--shadow-color),
+                0 5px 15px rgba(0, 0, 0, 0.1);
+}
 
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
+@keyframes fadeIn {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
 
-        .user-type-selector {
-            margin-bottom: 15px;
-        }
+.login-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+    position: relative;
+    display: inline-block;
+}
 
-        .user-type-btn {
-            padding: 8px 15px;
-            margin: 0 5px;
-            border: none;
-            border-radius: 5px;
-            background: #ddd;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
+.login-card h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--secondary-color);
+    border-radius: 2px;
+}
 
-        .user-type-btn.active {
-            background: var(--primary-color);
-            color: white;
-        }
+.user-type-selector {
+    margin-bottom: 1.5rem;
+}
 
-        input {
-            width: 95%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: none;
-            border-radius: 5px;
-            background-color: var(--background-color);
-            box-shadow: inset 5px 5px 10px var(--shadow-color),
-                        inset -5px -5px 10px var(--highlight-color);
-        }
+.user-type-selector select {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: var(--border-radius);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    transition: var(--transition);
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 1rem;
+}
 
-        input:focus {
-            outline: none;
-            box-shadow: inset 5px 5px 10px #444,
-                        inset -5px -5px 10px #777;
-            background-color: #999;
-            color: white;
-        }
+.user-type-selector select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(42, 111, 151, 0.3);
+}
 
-        button {
-            width: 100%;
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background: linear-gradient(145deg, #888, #555);
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            margin-bottom: 10px;
-        }
+.login-card input {
+    width: 100%;
+    padding: 0.8rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    transition: var(--transition);
+}
 
-        button:hover {
-            opacity: 0.9;
-        }
+.login-card input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(42, 111, 151, 0.3);
+}
 
-        p {
-            margin-top: 20px;
-            color: var(--text-color);
-        }
+.login-card button[type="submit"] {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--primary-color) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 50px !important;
+    font-weight: 600 !important;
+    cursor: pointer;
+    transition: var(--transition) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin-bottom: 1rem;
+}
 
-        .register-btn {
-            background: none;
-            color: var(--primary-color);
-            padding: 0;
-            font-size: 16px;
-        }
+.login-card button[type="submit"]:hover {
+    background: var(--secondary-color) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3) !important;
+}
 
-        .register-btn:hover {
-            text-decoration: underline;
-        }
+.register-text {
+    margin-top: 1.5rem;
+    color: var(--text-color);
+}
 
-        .study-element {
-            position: absolute;
-            font-size: 48px;
-            animation: float 6s ease-in-out infinite;
-        }
+.register-btn {
+    background: none !important;
+    color: var(--primary-color) !important;
+    border: none !important;
+    padding: 0 !important;
+    font-size: inherit !important;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: var(--transition);
+}
 
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
-            100% { transform: translateY(0px); }
-        }
+.register-btn:hover {
+    color: var(--secondary-color) !important;
+}
 
-        .book { top: -60px; left: -80px; }
-        .pencil { top: 50%; right: -80px; transform: translateY(-50%); }
-        .graduation-cap { bottom: -60px; left: -80px; }
-        .laptop { top: -60px; right: -80px; }
+/* ===== BACKGROUND ELEMENTS ===== */
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    animation: float 20s infinite ease-in-out;
+    filter: blur(60px);
+    opacity: 0.3;
+    z-index: -1;
+}
 
-        .flying-paper {
-            position: absolute;
-            width: 50px;
-            height: 60px;
-            background-color: white;
-            opacity: 0.7;
-            animation: fly 15s linear infinite;
-        }
+.circle:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
 
-        @keyframes fly {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            100% { transform: translate(1000px, -1000px) rotate(360deg); }
-        }
+.circle:nth-child(2) {
+    width: 400px;
+    height: 400px;
+    bottom: 10%;
+    right: 10%;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(50px, 50px) rotate(5deg);
+    }
+    50% {
+        transform: translate(100px, 0) rotate(10deg);
+    }
+    75% {
+        transform: translate(50px, -50px) rotate(5deg);
+    }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 576px) {
+    .login-card {
+        padding: 1.5rem;
+    }
+    
+    .login-card h2 {
+        font-size: 1.5rem;
+    }
+}

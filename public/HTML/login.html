@@ -4,37 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Plataforma de Cursos</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/login.Css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/login.css">
 </head>
 <body>
-    <div class="overlay"></div>
-    <div class="flying-paper paper1"></div>
-    <div class="flying-paper paper2"></div>
-    <div class="flying-paper paper3"></div>
+    <!-- Background elements -->
+    <div class="circle"></div>
+    <div class="circle"></div>
 
-    <div class="loginField">
-        <form id="login">
-            <h2>Bem-vindo de volta!</h2>
-            
-            <div class="user-type-selector">
-                <select id="tipo" name="tipo" required>
-                    <option value="">Selecione...</option>
-                    <option value="alunos">Aluno</option>
-                    <option value="professores">Professor</option>
-                    <option value="admins">Administrador</option>
-                    <input type="hidden" id="userType" name="userType" value="aluno">
-                    <input type="hidden" id="userType" name="userType" value="professor">
-                    <input type="hidden" id="userType" name="userType" value="admin">
-                </select>
-            </div>
-            
-            <input type="email" placeholder="E-mail" id="email" name="email" required>
-            <input type="password" placeholder="Senha" id="senha" name="senha" required>
-            <button type="submit">Entrar</button>          
-        </form>
+    <div class="login-container">
+        <div class="login-card">
+            <form id="login">
+                <h2>Bem-vindo de volta!</h2>
+                
+                <div class="user-type-selector">
+                    <select id="tipo" name="tipo" required>
+                        <option value="">Selecione seu perfil...</option>
+                        <option value="alunos">Aluno</option>
+                        <option value="professores">Professor</option>
+                        <option value="admins">Administrador</option>
+                    </select>
+                </div>
+                
+                <input type="email" placeholder="E-mail" id="email" name="email" required>
+                <input type="password" placeholder="Senha" id="senha" name="senha" required>
+                <button type="submit">Entrar</button>          
+            </form>
 
-        <p>Não possui uma conta? <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button></p>
+            <p class="register-text">Não possui uma conta? 
+                <button class="register-btn" onclick="window.location.href='/registerScreen'">Registre-se</button>
+            </p>
+        </div>
     </div>
 
     <script src="../JS/login.js"></script>

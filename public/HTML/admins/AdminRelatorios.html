@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - SMGFAP Courses</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="../../CSS/AdminRelatorios.css">
+</head>
+<body>
+    <nav class="neumorphic p-4 mb-8">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="#" class="text-2xl font-bold">SMGFAP Courses - Administrador</a>
+            <div class="flex items-center space-x-4">
+                <a href="../admins/Admin" class="nav-link"><i class="fas fa-tachometer-alt mr-2"></i>Dashboard</a>
+                <a href="../admins/AdminTurmas" class="nav-link"><i class="fas fa-users mr-2"></i>Turmas</a>
+                <a href="../admins/AdminConteudos" class="nav-link"><i class="fas fa-book mr-2"></i>Conteúdos</a>
+                <a href="../admins/AdminMensagens" class="nav-link"><i class="fas fa-envelope mr-2"></i>Mensagens</a>
+                <a href="../admins/AdminGestao" class="nav-link"><i class="fas fa-users"></i>Gestão de Usuários</a>
+                <a href="#" class="nav-link active"><i class="fas fa-file-alt"></i>Relatórios</a>
+                <a href="/loginScreen" class="btn-primary"><i class="fas fa-sign-out-alt mr-2"></i>Sair</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-3xl font-bold">Relatórios de Cursos</h1>
+            <div class="flex space-x-2">
+                <button class="btn-primary" id="exportRelatorio">
+                    <i class="fas fa-file-export mr-2"></i>Exportar
+                </button>
+                <button class="btn-primary" id="refreshRelatorio">
+                    <i class="fas fa-sync-alt mr-2"></i>Atualizar
+                </button>
+            </div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="neumorphic p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Filtrar Relatórios</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div>
+                    <label class="block mb-2">Curso</label>
+                    <select id="filterCurso" class="w-full p-2 rounded bg-gray-800 text-white">
+                        <option value="all">Todos os Cursos</option>
+                        <option value="1">Desenvolvimento Web</option>
+                        <option value="2">GitHub Avançado</option>
+                        <option value="3">JavaScript Moderno</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2">Turma</label>
+                    <select id="filterTurma" class="w-full p-2 rounded bg-gray-800 text-white">
+                        <option value="all">Todas as Turmas</option>
+                        <option value="1">Turma A</option>
+                        <option value="2">Turma B</option>
+                        <option value="3">Turma C</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2">Período</label>
+                    <select id="filterPeriodo" class="w-full p-2 rounded bg-gray-800 text-white">
+                        <option value="7">Últimos 7 dias</option>
+                        <option value="30">Últimos 30 dias</option>
+                        <option value="90">Últimos 3 meses</option>
+                        <option value="custom">Personalizado</option>
+                    </select>
+                </div>
+                <div id="customDateRange" class="hidden">
+                    <label class="block mb-2">Intervalo</label>
+                    <div class="flex space-x-2">
+                        <input type="date" id="dateStart" class="w-1/2 p-2 rounded bg-gray-800 text-white">
+                        <input type="date" id="dateEnd" class="w-1/2 p-2 rounded bg-gray-800 text-white">
+                    </div>
+                </div>
+            </div>
+            <div class="mt-4 flex justify-end">
+                <button class="btn-primary" id="applyFilters">
+                    <i class="fas fa-filter mr-2"></i>Aplicar Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Resumo Geral -->
+        <div class="neumorphic p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Resumo Geral</h2>
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-bold mb-2"><i class="fas fa-users mr-2"></i>Total de Alunos</h3>
+                    <p class="text-3xl font-bold" id="totalAlunos">0</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-bold mb-2"><i class="fas fa-chart-line mr-2"></i>Taxa de Conclusão</h3>
+                    <p class="text-3xl font-bold" id="taxaConclusao">0%</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-bold mb-2"><i class="fas fa-clock mr-2"></i>Tempo Médio de Estudo</h3>
+                    <p class="text-3xl font-bold" id="tempoMedio">0h</p>
+                </div>
+                <div class="dashboard-card">
+                    <h3 class="text-lg font-bold mb-2"><i class="fas fa-check-circle mr-2"></i>Atividades Concluídas</h3>
+                    <p class="text-3xl font-bold" id="atividadesConcluidas">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficos e Tabelas -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Gráfico de Progresso -->
+            <div class="neumorphic p-6">
+                <h2 class="text-xl font-bold mb-4">Progresso por Curso</h2>
+                <div class="chart-container">
+                    <canvas id="progressoChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Gráfico de Engajamento -->
+            <div class="neumorphic p-6">
+                <h2 class="text-xl font-bold mb-4">Engajamento por Turma</h2>
+                <div class="chart-container">
+                    <canvas id="engajamentoChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabela de Detalhes -->
+        <div class="neumorphic p-6 mb-8">
+            <h2 class="text-xl font-bold mb-4">Detalhes por Turma</h2>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Turma</th>
+                            <th>Curso</th>
+                            <th>Alunos</th>
+                            <th>Progresso</th>
+                            <th>Conclusão</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="turmasTable">
+                        <!-- Dinamicamente preenchido -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Modal de Detalhes -->
+        <div id="detalhesModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal('detalhesModal')">&times;</span>
+                <h2 id="modalTurmaTitle" class="text-2xl font-bold mb-4"></h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Informações da Turma</h3>
+                        <p id="modalTurmaCurso" class="mb-2"></p>
+                        <p id="modalTurmaHorario" class="mb-2"></p>
+                        <p id="modalTurmaProfessor" class="mb-2"></p>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Estatísticas</h3>
+                        <p id="modalTurmaAlunos" class="mb-2"></p>
+                        <p id="modalTurmaProgresso" class="mb-2"></p>
+                        <p id="modalTurmaConclusao" class="mb-2"></p>
+                    </div>
+                </div>
+                
+                <h3 class="text-lg font-bold mb-2">Alunos</h3>
+                <div class="table-responsive mb-4">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aluno</th>
+                                <th>Progresso</th>
+                                <th>Último Acesso</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="modalAlunosList">
+                            <!-- Dinamicamente preenchido -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="flex justify-end">
+                    <button class="btn-primary" onclick="closeModal('detalhesModal')">
+                        <i class="fas fa-times mr-2"></i>Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="neumorphic p-4 mt-12">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2024 SMGFAP Courses - Painel do Administrador. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../../JS/AdminRelatorios.js"></script>
+</body>
+</html>
