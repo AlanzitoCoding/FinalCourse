@@ -25,9 +25,6 @@ fetch('/userInfo')
             uCPF.innerHTML += `${row.alCPF}`
             uEmail.innerHTML += `${row.alEmail}`
             uPhone.innerHTML += `${row.alTelefone}`
-            
-            
-
         })
 
         data.forEach(row => {
@@ -37,12 +34,9 @@ fetch('/userInfo')
             userPhone.value = `${row.alTelefone}`
             userPassword.value = `${row.alSenha}`
         })
-        
-
     })
     .catch(error => {
         console.error("Erro ao buscar dados do usuário: " + error);
-        
     });
 }
 
