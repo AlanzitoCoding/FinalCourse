@@ -80,11 +80,13 @@ app.post('/submit', (req, res) => {
             case 'aluno':
                 endpoint = '/';
                 req.session.plan = plano;
+                req.session.usertype = 'alunos';
                 console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}`)
                 break;
-
+                
             case 'professor':
                 endpoint = '/homeProfessor';
+                req.session.usertype = 'professores';
                 console.log(`Email do usuário: ${req.session.email}\n`)
                 break;
         }
@@ -133,17 +135,20 @@ app.post("/auth", (req, res) => {
                     case 'alunos':
                         endpoint = '/';
                         req.session.plan = results.plano;
-                        console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}`)
+                        req.session.usertype = 'alunos';
+                        console.log(`Email do usuário: ${req.session.email}\nPlano do usuário: ${req.session.plan}\nTipo de usuário: ${req.session.usertype}`)
                         break;
 
                     case 'professores':
                         endpoint = '../HTML/professores/ProfessorPainel';
-                        console.log(`Email do usuário: ${req.session.email}\n`)
+                        req.session.usertype = 'professores';
+                        console.log(`Email do usuário: ${req.session.email}\nTipo de usuário: ${req.session.usertype}`)
                         break;
 
                     case 'admins':
                         endpoint = '../HTML/admins/Admin';
-                        console.log(`Email do usuário: ${req.session.email}\n`)
+                        req.session.usertype = 'admins';
+                        console.log(`Email do usuário: ${req.session.email}\nTipo de usuário: ${req.session.usertype}`)
                         break;
                 }
 
