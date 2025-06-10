@@ -1,6 +1,5 @@
 const btnAluno = document.getElementById('btnAluno');
 const btnProfessor = document.getElementById('btnProfessor');
-const btnAdmin = document.getElementById('btnAdmin');
 const tipoUsuario = document.getElementById('tipoUsuario');
 const dadosContainer = document.getElementById('dadosContainer');
 const escolherPlanoBtn = document.getElementById('escolherPlanoBtn');
@@ -13,7 +12,6 @@ btnAluno.addEventListener('click', function() {
     tipoUsuario.value = 'aluno';
     btnAluno.classList.add('selected-tipo');
     btnProfessor.classList.remove('selected-tipo');
-    btnAdmin.classList.remove('selected-tipo');
     dadosContainer.style.display = 'block';
     escolherPlanoBtn.style.display = 'block';
     cadastrarBtn.style.display = 'none';
@@ -23,17 +21,6 @@ btnProfessor.addEventListener('click', function() {
     tipoUsuario.value = 'professor';
     btnProfessor.classList.add('selected-tipo');
     btnAluno.classList.remove('selected-tipo');
-    btnAdmin.classList.remove('selected-tipo');
-    dadosContainer.style.display = 'block';
-    escolherPlanoBtn.style.display = 'none';
-    cadastrarBtn.style.display = 'block';
-});
-
-btnAdmin.addEventListener('click', function() {
-    tipoUsuario.value = 'admin';
-    btnAdmin.classList.add('selected-tipo');
-    btnAluno.classList.remove('selected-tipo');
-    btnProfessor.classList.remove('selected-tipo');
     dadosContainer.style.display = 'block';
     escolherPlanoBtn.style.display = 'none';
     cadastrarBtn.style.display = 'block';
