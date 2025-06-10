@@ -105,6 +105,10 @@ app.post("/auth", (req, res) => {
         query = 'select * from professores where prEmail = ? and prSenha = ?;'
         values = [email, senha]
     }
+    else if(tipo === 'admins'){
+        query = 'select * from admins where admEmail = ? and admSenha = ?;'
+        values = [email, senha]
+    }
     else {
         // tipo inválido
         return res.json({message: 'Tipo de usuário inválido!'});
@@ -134,6 +138,11 @@ app.post("/auth", (req, res) => {
 
                     case 'professores':
                         endpoint = '../HTML/professores/ProfessorPainel';
+                        console.log(`Email do usuário: ${req.session.email}\n`)
+                        break;
+
+                    case 'admins':
+                        endpoint = '../HTML/admins/Admin';
                         console.log(`Email do usuário: ${req.session.email}\n`)
                         break;
                 }
