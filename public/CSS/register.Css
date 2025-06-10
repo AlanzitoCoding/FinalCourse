@@ -1,225 +1,388 @@
-body {
-    background: linear-gradient(120deg, #232526 0%, #414345 100%);
-    font-family: 'Poppins', Arial, sans-serif;
-    min-height: 100vh;
+/* ===== BASE STYLES ===== */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+:root {
+    /* Dark Theme Colors (padrão para login) */
+    --primary-color: #61a5c2;
+    --secondary-color: #2a6f97;
+    --background: #121212;
+    --background-secondary: #1e1e1e;
+    --text-color: #f0f0f0;
+    --card-background: rgba(30, 30, 30, 0.95);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+    --accent-color: #89c2d9;
+    --error-color: #ff5252;
+    --success-color: #b2ff59;
+    --border-radius: 12px;
+    --input-radius: 8px;
+    --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* ===== BACKGROUND ANIMATION ===== */
+body {
+    background: linear-gradient(135deg, var(--background) 0%, var(--background-secondary) 100%);
+    color: var(--text-color);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow-x: hidden;
+    transition: var(--transition);
+    line-height: 1.6;
+    padding: 1rem;
 }
 
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.3;
+}
+
+.circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    animation: float 20s infinite ease-in-out;
+    filter: blur(60px);
+    opacity: 0.7;
+}
+
+.circle:nth-child(1) {
+    width: 300px;
+    height: 300px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.circle:nth-child(2) {
+    width: 400px;
+    height: 400px;
+    bottom: 10%;
+    right: 10%;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(50px, 50px) rotate(5deg);
+    }
+    50% {
+        transform: translate(100px, 0) rotate(10deg);
+    }
+    75% {
+        transform: translate(50px, -50px) rotate(5deg);
+    }
+}
+
+/* ===== REGISTER CARD STYLES ===== */
 .loginField {
-    background: rgba(34,34,34,0.98);
-    width: 370px;
-    padding: 38px 32px 28px 32px;
-    border-radius: 18px;
+    background: var(--card-background);
+    width: 100%;
+    max-width: 400px;
+    padding: 2.5rem;
+    border-radius: var(--border-radius);
     text-align: center;
-    color: #f0f0f0;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
-    margin: 40px auto;
+    box-shadow: 
+        0 10px 30px var(--shadow-color),
+        0 6px 10px rgba(0, 0, 0, 0.08);
+    margin: 2rem auto;
     position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    transition: var(--transition);
+    animation: fadeIn 0.8s ease forwards;
+}
+
+.loginField:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+        0 15px 35px var(--shadow-color),
+        0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .loginField h2 {
-    margin-bottom: 18px;
-    color: #fff;
+    margin-bottom: 1.5rem;
     font-weight: 700;
     font-size: 2rem;
+    position: relative;
+    color: var(--text-color);
+    background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
 }
 
-.loginField input, .loginField select {
-    width: 90%;
-    padding: 12px;
-    margin-bottom: 16px;
-    border: 1px solid #444;
-    border-radius: 7px;
-    background: #232526;
-    color: #f0f0f0;
-    font-size: 15px;
-    transition: box-shadow 0.2s, background 0.2s;
+.loginField h2::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 4px;
+    background: var(--secondary-color);
+    border-radius: 2px;
 }
 
-.loginField input:focus, .loginField select:focus {
+.loginField input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--input-radius);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-color);
+    font-size: 1rem;
+    transition: var(--transition);
+    backdrop-filter: blur(5px);
+}
+
+.loginField input:focus {
     outline: none;
-    box-shadow: 0 0 0 2px #888;
-    background: #333;
-    color: #fff;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(97, 165, 194, 0.3);
+    background: rgba(255, 255, 255, 0.1);
 }
 
 .loginField button {
     width: 100%;
-    padding: 12px;
+    padding: 0.8rem;
     border: none;
-    border-radius: 7px;
-    background: linear-gradient(145deg, #444, #888);
-    color: #fff;
-    font-size: 17px;
+    border-radius: var(--input-radius);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.3s, box-shadow 0.3s;
-    margin-bottom: 12px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    transition: var(--transition);
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .loginField button:hover {
-    background: linear-gradient(145deg, #232526, #444);
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
 .back-button {
-    background: #232526 !important;
-    color: #fff !important;
-    border: 1px solid #888 !important;
-    margin-top: 5px;
+    background: var(--card-background) !important;
+    color: var(--text-color) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    margin-top: 1rem;
 }
 
 .back-button:hover {
-    background: #444 !important;
+    background: rgba(255, 255, 255, 0.1) !important;
 }
 
-.explicacao-tipos {
-    background: #232526;
-    border-radius: 7px;
-    padding: 10px 12px;
-    margin-bottom: 10px;
-    color: #ccc;
-    font-size: 14px;
-    text-align: left;
-    border: 1px solid #444;
-}
-
-/* Modal */
-.modal-plano {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0; top: 0;
-    width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.65);
-    justify-content: center;
-    align-items: center;
-}
-.modal-plano.active {
-    display: flex;
-}
-.modal-content {
-    background: #232526;
-    border-radius: 15px;
-    padding: 30px 25px 20px 25px;
-    box-shadow: 0 8px 32px 0 rgba(0,0,0,0.35);
-    min-width: 320px;
-    max-width: 95vw;
-    position: relative;
-    animation: modalShow 0.3s;
-    color: #f0f0f0;
-}
-@keyframes modalShow {
-    from { transform: translateY(-40px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
-}
-.close-modal {
-    position: absolute;
-    top: 10px; right: 18px;
-    font-size: 28px;
-    color: #888;
-    cursor: pointer;
-    font-weight: bold;
-}
-.planos-flex {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 18px;
-    justify-content: center;
-    margin-top: 18px;
-}
-.plano-card-modal {
-    background: #2d2f31;
-    border: 2px solid #444;
-    border-radius: 12px;
-    padding: 18px 16px 14px 16px;
-    width: 220px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
-    transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
-    text-align: left;
-    position: relative;
-    color: #f0f0f0;
-}
-.plano-card-modal h4 {
-    margin: 0 0 8px 0;
-    color: #fff;
-    font-size: 20px;
-}
-.plano-preco {
-    color: #b2ff59;
-    font-size: 17px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-.plano-card-modal ul {
-    padding-left: 18px;
-    margin: 0 0 10px 0;
-    font-size: 14px;
-    color: #ccc;
-}
-.plano-card-modal button {
-    background: linear-gradient(145deg, #444, #888);
-    color: #fff;
-    border: none;
-    border-radius: 6px;
-    padding: 8px 0;
-    width: 100%;
-    font-size: 15px;
-    font-weight: 600;
-    margin-top: 8px;
-}
-.plano-card-modal.selected, .plano-card-modal:hover {
-    border: 2.5px solid #b2ff59;
-    transform: scale(1.04);
-    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
-}
+/* ===== USER TYPE SELECTION ===== */
 .tipo-btn {
-    background: #232526;
-    color: #ccc;
-    border: 2px solid #444;
-    border-radius: 10px;
-    padding: 18px 10px 10px 10px;
-    font-size: 1.1rem;
+    background: var(--card-background);
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--input-radius);
+    padding: 1rem;
+    font-size: 1rem;
     font-weight: 600;
     width: 100%;
-    transition: border 0.2s, color 0.2s, background 0.2s;
+    transition: var(--transition);
     min-height: 80px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
     cursor: pointer;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     text-align: left;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
+
 .tipo-btn.selected-tipo {
-    border: 2.5px solid #b2ff59;
-    color: #b2ff59;
-    background: #2d2f31;
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
+    background: rgba(178, 255, 89, 0.05);
+    transform: scale(1.02);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
+
 .tipo-btn:hover {
-    border: 2.5px solid #b2ff59;
-    color: #b2ff59;
+    border: 2px solid var(--success-color);
+    color: var(--success-color);
 }
-@media (max-width: 700px) {
-    .loginField { width: 98vw; min-width: 0; }
-    .planos-flex { flex-direction: column; align-items: center; }
-    .plano-card-modal { width: 95vw; max-width: 320px; }
-    .tipo-btn { font-size: 1rem; min-height: 70px; }
+
+.tipo-btn b {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
 }
-.tipo-btn {
-            padding: 15px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-align: left;
-        }
-        
-        .tipo-btn.selected-tipo {
-            transform: scale(1.02);
-            box-shadow: 0 0 15px rgba(0,0,0,0.2);
-        }
+
+.tipo-btn span {
+    font-size: 0.8rem;
+    color: #ccc;
+    font-weight: 400;
+}
+
+/* ===== PLAN MODAL ===== */
+.modal-plano {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.65);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-plano.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--card-background);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+    min-width: 320px;
+    max-width: 95vw;
+    position: relative;
+    animation: modalShow 0.3s;
+    color: var(--text-color);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes modalShow {
+    from { transform: translateY(-40px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.close-modal {
+    position: absolute;
+    top: 10px;
+    right: 18px;
+    font-size: 28px;
+    color: #888;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.planos-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.plano-card-modal {
+    background: rgba(45, 47, 49, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--input-radius);
+    padding: 1.5rem;
+    width: 220px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+    transition: var(--transition);
+    text-align: left;
+    position: relative;
+    color: var(--text-color);
+}
+
+.plano-card-modal h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-color);
+    font-size: 1.25rem;
+}
+
+.plano-preco {
+    color: var(--success-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.plano-card-modal ul {
+    padding-left: 1.25rem;
+    margin: 0 0 1rem 0;
+    font-size: 0.9rem;
+    color: #ccc;
+}
+
+.plano-card-modal button {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    border-radius: var(--input-radius);
+    padding: 0.5rem 0;
+    width: 100%;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    transition: var(--transition);
+}
+
+.plano-card-modal button:hover {
+    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+}
+
+.plano-card-modal.selected, .plano-card-modal:hover {
+    border: 1px solid var(--success-color);
+    transform: scale(1.04);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .loginField {
+        padding: 2rem 1.5rem;
+    }
+    
+    .loginField h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .loginField {
+        padding: 1.5rem 1rem;
+        width: 95%;
+    }
+    
+    .loginField h2 {
+        font-size: 1.6rem;
+    }
+    
+    .planos-flex {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .plano-card-modal {
+        width: 95%;
+        max-width: 320px;
+    }
+    
+    .tipo-btn {
+        font-size: 0.9rem;
+        min-height: 70px;
+    }
+}
