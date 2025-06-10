@@ -243,13 +243,13 @@ app.post('/jsAuth', (req, res) => {
         })
     } 
     else {
-        res.redirect('/loginScreen');
+        res.redirect('../HTML/login');
     }
 })
 
 app.get('/userInfo', (req, res) => {
     if (!req.session.loggedin) {
-        return res.redirect('/loginScreen');
+        return res.redirect('../HTML/login');
     }
 
     // Busca o tipo de usuário na sessão (ajuste conforme sua lógica de sessão)
